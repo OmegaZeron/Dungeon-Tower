@@ -1,0 +1,12 @@
+
+- Consumables
+
+
+
+- Collected, or key, items 
+(these are like literal keys or similar items that are intended to be used within a single floor or run)
+
+KEYS (Capital Keys items) used to unlock further progress in the floor or Tier.
+Keys to unlock a treasure (or door with a treasure behind it)
+Ropes (Rope Ladders) to create shortcuts at the top of difficult wall climbs
+Ropes, ladders, magic beans (used to created permanent shortcuts between floors, Tiers, or Camp

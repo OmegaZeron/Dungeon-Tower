@@ -1,0 +1,20 @@
+
+-Tool ideas go here.
+
+Grapple Hook
+Wall Jump
+Climbing Hooks	~This lends very well to the climbing aspect of the game, and we can then make more vertical levels around this~
+	(instead of jumping off walls you can grab onto them and climb up them)
+	with this, we could also introduce the ability to jump up a wall, a little each time,
+	and have surfaces that can be grabbed onto and not grabbed onto.
+Gliding
+
+Power Strike (charge up time, more damage, higher knockback, breaks stuff)
+
+
+-Upgrades to exisitng tools and abilities-
+Air Dodge
+	Multi-directional dodge ('dodging' up, down and diagonals)
+Double Jump
+	additional jumps
+Charge or bracing jumps (i.e. press and hold down, after a second the characters flashes, and you can jump farther and higher)
