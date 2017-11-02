@@ -1,0 +1,19 @@
+Game Manager/Controller
+Pool Manager
+Procedural Generation
+Enemy AI (Stack)
+Game State (Web model)
+Player State (Web model)
+Player Controller
+Character Engine?
+Useable Item Class
+	Weapons
+	Tools
+	Consumables
+-interfaces
+	IDamageable
+	IBreakable
+	IInteractable
+		~For each tool type
+	IPickup
+		~might not? may need to be a class
