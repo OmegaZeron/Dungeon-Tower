@@ -7,7 +7,7 @@ namespace UnityStandardAssets._2D
     {
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
-        [SerializeField] private float doubleJumpHeight = .2f;
+        [SerializeField] private float wallJumpHeight = .7f;
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
@@ -46,7 +46,9 @@ namespace UnityStandardAssets._2D
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
+                {
                     m_Grounded = true;
+                }
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
@@ -104,21 +106,23 @@ namespace UnityStandardAssets._2D
                     Flip();
                 }
             }
+
             // If the player should jump...
+            if (m_Grounded == false && jump && onWall)
+            {
+                if (m_FacingRight)
+                {
+                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * wallJumpHeight));
+                }
+            }
+
             if (m_Grounded && jump && m_Anim.GetBool("Ground"))
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
                 m_Anim.SetBool("Ground", false);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-            }
-
-            if (m_Grounded == false && jump && onWall)
-            {
-                if (m_FacingRight)
-                {
-                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
-                }
             }
         }
 
