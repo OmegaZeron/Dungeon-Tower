@@ -7,6 +7,7 @@ namespace UnityStandardAssets._2D
     {
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
+        [SerializeField] private float doubleJumpHeight = .2f;
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
@@ -16,7 +17,7 @@ namespace UnityStandardAssets._2D
         const float wallRadius = .2f;
         [SerializeField] private bool onWall;
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-        private bool m_Grounded;            // Whether or not the player is grounded.
+        [SerializeField] private bool m_Grounded;            // Whether or not the player is grounded.
         private Transform m_CeilingCheck;   // A position marking where to check for ceilings
         const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
         private Animator m_Anim;            // Reference to the player's animator component.
@@ -59,7 +60,6 @@ namespace UnityStandardAssets._2D
                 {
                     onWall = true;
                 }
-                
             }
         }
 
@@ -111,6 +111,14 @@ namespace UnityStandardAssets._2D
                 m_Grounded = false;
                 m_Anim.SetBool("Ground", false);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            }
+
+            if (m_Grounded == false && jump && onWall)
+            {
+                if (m_FacingRight)
+                {
+                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
+                }
             }
         }
 
