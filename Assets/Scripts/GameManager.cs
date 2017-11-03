@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ATTENTION!!!	Inventory should probably be stored here, or in a seperate Player Inventory/Manager script
+
 public class GameManager : MonoBehaviour {
 
 	private static GameManager gameManager;
+
+	private GameObject player;
 
 	public static GameManager instance
 	{
@@ -17,6 +21,10 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public GameObject Player
+	{
+		get{ return player; }
+	}
 
 	void Awake () 
 	{
