@@ -158,8 +158,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1335276679}
+  - component: {fileID: 1335276680}
   m_Layer: 0
-  m_Name: Floor Generator
+  m_Name: Test ACTUALLY Room Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,6 +179,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1335276680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1335276678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d56b90b29099ebf4c918ff78eada2a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomSegment: {fileID: 1304194474518658, guid: 3032bce1c96cebb49a38087c7182a29b,
+    type: 2}
+  roomUnitK: 3
+  maxRoomSize: {x: 3, y: 2}
+  floor:
+    floorNumber: 1
+    size: {x: 10, y: 5}
+    entryways:
+    - location: {x: 1, y: 1}
+      orientation: 2
+    - location: {x: 10, y: 1}
+      orientation: 3
+    rooms: []
 --- !u!1 &1514938790
 GameObject:
   m_ObjectHideFlags: 0
