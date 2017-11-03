@@ -48,7 +48,17 @@ public class TestFloorGenerator : MonoBehaviour
 				newRoomSize.x = 1 + (floor.w - startLocation.x);
 			}
 
-			//TODO Limit the y result within the height of the floor (should establish the exit for the room first
+			//Limit the y result within the height of the floor
+			if (floor.h < newRoomSize.y) 
+			{
+				newRoomSize.y = floor.h;
+			}
+
+			//if the room is attached to the opposite edge of the floor, it will need to have it's height set to AT LEAST the distance between the startLocation and the entrance
+			//set the room height to one that is within the startLocation, but not above or below the floor Height
+
+			//set exits for the newRoom (which is the same as the startLocation + another random exit on the other side of the room
+
 
 
 		}
