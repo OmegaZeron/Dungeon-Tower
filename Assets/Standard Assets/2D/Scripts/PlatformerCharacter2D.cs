@@ -8,9 +8,12 @@ namespace UnityStandardAssets._2D
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
         [SerializeField] private float wallJumpHeight = .7f;
+        [SerializeField] private float wallJumpBackwardForce = -200f;
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
+        [SerializeField] private bool canDoubleJump = false;
+        [SerializeField] private float doubleJumpHeight = .8f;
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         private Transform wallCheck;
@@ -23,6 +26,7 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        // TODO add functionality to check for items (use tools and check if double jump is acquired)
 
         private void Awake()
         {
@@ -48,6 +52,7 @@ namespace UnityStandardAssets._2D
                 if (colliders[i].gameObject != gameObject)
                 {
                     m_Grounded = true;
+                    canDoubleJump = true;
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
@@ -108,12 +113,30 @@ namespace UnityStandardAssets._2D
             }
 
             // If the player should jump...
+            // TODO fix horizontal velocity
             if (m_Grounded == false && jump && onWall)
             {
                 if (m_FacingRight)
                 {
                     m_Rigidbody2D.velocity = new Vector2(0f, 0f);
                     m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * wallJumpHeight));
+                    m_Rigidbody2D.AddForce(new Vector2(wallJumpBackwardForce, 0f));
+                }
+                if (!m_FacingRight)
+                {
+                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * wallJumpHeight));
+                    m_Rigidbody2D.AddForce(new Vector2(Mathf.Abs(wallJumpBackwardForce), 0f));
+                }
+            }
+
+            if (m_Grounded == false && jump && !onWall)
+            {
+                if (canDoubleJump == true)
+                {
+                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
+                    canDoubleJump = false;
                 }
             }
 
