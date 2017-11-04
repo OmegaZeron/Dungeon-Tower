@@ -7,7 +7,7 @@ public class Room
 {
 	private Vector2 size = new Vector2();
 
-	private List<Exit> exits = new List<Exit> ();
+	private List<Exit> roomExits = new List<Exit> ();
 
 	private List<GameObject> segments = new List<GameObject> ();
 
@@ -21,6 +21,12 @@ public class Room
 	{
 		get{ return (int)size.x; }
 		set{ size.x = value; }
+	}
+
+	public List<Exit> exits
+	{
+		get { return roomExits; }
+		set { roomExits = value; }
 	}
 		
 
