@@ -44,7 +44,7 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
             playerColliders = gameObject.GetComponentsInChildren<Collider2D>();
-            checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround + whatIsPlatform;
+
         }
 
 
@@ -56,17 +56,15 @@ namespace UnityStandardAssets._2D
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
             // TODO check for circle collider's collision, not overlap sphere
+
+			checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround + whatIsPlatform;
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, checkLayerMask); // tryingToFall ? m_WhatIsGround : m_WhatIsGround + whatIsPlatform
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
                 {
-                    // TODO check if collider is platform
-                    if (!tryingToFall)
-                    {
-                        m_Grounded = true;
-                        canDoubleJump = true;
-                    }
+                    m_Grounded = true;
+                    canDoubleJump = true;
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
