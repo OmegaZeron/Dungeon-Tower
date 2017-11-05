@@ -12,13 +12,13 @@ public class Floor
 
 	[SerializeField] private List<Room> _rooms = new List<Room> ();
 
-	public int h
+	public float h
 	{
 		get{ return (int)size.y; }
 		set{ size.y = value; }
 	}
 
-	public int w
+	public float w
 	{
 		get{ return (int)size.x; }
 		set{ size.x = value; }
