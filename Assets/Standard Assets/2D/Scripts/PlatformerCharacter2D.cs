@@ -20,6 +20,7 @@ namespace UnityStandardAssets._2D
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
         Collider2D[] playerColliders = new Collider2D[0];
         private LayerMask checkLayerMask;
+        [SerializeField] private bool isJumping = false;
 
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
@@ -44,7 +45,6 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
             playerColliders = gameObject.GetComponentsInChildren<Collider2D>();
-
         }
 
 
@@ -63,11 +63,16 @@ namespace UnityStandardAssets._2D
             {
                 if (colliders[i].gameObject != gameObject)
                 {
-                    m_Grounded = true;
+                    if (!isJumping)
+                    {
+                        m_Grounded = true;
+                    }
                     canDoubleJump = true;
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
+
+            isJumping = false;
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
@@ -79,6 +84,11 @@ namespace UnityStandardAssets._2D
                 {
                     onWall = true;
                 }
+            }
+
+            if (m_Rigidbody2D.velocity.y > 0)
+            {
+                isJumping = true;
             }
         }
 
@@ -144,7 +154,7 @@ namespace UnityStandardAssets._2D
                 }
             }
 
-            // double jump
+            // Double jump
             if (m_Grounded == false && jump && !onWall)
             {
                 if (canDoubleJump == true)
