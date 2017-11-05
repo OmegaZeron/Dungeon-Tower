@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityStandardAssets._2D
@@ -12,8 +13,14 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
+        [SerializeField] private LayerMask whatIsPlatform;
         [SerializeField] private bool canDoubleJump = false;
         [SerializeField] private float doubleJumpHeight = .8f;
+        [SerializeField] private bool tryingToFall = false;
+        private List<Collider2D> ignoredColliders = new List<Collider2D>();
+        Collider2D[] playerColliders = new Collider2D[0];
+        private LayerMask checkLayerMask;
+
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         private Transform wallCheck;
@@ -36,6 +43,8 @@ namespace UnityStandardAssets._2D
             wallCheck = transform.Find("WallCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+            playerColliders = gameObject.GetComponentsInChildren<Collider2D>();
+            checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround + whatIsPlatform;
         }
 
 
@@ -46,13 +55,18 @@ namespace UnityStandardAssets._2D
 
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+            // TODO check for circle collider's collision, not overlap sphere
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, checkLayerMask); // tryingToFall ? m_WhatIsGround : m_WhatIsGround + whatIsPlatform
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
                 {
-                    m_Grounded = true;
-                    canDoubleJump = true;
+                    // TODO check if collider is platform
+                    if (!tryingToFall)
+                    {
+                        m_Grounded = true;
+                        canDoubleJump = true;
+                    }
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
@@ -60,7 +74,7 @@ namespace UnityStandardAssets._2D
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
 
-            colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallRadius, m_WhatIsGround);
+            colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallRadius, m_WhatIsGround + whatIsPlatform);
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
@@ -71,7 +85,7 @@ namespace UnityStandardAssets._2D
         }
 
 
-        public void Move(float move, bool crouch, bool jump)
+        public void Move(float move, bool crouch, bool jump, bool jumpHeld)
         {
             // If crouching, check to see if the character can stand up
             if (!crouch && m_Anim.GetBool("Crouch"))
@@ -114,6 +128,8 @@ namespace UnityStandardAssets._2D
 
             // If the player should jump...
             // TODO fix horizontal velocity
+
+            // Wall jump
             if (m_Grounded == false && jump && onWall)
             {
                 if (m_FacingRight)
@@ -130,6 +146,7 @@ namespace UnityStandardAssets._2D
                 }
             }
 
+            // double jump
             if (m_Grounded == false && jump && !onWall)
             {
                 if (canDoubleJump == true)
@@ -140,6 +157,44 @@ namespace UnityStandardAssets._2D
                 }
             }
 
+            // TEST - fall down "jump"
+            if (jumpHeld && Input.GetKey(KeyCode.S))
+            {
+                jump = false;
+
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, whatIsPlatform);
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].gameObject != gameObject)
+                    {
+                        ignoredColliders.Add(colliders[i]);
+
+                        
+                        {
+                            foreach (Collider2D playerCollider in playerColliders)
+                            {
+                                Physics2D.IgnoreCollision(playerCollider, colliders[i]);
+                            }
+                        }
+                        tryingToFall = true;
+                    }
+                }
+            }
+            else if (Input.GetKeyUp(KeyCode.S) || !jumpHeld)
+            {
+                tryingToFall = false;
+                // TODO uningore colliders
+                foreach (Collider2D collider in ignoredColliders)
+                {
+                    foreach (Collider2D playerCollider in playerColliders)
+                    {
+                        Physics2D.IgnoreCollision(playerCollider, collider, false);
+                    }
+                }
+                ignoredColliders.Clear();
+            }
+
+            // normal jump
             if (m_Grounded && jump && m_Anim.GetBool("Ground"))
             {
                 // Add a vertical force to the player.
