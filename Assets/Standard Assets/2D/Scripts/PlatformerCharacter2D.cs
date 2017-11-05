@@ -19,8 +19,11 @@ namespace UnityStandardAssets._2D
         [SerializeField] private bool tryingToFall = false;
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
         Collider2D[] playerColliders = new Collider2D[0];
+        Collider2D[] ignoreCircleColliders = new Collider2D[0];
+        Collider2D[] ignoreBoxColliders = new Collider2D[0];
         private LayerMask checkLayerMask;
         [SerializeField] private bool isJumping = false;
+        private bool colliderIsIgnored = false;
 
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
@@ -91,7 +94,32 @@ namespace UnityStandardAssets._2D
                 isJumping = true;
             }
         }
+        // TODO finish OnCollisionEnter first
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            if (colliderIsIgnored)
+            {
+                foreach (Collider2D playerCollider in playerColliders)
+                {
+                    Physics2D.IgnoreCollision(playerCollider, other.collider, false);
+                }
+                colliderIsIgnored = false;
+            }
+        }
 
+        // TODO do actually anything with this
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (ignoreCircleColliders.Length == 0)
+            {
+                ignoreCircleColliders = Physics2D.OverlapCircleAll(GetComponent<CircleCollider2D>().offset, GetComponent<CircleCollider2D>().radius, whatIsPlatform);
+            }
+            if (ignoreBoxColliders.Length == 0)
+            {
+                // 99% sure magnitude won't work
+                ignoreBoxColliders = Physics2D.OverlapCircleAll(GetComponent<BoxCollider2D>().offset, GetComponent<BoxCollider2D>().size.magnitude, whatIsPlatform);
+            }
+        }
 
         public void Move(float move, bool crouch, bool jump, bool jumpHeld)
         {
@@ -176,8 +204,6 @@ namespace UnityStandardAssets._2D
                     if (colliders[i].gameObject != gameObject)
                     {
                         ignoredColliders.Add(colliders[i]);
-
-                        
                         {
                             foreach (Collider2D playerCollider in playerColliders)
                             {
@@ -190,17 +216,22 @@ namespace UnityStandardAssets._2D
             }
             else if (Input.GetKeyUp(KeyCode.S) || !jumpHeld)
             {
-                tryingToFall = false;
-                // TODO uningore colliders
-                foreach (Collider2D collider in ignoredColliders)
+                if (tryingToFall)
                 {
-                    foreach (Collider2D playerCollider in playerColliders)
+                    tryingToFall = false;
+                    foreach (Collider2D collider in ignoredColliders)
                     {
-                        Physics2D.IgnoreCollision(playerCollider, collider, false);
+                        foreach (Collider2D playerCollider in playerColliders)
+                        {
+
+                            Physics2D.IgnoreCollision(playerCollider, collider, false);
+                        }
                     }
+                    ignoredColliders.Clear();
                 }
-                ignoredColliders.Clear();
             }
+
+
 
             // normal jump
             if (m_Grounded && jump && m_Anim.GetBool("Ground"))
