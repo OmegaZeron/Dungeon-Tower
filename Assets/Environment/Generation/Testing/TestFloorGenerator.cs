@@ -51,14 +51,13 @@ public class TestFloorGenerator : MonoBehaviour
 	// HORIZONTAL ROOM DISTRIBUTION ONLY
 		while (!floorComplete) 
 		{
-			newRoom.size.x = Random.Range (1, maxRoomSize.x + 1);
-			newRoom.size.y = Random.Range (1, maxRoomSize.y + 1);
+			newRoom.size = new Vector2( Random.Range (1, maxRoomSize.x + 1), Random.Range (1, maxRoomSize.y + 1) ) ;
 
 			//limit the x by the width of the floor
 			//TODO check later if this room is at the end of the floor (needing to connect to that entrance) and 
 			if (floor.w < oldRoom.rightBounds + newRoom.size.x) 
 			{
-				newRoom.size.x = (floor.w - oldRoom.rightBounds);
+				newRoom.size = new Vector2( (floor.w - oldRoom.rightBounds), newRoom.size.y);
 			}
 
 			//set room position
@@ -69,9 +68,9 @@ public class TestFloorGenerator : MonoBehaviour
 
 			//limit Ranges by floor dimension
 			if (upperHeightLimit > floor.h)
-				newRoom.position.y -= upperHeightLimit - floor.h;
+				newRoom.position -= new Vector2 ( newRoom.position.x, upperHeightLimit - floor.h);
 			if (lowerHeightLimit < 1)
-				newRoom.position.y = 1;
+				newRoom.position = new Vector2 (newRoom.size.x, 1);
 
 
 
@@ -85,7 +84,7 @@ public class TestFloorGenerator : MonoBehaviour
 			//set exits for the newRoom (which is the same as the startLocation + another random exit on the other side of the room
 
 
-			oldRoom.position.x += newRoom.position.x + 1;
+			oldRoom.position += new Vector2( newRoom.position.x + 1, oldRoom.position.y);
 			//oldRoom.position.y = newExit.y
 
 		}
