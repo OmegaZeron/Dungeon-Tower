@@ -70,14 +70,14 @@ namespace UnityStandardAssets._2D
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, checkLayerMask); // tryingToFall ? m_WhatIsGround : m_WhatIsGround + whatIsPlatform
             for (int i = 0; i < colliders.Length; i++)
             {
-				if (colliders[i].gameObject != gameObject || !ignoredColliders.Contains(colliders[i]) )
+				if (colliders[i].gameObject != gameObject && !ignoredColliders.Contains(colliders[i]) )
                 {
                     if (!isJumping)
                     {
                         m_Grounded = true;
-						canDoubleJump = true;
-                    }
 
+                    }
+					canDoubleJump = true;
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
