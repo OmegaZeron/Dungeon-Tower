@@ -2,15 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour {
+public class Weapon : UsableItem 
+{
+	[SerializeField] private GameObject weaponObject;
 
-	// Use this for initialization
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void Equip()
+	{
+		//places the object on the equip or attachment point of the character calling it (If it should be attached)
+		//TODO create an Equip/attachment Point class that is a set of different transforms. have it stored in the Character, and pass it to Equip.
+		//  the Item will have an EquipPoint.EquipTo.enum that will specify where it should be attached to when Equip is run.
 	}
+
+	//Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
+
+	public override void StartUsingItem()
+	{
+
+	}
+
+	public override void UsingItem()
+	{
+
+	}
+
+	public override void StopUsingItem()
+	{
+
+	}
+
+	//TODO These Functions should be called from the animator.  They specify when the weapon should check for hits in an attack animation.  (This may have to go through the player)
+	//  Possible to have the animator check against the currently used weapon.CheckForHit() 
+	public void CheckForHit()
+	{
+
+	}
+
+	public void StopCheckForHit()
+	{
+
+	}
+
 }
