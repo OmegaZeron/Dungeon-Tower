@@ -2,12 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : UsableItem 
+public class Weapon : MonoBehaviour 
 {
-	[SerializeField] private GameObject weaponObject;
+	[SerializeField] private Animator charAnimator;
+	[SerializeField] private Animator myAnimator;
 
-	void Start () {
-		
+	[SerializeField] private GameObject weaponObject;
+	[SerializeField] private List<string> animationTriggers = new List<string>();
+
+	public Animator animator
+	{
+		get{ return charAnimator; }
+		set{ charAnimator = value; }
+	}
+
+	protected void Start () 
+	{
+		myAnimator = gameObject.GetComponent<Animator> ();
 	}
 
 	public void Equip()
@@ -17,31 +28,36 @@ public class Weapon : UsableItem
 		//  the Item will have an EquipPoint.EquipTo.enum that will specify where it should be attached to when Equip is run.
 	}
 
+	public void EquipTo(Transform attachmentPoint)
+	{
+		//this will attach the Weapon.gameObject to the specified Transform.
+	}
+
 	//Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
-	public override void StartUsingItem()
+	public virtual string StartUsing()
 	{
-
+		return null;
 	}
 
-	public override void UsingItem()
+	public virtual string Using()
 	{
-
+		return null;
 	}
 
-	public override void StopUsingItem()
+	public virtual string StopUsing()
 	{
-
+		return null;
 	}
 
 	//TODO These Functions should be called from the animator.  They specify when the weapon should check for hits in an attack animation.  (This may have to go through the player)
 	//  Possible to have the animator check against the currently used weapon.CheckForHit() 
-	public void CheckForHit()
+	public virtual void CheckForHit()
 	{
 
 	}
 
-	public void StopCheckForHit()
+	public virtual void StopCheckForHit()
 	{
 
 	}

@@ -6,21 +6,18 @@ public class UsableItem : MonoBehaviour
 {
 	[SerializeField] protected float animationSpeed = 100.0f;
 
-	protected void Start () {
-		
-	}
 
-	public virtual void StartUsingItem()
+	public virtual void StartUsing()
 	{
 
 	}
 
-	public virtual void UsingItem()
+	public virtual void Using()
 	{
 
 	}
 
-	public virtual void StopUsingItem()
+	public virtual void StopUsing()
 	{
 
 	}

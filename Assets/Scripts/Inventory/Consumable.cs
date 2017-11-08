@@ -11,17 +11,17 @@ public class Consumable : UsableItem
 		
 	}
 
-	public override void StartUsingItem()
+	public override void StartUsing()
 	{
 
 	}
 
-	public override void UsingItem()
+	public override void Using()
 	{
 
 	}
 
-	public override void StopUsingItem()
+	public override void StopUsing()
 	{
 
 	}
