@@ -5,25 +5,23 @@ using UnityEngine;
 public class TestWeapon : Weapon
 {
 	
-
-	
-	public override string StartUsing()
+	new public void StartUsingItem()
 	{
 		//myAnimator turn blue
 
-		return null;
+
 	}
 
-	public override string Using()
+	new public void UsingItem()
 	{
 		//myAnimator turn Yellow
-		return null;
+
 	}
 
-	public override string StopUsing()
+	new public void StopUsingItem()
 	{
 		//myAnimator turn Red
-		return null;
+
 	}
 
 }

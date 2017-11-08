@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour 
+public class Weapon : MonoBehaviour, IUsableItem
 {
 	[SerializeField] private Animator charAnimator;
 	[SerializeField] private Animator myAnimator;
@@ -35,19 +35,19 @@ public class Weapon : MonoBehaviour
 
 	//Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
-	public virtual string StartUsing()
+	public void StartUsingItem()
 	{
-		return null;
+
 	}
 
-	public virtual string Using()
+	public void UsingItem()
 	{
-		return null;
+
 	}
 
-	public virtual string StopUsing()
+	public void StopUsingItem()
 	{
-		return null;
+
 	}
 
 	//TODO These Functions should be called from the animator.  They specify when the weapon should check for hits in an attack animation.  (This may have to go through the player)
