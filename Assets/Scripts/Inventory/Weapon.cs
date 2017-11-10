@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour, IUsableItem
 {
-	[SerializeField] private Animator charAnimator;
-	[SerializeField] private Animator myAnimator;
+	[SerializeField] protected Animator charAnimator;
+	[SerializeField] protected Animator myAnimator;
 
-	[SerializeField] private GameObject weaponObject;
-	[SerializeField] private List<string> animationTriggers = new List<string>();
+	[SerializeField] protected GameObject weaponObject;
+	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
 	public Animator animator
 	{
