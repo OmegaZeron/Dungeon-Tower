@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class TestWeapon : Weapon
 {
-	
-	new public void StartUsingItem()
+	//TODO may need to gate via states as to what functions are able to run.
+	public override void StartUsingItem()
 	{
-		//myAnimator turn blue
-		myAnimator.SetTrigger("Action 1");
+		charAnimator.SetTrigger("Action 1");
+		base.StartUsingItem ();
+	}
+
+	public override void UsingItem()
+	{
+		charAnimator.SetTrigger("Action 2");
 
 	}
 
-	new public void UsingItem()
+	public override void StopUsingItem()
 	{
-		//myAnimator turn Yellow
-		myAnimator.SetTrigger("Action 2");
-
-	}
-
-	new public void StopUsingItem()
-	{
-		//myAnimator turn Red
-		myAnimator.SetTrigger("Action 3");
+		charAnimator.SetTrigger("Action 3");
 
 	}
 

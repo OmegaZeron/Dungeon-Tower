@@ -18,8 +18,13 @@ public class TestInteraction : MonoBehaviour
 
 	void Start () 
 	{
+		myAnimator = GetComponent<Animator> ();
+
 		iUseOne = weaponOne.GetComponent<IUsableItem> ();
 		iUseTwo = weaponTwo.GetComponent<IUsableItem> ();
+
+		EquipWeapon (weaponOne);
+		EquipWeapon (weaponTwo);
 
 	}
 	
@@ -27,7 +32,7 @@ public class TestInteraction : MonoBehaviour
 	{
 		if (state == State.IDLE) 
 		{
-
+			
 			if (Input.GetMouseButtonDown (0)) 
 			{
 				iUseOne.StartUsingItem ();
@@ -47,22 +52,37 @@ public class TestInteraction : MonoBehaviour
 			if (Input.GetMouseButtonDown (0)) 
 			{
 				iUseOne.StartUsingItem ();
-			}
-			else if (Input.GetMouseButtonDown(0))
+			} 
+			else if (Input.GetMouseButton (0)) 
 			{
 				iUseOne.UsingItem ();
+			} 
+			else if (Input.GetMouseButtonUp (0)) 
+			{
+				iUseOne.StopUsingItem ();
 			}
+
+
 
 			if (Input.GetMouseButtonDown (1))
 			{
 				iUseTwo.StartUsingItem ();
 			}
-			else if (Input.GetMouseButtonDown(1))
+			else if (Input.GetMouseButton(1))
 			{
 				iUseTwo.UsingItem ();
+			}
+			else if (Input.GetMouseButtonUp (1)) 
+			{
+				iUseTwo.StopUsingItem ();
 			}
 
 		}
 
+	}
+
+	void EquipWeapon(Weapon weapon)
+	{
+		weapon.Equip(myAnimator, gameObject.transform);
 	}
 }

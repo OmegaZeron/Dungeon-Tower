@@ -21,31 +21,36 @@ public class Weapon : MonoBehaviour, IUsableItem
 		myAnimator = gameObject.GetComponent<Animator> ();
 	}
 
-	public void Equip()
+	public void Equip(Animator equipAnimator = null, Transform attachmentPoint = null)
 	{
-		//places the object on the equip or attachment point of the character calling it (If it should be attached)
 		//TODO create an Equip/attachment Point class that is a set of different transforms. have it stored in the Character, and pass it to Equip.
 		//  the Item will have an EquipPoint.EquipTo.enum that will specify where it should be attached to when Equip is run.
-	}
 
-	public void EquipTo(Transform attachmentPoint)
-	{
-		//this will attach the Weapon.gameObject to the specified Transform.
+		//assign Animator
+		charAnimator = equipAnimator;
+
+		// Equip the weapon to the attachPoint
+		if (attachmentPoint != null)
+		{
+			transform.position = attachmentPoint.position;
+			transform.SetParent (attachmentPoint);
+		}
+
 	}
 
 	//Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
-	public void StartUsingItem()
+	public virtual void StartUsingItem()
+	{
+		Debug.Log ("BaseStartUsing");
+	}
+
+	public virtual void UsingItem()
 	{
 
 	}
 
-	public void UsingItem()
-	{
-
-	}
-
-	public void StopUsingItem()
+	public virtual void StopUsingItem()
 	{
 
 	}
