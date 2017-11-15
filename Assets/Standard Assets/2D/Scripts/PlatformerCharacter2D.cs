@@ -18,7 +18,7 @@ namespace UnityStandardAssets._2D
         [SerializeField] private float doubleJumpHeight = .8f;
         [SerializeField] private bool tryingToFall = false;
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
-        Collider2D[] playerColliders = new Collider2D[0];
+		List<Collider2D> playerColliders = new List<Collider2D>();
         Collider2D[] ignoreCircleColliders = new Collider2D[0];
         Collider2D[] ignoreBoxColliders = new Collider2D[0];
         private LayerMask checkLayerMask;
@@ -47,7 +47,7 @@ namespace UnityStandardAssets._2D
             wallCheck = transform.Find("WallCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
-            playerColliders = gameObject.GetComponentsInChildren<Collider2D>();
+			playerColliders.AddRange( gameObject.GetComponentsInChildren<Collider2D>() );
         }
 
 
@@ -55,27 +55,34 @@ namespace UnityStandardAssets._2D
         {
             m_Grounded = false;
             onWall = false;
+			isJumping = false;
+
+			if (m_Rigidbody2D.velocity.y > 0)
+			{
+				isJumping = true;
+			}
 
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
             // TODO check for circle collider's collision, not overlap sphere
 
-			checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround + whatIsPlatform;
+			checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround.value + whatIsPlatform.value;
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, checkLayerMask); // tryingToFall ? m_WhatIsGround : m_WhatIsGround + whatIsPlatform
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].gameObject != gameObject)
+				if (colliders[i].gameObject != gameObject && !ignoredColliders.Contains(colliders[i]) )
                 {
                     if (!isJumping)
                     {
                         m_Grounded = true;
+
                     }
-                    canDoubleJump = true;
+					canDoubleJump = true;
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
-            isJumping = false;
+
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
@@ -89,10 +96,7 @@ namespace UnityStandardAssets._2D
                 }
             }
 
-            if (m_Rigidbody2D.velocity.y > 0)
-            {
-                isJumping = true;
-            }
+
         }
         // TODO finish OnCollisionEnter first
         private void OnCollisionExit2D(Collision2D other)
@@ -121,7 +125,7 @@ namespace UnityStandardAssets._2D
             }
         }
 
-        public void Move(float move, bool crouch, bool jump, bool jumpHeld)
+		public void Move(float move,float verticalAxis, bool crouch, bool jump, bool jumpHeld)
         {
             // If crouching, check to see if the character can stand up
             if (!crouch && m_Anim.GetBool("Crouch"))
@@ -194,7 +198,7 @@ namespace UnityStandardAssets._2D
             }
 
             // TEST - fall down "jump"
-            if (jumpHeld && Input.GetKey(KeyCode.S))
+			if (jumpHeld && verticalAxis < -0.1)
             {
                 jump = false;
 
@@ -214,24 +218,23 @@ namespace UnityStandardAssets._2D
                     }
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.S) || !jumpHeld)
+			else if ((verticalAxis >= 0 || !jumpHeld) && tryingToFall)
             {
-                if (tryingToFall)
-                {
-                    tryingToFall = false;
-                    foreach (Collider2D collider in ignoredColliders)
-                    {
-                        foreach (Collider2D playerCollider in playerColliders)
-                        {
+				tryingToFall = false;
 
-                            Physics2D.IgnoreCollision(playerCollider, collider, false);
-                        }
-                    }
-                    ignoredColliders.Clear();
-                }
+//                foreach (Collider2D ignoredCollider in ignoredColliders)
+//                {
+//                    foreach (Collider2D playerCollider in playerColliders)
+//                    {
+//
+//						Physics2D.IgnoreCollision(playerCollider, ignoredCollider, false);
+//                    }
+//                }
+//                ignoredColliders.Clear();
             }
 
-
+			if ((!tryingToFall || !isJumping) && ignoredColliders.Count != 0)
+				UnignoreColliders ();
 
             // normal jump
             if (m_Grounded && jump && m_Anim.GetBool("Ground"))
@@ -243,6 +246,45 @@ namespace UnityStandardAssets._2D
             }
         }
 
+		private void UnignoreColliders()
+		{
+			List<Collider2D> overlappedColliders = new List<Collider2D>();
+			ContactFilter2D filter = new ContactFilter2D();
+			filter.SetLayerMask (whatIsPlatform);
+
+			// Get all Platform colliders that are overlapping the player Colliders
+			foreach (Collider2D playerCollider in playerColliders) 
+			{
+				Collider2D[] cArray = new Collider2D[10];
+
+				playerCollider.OverlapCollider(filter, cArray);
+				overlappedColliders.AddRange (cArray);
+			}
+
+			//remove player Colliders in overlappedColliders	//Currently loops through  a number of times equal to the size of playerColliuders, as it is possibl each one overlapped a single
+			for(int i = 1; i <= playerColliders.Count; i++)
+			{
+				foreach (Collider2D playerCollider in playerColliders)
+				{
+					if(overlappedColliders.Contains(playerCollider))
+						overlappedColliders.Remove(playerCollider);
+				}
+			}
+
+			//Are we still touching any ignored colliders, if not , remove and unignore those colliders
+			//checks for any ignored colliders in the overlappColliders, if they are not there, remove them from ignored Colliders and unignore their collison.
+			for (int i = ignoredColliders.Count - 1; i >= 0; i--) 
+			{
+				if (!overlappedColliders.Contains (ignoredColliders [i]))
+				{
+					foreach (Collider2D playerCollider in playerColliders) 
+					{
+						Physics2D.IgnoreCollision (playerCollider, ignoredColliders [i], false);
+					}
+					ignoredColliders.RemoveAt (i);
+				}
+			}
+		}
 
         private void Flip()
         {
