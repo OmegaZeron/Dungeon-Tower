@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Consumable : MonoBehaviour {
+public class Consumable : UsableItem 
+{
 
-	// Use this for initialization
-	void Start () {
+
+	void Start ()
+	{
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public override void StartUsing()
+	{
+
+	}
+
+	public override void Using()
+	{
+
+	}
+
+	public override void StopUsing()
+	{
+
 	}
 }
+	
+
