@@ -6,10 +6,11 @@ namespace UnityStandardAssets._2D
 {
     public class PlatformerCharacter2D : MonoBehaviour
     {
+        private enum PlayerState { idle, jumping, attacking, etc };
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
         [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
         [SerializeField] private float wallJumpHeight = .7f;
-        [SerializeField] private float wallJumpBackwardForce = -200f;
+        [SerializeField] private float wallJumpVelocity = -20f;
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
@@ -37,7 +38,10 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-        // TODO add functionality to check for items (use tools and check if double jump is acquired)
+                                            // TODO add functionality to check for items (use tools and check if double jump is acquired)
+
+        private Vector3 onWallPos = Vector3.zero;
+
 
         private void Awake()
         {
@@ -92,6 +96,7 @@ namespace UnityStandardAssets._2D
             {
                 if (colliders[i].gameObject != gameObject)
                 {
+                    onWallPos = colliders[i].gameObject.transform.position;
                     onWall = true;
                 }
             }
@@ -172,22 +177,16 @@ namespace UnityStandardAssets._2D
             // Wall jump
             if (m_Grounded == false && jump && onWall)
             {
-                if (m_FacingRight)
-                {
-                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
-                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * wallJumpHeight));
-                    m_Rigidbody2D.AddForce(new Vector2(wallJumpBackwardForce, 0f));
-                }
-                if (!m_FacingRight)
-                {
-                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
-                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * wallJumpHeight));
-                    m_Rigidbody2D.AddForce(new Vector2(Mathf.Abs(wallJumpBackwardForce), 0f));
-                }
-            }
 
+                onWallPos.y = transform.position.y;
+                Vector3 wallJumpVector =  transform.position - onWallPos;
+                wallJumpVector = wallJumpVector.normalized;
+                wallJumpVector.y = 1;
+                m_Rigidbody2D.velocity = wallJumpVector.normalized*wallJumpVelocity;             
+            }
+            /*
             // Double jump
-            if (m_Grounded == false && jump && !onWall)
+            else if (m_Grounded == false && jump && !onWall)
             {
                 if (canDoubleJump == true)
                 {
@@ -196,7 +195,7 @@ namespace UnityStandardAssets._2D
                     canDoubleJump = false;
                 }
             }
-
+            */
             // TEST - fall down "jump"
 			if (jumpHeld && verticalAxis < -0.1)
             {
