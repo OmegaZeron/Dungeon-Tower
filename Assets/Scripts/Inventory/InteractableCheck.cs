@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour {
+public class InteractableCheck : MonoBehaviour {
     private List<GameObject> interactibles = new List<GameObject>();
     public GameObject closest;
     [SerializeField] private GameObject highlighter;
@@ -14,14 +14,14 @@ public class PlayerInventory : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
             interactibles.Add(collision.gameObject);
-            //Debug.Log("interactibles.Add(" + collision.gameObject.name + ");");
+            Debug.Log("interactibles.Add(" + collision.gameObject.name + ");");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
             interactibles.Remove(collision.gameObject);
-            //Debug.Log("interactibles.Remove(" + collision.gameObject.name + ");");
+            Debug.Log("interactibles.Remove(" + collision.gameObject.name + ");");
         }
     }
 
@@ -42,7 +42,7 @@ public class PlayerInventory : MonoBehaviour {
                 if (newDistance < distance) {
                     distance = newDistance;
                     closest = GO;
-                    //Debug.Log("closest = " + GO.name);
+                    Debug.Log("closest = " + GO.name);
                 }
             }
             if(closest != null) {
