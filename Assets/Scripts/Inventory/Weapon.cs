@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IUsableItem
+public class Weapon : MonoBehaviour, IInteractable, IUsableItem
 {
 	[SerializeField] protected Animator charAnimator;
 	[SerializeField] protected Animator myAnimator;
 
 	[SerializeField] protected GameObject weaponObject;
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
+
+    public string name;
+    public int attack;
 
 	public Animator animator
 	{
@@ -38,9 +41,23 @@ public class Weapon : MonoBehaviour, IUsableItem
 
 	}
 
-	//Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
+    //Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
-	public virtual void StartUsingItem()
+    //===== IInteractable functions =====//
+    public void StartInteracting() {
+
+    }
+
+    public void Interacting() {
+
+    }
+
+    public void StopInteracting() {
+
+    }
+
+    //===== IUsableItem functions =====//
+    public virtual void StartUsingItem()
 	{
 		Debug.Log ("BaseStartUsing");
 	}
