@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IInteractable, IUsableItem
+public class Weapon : UsableItem, IInteractable, IUsableItem
 {
 	[SerializeField] protected Animator charAnimator;
 	[SerializeField] protected Animator myAnimator;
@@ -57,17 +57,17 @@ public class Weapon : MonoBehaviour, IInteractable, IUsableItem
     }
 
     //===== IUsableItem functions =====//
-    public virtual void StartUsingItem()
+	public override void StartUsingItem()
 	{
-		Debug.Log ("BaseStartUsing");
+		Debug.Log ("WeaponStartUsing");
 	}
 
-	public virtual void UsingItem()
+	public override void UsingItem()
 	{
 
 	}
 
-	public virtual void StopUsingItem()
+	public override void StopUsingItem()
 	{
 
 	}

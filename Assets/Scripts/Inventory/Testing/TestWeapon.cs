@@ -8,7 +8,6 @@ public class TestWeapon : Weapon
 	public override void StartUsingItem()
 	{
 		charAnimator.SetTrigger("Action 1");
-		base.StartUsingItem ();
 	}
 
 	public override void UsingItem()
