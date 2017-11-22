@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace UnityStandardAssets._2D
         [SerializeField] private bool canDoubleJump = false;
         [SerializeField] private float doubleJumpHeight = .8f;
         [SerializeField] private bool tryingToFall = false;
+        [SerializeField] private bool wallJumping = false;
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
 		List<Collider2D> playerColliders = new List<Collider2D>();
         Collider2D[] ignoreCircleColliders = new Collider2D[0];
@@ -60,6 +62,7 @@ namespace UnityStandardAssets._2D
             m_Grounded = false;
             onWall = false;
 			isJumping = false;
+            wallJumping = false;
 
 			if (m_Rigidbody2D.velocity.y > 0)
 			{
@@ -81,7 +84,10 @@ namespace UnityStandardAssets._2D
                         m_Grounded = true;
 
                     }
-					canDoubleJump = true;
+                    if (m_Rigidbody2D.velocity.y == 0)
+                    {
+                        canDoubleJump = true;
+                    }
                 }
             }
             m_Anim.SetBool("Ground", m_Grounded);
@@ -104,31 +110,31 @@ namespace UnityStandardAssets._2D
 
         }
         // TODO finish OnCollisionEnter first
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            if (colliderIsIgnored)
-            {
-                foreach (Collider2D playerCollider in playerColliders)
-                {
-                    Physics2D.IgnoreCollision(playerCollider, other.collider, false);
-                }
-                colliderIsIgnored = false;
-            }
-        }
+        //private void OnCollisionExit2D(Collision2D other)
+        //{
+        //    if (colliderIsIgnored)
+        //    {
+        //        foreach (Collider2D playerCollider in playerColliders)
+        //        {
+        //            Physics2D.IgnoreCollision(playerCollider, other.collider, false);
+        //        }
+        //        colliderIsIgnored = false;
+        //    }
+        //}
 
-        // TODO do actually anything with this
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (ignoreCircleColliders.Length == 0)
-            {
-                ignoreCircleColliders = Physics2D.OverlapCircleAll(GetComponent<CircleCollider2D>().offset, GetComponent<CircleCollider2D>().radius, whatIsPlatform);
-            }
-            if (ignoreBoxColliders.Length == 0)
-            {
-                // 99% sure magnitude won't work
-                ignoreBoxColliders = Physics2D.OverlapCircleAll(GetComponent<BoxCollider2D>().offset, GetComponent<BoxCollider2D>().size.magnitude, whatIsPlatform);
-            }
-        }
+        //// TODO do actually anything with this
+        //private void OnCollisionEnter2D(Collision2D other)
+        //{
+        //    if (ignoreCircleColliders.Length == 0)
+        //    {
+        //        ignoreCircleColliders = Physics2D.OverlapCircleAll(GetComponent<CircleCollider2D>().offset, GetComponent<CircleCollider2D>().radius, whatIsPlatform);
+        //    }
+        //    if (ignoreBoxColliders.Length == 0)
+        //    {
+        //        // 99% sure magnitude won't work
+        //        ignoreBoxColliders = Physics2D.OverlapCircleAll(GetComponent<BoxCollider2D>().offset, GetComponent<BoxCollider2D>().size.magnitude, whatIsPlatform);
+        //    }
+        //}
 
 		public void Move(float move,float verticalAxis, bool crouch, bool jump, bool jumpHeld)
         {
@@ -172,30 +178,29 @@ namespace UnityStandardAssets._2D
             }
 
             // If the player should jump...
-            // TODO fix horizontal velocity
-
+            
             // Wall jump
             if (m_Grounded == false && jump && onWall)
             {
-
+                wallJumping = true;
                 onWallPos.y = transform.position.y;
-                Vector3 wallJumpVector =  transform.position - onWallPos;
+                Vector3 wallJumpVector = transform.position - onWallPos;
                 wallJumpVector = wallJumpVector.normalized;
-                wallJumpVector.y = 1;
-                m_Rigidbody2D.velocity = wallJumpVector.normalized*wallJumpVelocity;             
+                wallJumpVector.y = 1.4f;
+                m_Rigidbody2D.velocity = wallJumpVector.normalized*wallJumpVelocity;
+                Flip();
+                StartCoroutine("WallJumpControl");
             }
-            /*
+
             // Double jump
-            else if (m_Grounded == false && jump && !onWall)
+            if (m_Grounded == false && jump && !onWall && canDoubleJump && !wallJumping)
             {
-                if (canDoubleJump == true)
-                {
-                    m_Rigidbody2D.velocity = new Vector2(0f, 0f);
-                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
-                    canDoubleJump = false;
-                }
+                m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
+                canDoubleJump = false;
+                Debug.Log("sdfsd");
             }
-            */
+
             // TEST - fall down "jump"
 			if (jumpHeld && verticalAxis < -0.1)
             {
@@ -243,6 +248,13 @@ namespace UnityStandardAssets._2D
                 m_Anim.SetBool("Ground", false);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             }
+        }
+
+        IEnumerator WallJumpControl()
+        {
+            m_AirControl = false;
+            yield return new WaitForSeconds(.3f);
+            m_AirControl = true;
         }
 
 		private void UnignoreColliders()
