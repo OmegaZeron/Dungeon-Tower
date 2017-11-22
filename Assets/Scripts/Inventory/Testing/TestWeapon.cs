@@ -19,7 +19,6 @@ public class TestWeapon : Weapon
 	public override void StopUsingItem()
 	{
 		charAnimator.SetTrigger("Action 3");
-
 	}
 
 }
