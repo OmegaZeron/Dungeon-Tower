@@ -8,31 +8,32 @@ public class TestWeapon : Weapon
 	public override void StartUsingItem()
 	{
 		charAnimator.SetTrigger("Action 1");
+		myAnimator.SetTrigger ("Anim 1");
 	}
 
 	public override void UsingItem()
 	{
 		charAnimator.SetTrigger("Action 2");
+		myAnimator.SetTrigger ("Anim 2");
 
 	}
 
 	public override void StopUsingItem()
 	{
 		charAnimator.SetTrigger("Action 3");
+		myAnimator.SetTrigger ("Anim 3");
 	}
 
 	public override void CheckForHit()
 	{
-		Vector2 hitBox = hitBoxes [0];
-		Collider2D[] hitObjects = Physics2D.OverlapBoxAll (new Vector2(this.transform.position.x, this.transform.position.y), hitBox, 0f);
-	/*Left*/	Debug.DrawLine(new Vector3(hitBox.x - hitBox.y/2, hitBox.x - hitBox.y/2, 0), new Vector3(hitBox.x - hitBox.y/2, hitBox.x + hitBox.y/2, 0), Color.yellow);
-	/*Right*/	Debug.DrawLine(new Vector3(hitBox.x + hitBox.y/2, hitBox.x + hitBox.y/2, 0), new Vector3(hitBox.x + hitBox.y/2, hitBox.x - hitBox.y/2, 0), Color.yellow);
-	/*Up*/		Debug.DrawLine(new Vector3(hitBox.x - hitBox.y/2, hitBox.x + hitBox.y/2, 0), new Vector3(hitBox.x + hitBox.y/2, hitBox.x + hitBox.y/2, 0), Color.yellow);
-	/*Down*/	Debug.DrawLine(new Vector3(hitBox.x - hitBox.y/2, hitBox.x - hitBox.y/2, 0), new Vector3(hitBox.x + hitBox.y/2, hitBox.x - hitBox.y/2, 0), Color.yellow);
+		
+		Collider2D[] hitObjects = Physics2D.OverlapBoxAll (hitBoxes[0].center, hitBoxes[0].size, hitBoxes[0].angle);
+		//TODO logic to determine what can be hit, and apply damage
 	}
 
 	public void OnDrawGizmos()
 	{
-		
+
+		//Gizmos.DrawWireCube();
 	}
 }

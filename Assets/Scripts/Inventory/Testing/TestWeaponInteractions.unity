@@ -108,6 +108,11 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!95 &109199480 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95564658184245870, guid: 7996fd941b2b87048bc52689652fe475,
+    type: 2}
+  m_PrefabInternal: {fileID: 1990644035}
 --- !u!1 &181054165
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +209,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitBoxes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitCenters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4446747173072986, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.76
@@ -235,6 +250,31 @@ Prefab:
     - target: {fileID: 4446747173072986, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: charAnimator
+      value: 
+      objectReference: {fileID: 109199480}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: myAnimator
+      value: 
+      objectReference: {fileID: 2127657701}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitBoxes.Array.data[0].y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 23786820840187592, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitBoxes.Array.data[0].x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
@@ -408,3 +448,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
   m_IsPrefabParent: 0
+--- !u!95 &2127657701 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 95103746862911130, guid: 55077b83d670c0842a8a83120a783bd8,
+    type: 2}
+  m_PrefabInternal: {fileID: 205628775}

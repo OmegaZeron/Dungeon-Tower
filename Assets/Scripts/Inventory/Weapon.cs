@@ -10,7 +10,7 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	[SerializeField] protected GameObject weaponObject;
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
-	[SerializeField] protected List<Vector2> hitBoxes = new List<Vector2> ();
+	[SerializeField] protected List<HitBox> hitBoxes = new List<HitBox> ();
 
     public string name;
     public int attack;
@@ -19,6 +19,15 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	{
 		get{ return charAnimator; }
 		set{ charAnimator = value; }
+	}
+
+	protected class HitBox
+	{
+		//[SerializeField] protected Shape shape Shape.Shape;
+
+		[SerializeField] public Vector2 center = Vector2.zero;
+		[SerializeField] public Vector2 size = new Vector2(1,1);
+		[SerializeField] public float angle = 0.0f;
 	}
 
 	protected void Start () 
