@@ -5,9 +5,9 @@ using UnityEngine;
 public class UsableItem : MonoBehaviour
 {
 	[SerializeField] protected float animationSpeed = 100.0f;
+    public string name;
 
-
-	public virtual void StartUsingItem()
+    public virtual void StartUsingItem()
 	{
 		Debug.Log ("BaseStartUsing");
 	}

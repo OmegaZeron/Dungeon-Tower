@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : MonoBehaviour, IInteractable, IUsableItem {
+public class Armor : UsableItem, IInteractable, IUsableItem {
 
-    public string name;
     public int defense;
 
     //===== IInteractable functions =====//

@@ -10,7 +10,6 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	[SerializeField] protected GameObject weaponObject;
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
-    public string name;
     public int attack;
 
 	public Animator animator
