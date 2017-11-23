@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityStandardAssets._2D
 {
-    public class PlatformerCharacter2D : MonoBehaviour
+    public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     {
         private enum PlayerState { idle, jumping, attacking, etc };
         [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
@@ -27,6 +27,9 @@ namespace UnityStandardAssets._2D
         private LayerMask checkLayerMask;
         [SerializeField] private bool isJumping = false;
         private bool colliderIsIgnored = false;
+        [SerializeField] private ParticleSystem doubleJumpParticles;
+        [SerializeField] private int health;
+        private int damageTaken;
 
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
@@ -54,6 +57,7 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			playerColliders.AddRange( gameObject.GetComponentsInChildren<Collider2D>() );
+            health = 10;
         }
 
 
@@ -198,7 +202,9 @@ namespace UnityStandardAssets._2D
                 m_Rigidbody2D.velocity = new Vector2(0f, 0f);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
                 canDoubleJump = false;
-                Debug.Log("sdfsd");
+                Vector3 particleOffset = new Vector3(0, 1, 0);
+                doubleJumpParticles.transform.position = transform.position + particleOffset;
+                doubleJumpParticles.Play();
             }
 
             // TEST - fall down "jump"
@@ -306,6 +312,20 @@ namespace UnityStandardAssets._2D
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
+        }
+
+        public void TakeDamage()
+        {
+            health -= damageTaken;
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
+
+        public void Die()
+        {
+            throw new NotImplementedException();
         }
     }
 }
