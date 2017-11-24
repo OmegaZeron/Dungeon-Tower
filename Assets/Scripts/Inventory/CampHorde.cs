@@ -22,15 +22,20 @@ public class CampHorde : MonoBehaviour {
     public void StashItem(UsableItem usableItem, GameObject GO) {
         if(usableItem.GetComponent<Weapon>()) {
             DepositWeapon(usableItem as Weapon);
-            Destroy(GO);
+            //Destroy(GO);
+            usableItem.gameObject.SetActive(false);
         }
         else if (usableItem.GetComponent<Armor>()) {
             DepositArmor(usableItem as Armor);
-            Destroy(GO);
+            //Destroy(GO);
+            //GO.SetActive(false);
+            usableItem.gameObject.SetActive(false);
         }
         else if (usableItem.GetComponent<Consumable>()) {
             DepositConsumable(usableItem as Consumable);
-            Destroy(GO);
+            //Destroy(GO);
+            //GO.SetActive(false);
+            usableItem.gameObject.SetActive(false);
         }
     }
 

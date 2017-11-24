@@ -40,9 +40,10 @@ public class InteractableCheck : MonoBehaviour {
     }
 
     private void Update() {
-        if(camp != null && Input.GetKey(KeyCode.E)) {
+        if(camp != null && Input.GetKeyDown(KeyCode.E) && closest_usableItem != null) {
             camp.StashItem(closest_usableItem, closest);
             //Destroy(closest);
+            //closest_usableItem = null;
         }
 
         if(interactibles.Count == 0 && closest != null) {
@@ -62,6 +63,9 @@ public class InteractableCheck : MonoBehaviour {
                     distance = newDistance;
                     closest = GO;
                     closest_usableItem = closest.GetComponent<UsableItem>();
+                    if(closest_usableItem == null) {
+                        Debug.Log("closest_usableItem null");
+                    }
                     //Debug.Log("closest = " + GO.name);
                 }
             }
