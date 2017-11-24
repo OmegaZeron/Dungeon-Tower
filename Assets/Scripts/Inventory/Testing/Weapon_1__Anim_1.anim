@@ -168,14 +168,14 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0.25
-    functionName: CheckForHit
+    functionName: StartHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.75
-    functionName: StopCheckForHit
+    functionName: StopHit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

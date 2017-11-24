@@ -10,9 +10,10 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	[SerializeField] protected GameObject weaponObject;
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
+	[SerializeField] protected LayerMask enemyLayer;
 	[SerializeField] protected List<HitBox> hitBoxes = new List<HitBox> ();
 
-    public string name;
+    public string weaponName;
     public int attack;
 
 	public Animator animator
@@ -21,7 +22,7 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 		set{ charAnimator = value; }
 	}
 
-	protected class HitBox
+	[System.Serializable] public class HitBox
 	{
 		//[SerializeField] protected Shape shape Shape.Shape;
 
@@ -85,12 +86,12 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 
 	//TODO These Functions should be called from the animator.  They specify when the weapon should check for hits in an attack animation.  (This may have to go through the player)
 	//  Possible to have the animator check against the currently used weapon.CheckForHit() 
-	public virtual void CheckForHit()
+	public virtual void StartHit()
 	{
 
 	}
 
-	public virtual void StopCheckForHit()
+	public virtual void StopHit()
 	{
 
 	}

@@ -276,6 +276,21 @@ Prefab:
       propertyPath: hitBoxes.Array.data[0].x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitBoxes.Array.data[0].size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: hitBoxes.Array.data[0].size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 65611371357342384, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
   m_IsPrefabParent: 0
@@ -350,6 +365,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1460820640 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114726989873983176, guid: d8f9dad882eb4b041804a259f8fa7a46,
+    type: 2}
+  m_PrefabInternal: {fileID: 1595777466}
+  m_Script: {fileID: 11500000, guid: f493b769e6afc464aab7543eb1b5df87, type: 3}
 --- !u!1001 &1595777466
 Prefab:
   m_ObjectHideFlags: 0
@@ -440,7 +461,7 @@ Prefab:
         type: 2}
       propertyPath: weaponTwo
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1460820640}
     - target: {fileID: 1787451290344246, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
       propertyPath: m_Name
       value: TestingCube
