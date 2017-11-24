@@ -22,21 +22,21 @@ namespace UnityStandardAssets._2D
         [SerializeField] private bool wallJumping = false;
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
 		List<Collider2D> playerColliders = new List<Collider2D>();
-        Collider2D[] ignoreCircleColliders = new Collider2D[0];
-        Collider2D[] ignoreBoxColliders = new Collider2D[0];
+        //Collider2D[] ignoreCircleColliders = new Collider2D[0];
+        //Collider2D[] ignoreBoxColliders = new Collider2D[0];
         private LayerMask checkLayerMask;
         [SerializeField] private bool isJumping = false;
         private bool colliderIsIgnored = false;
         [SerializeField] private ParticleSystem doubleJumpParticles;
         [SerializeField] private int health;
-        private int damageTaken;
+        [SerializeField] private bool unsteady;
 
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         private Transform wallCheck;
         const float wallRadius = .2f;
         [SerializeField] private bool onWall;
-        const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+        const float k_GroundedRadius = .15f; // Radius of the overlap circle to determine if grounded
         [SerializeField] private bool m_Grounded;            // Whether or not the player is grounded.
         private Transform m_CeilingCheck;   // A position marking where to check for ceilings
         const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
@@ -60,6 +60,11 @@ namespace UnityStandardAssets._2D
             health = 10;
         }
 
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(m_GroundCheck.transform.position, k_GroundedRadius);
+        }
 
         private void FixedUpdate()
         {
@@ -67,6 +72,7 @@ namespace UnityStandardAssets._2D
             onWall = false;
 			isJumping = false;
             wallJumping = false;
+            unsteady = false;
 
 			if (m_Rigidbody2D.velocity.y > 0)
 			{
@@ -100,6 +106,12 @@ namespace UnityStandardAssets._2D
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+
+            if (m_Anim.GetFloat("vSpeed") == 0 && !m_Grounded && !tryingToFall)
+            {
+                unsteady = true;
+            }
+            m_Anim.SetBool("Unsteady", unsteady);
 
             colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallRadius, m_WhatIsGround + whatIsPlatform);
             for (int i = 0; i < colliders.Length; i++)
@@ -197,9 +209,9 @@ namespace UnityStandardAssets._2D
             }
 
             // Double jump
-            if (m_Grounded == false && jump && !onWall && canDoubleJump && !wallJumping)
+            if (!m_Grounded && !unsteady && jump && !onWall && canDoubleJump && !wallJumping)
             {
-                m_Rigidbody2D.velocity = new Vector2(0f, 0f);
+                m_Rigidbody2D.velocity = new Vector2(0f, .01f);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
                 canDoubleJump = false;
                 Vector3 particleOffset = new Vector3(0, 1, 0);
@@ -247,7 +259,7 @@ namespace UnityStandardAssets._2D
 				UnignoreColliders ();
 
             // normal jump
-            if (m_Grounded && jump && m_Anim.GetBool("Ground"))
+            if ((m_Grounded || unsteady) && jump && (m_Anim.GetBool("Ground") || m_Anim.GetBool("Unsteady")))
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
@@ -314,12 +326,16 @@ namespace UnityStandardAssets._2D
             transform.localScale = theScale;
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int damageTaken)
         {
-            health -= damageTaken;
-            if (health <= 0)
+            if (health <= damageTaken)
             {
+                health = 0;
                 Die();
+            }
+            else
+            {
+                health -= damageTaken;
             }
         }
 

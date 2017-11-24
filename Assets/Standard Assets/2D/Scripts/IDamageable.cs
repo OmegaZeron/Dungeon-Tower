@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDamageable {
-    void TakeDamage();
+    void TakeDamage(int damageTaken);
     void Die();
 }
