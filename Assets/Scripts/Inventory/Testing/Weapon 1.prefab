@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4446747173072986}
-  - component: {fileID: 65611371357342384}
+  - component: {fileID: 61964980163684742}
   - component: {fileID: 114304755686442536}
   - component: {fileID: 95103746862911130}
   m_Layer: 0
@@ -112,18 +112,31 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402721867066500}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65611371357342384
-BoxCollider:
+--- !u!61 &61964980163684742
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1363288758105304}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!95 &95103746862911130
 Animator:
   serializedVersion: 3
@@ -152,10 +165,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f493b769e6afc464aab7543eb1b5df87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 100
-  charAnimator: {fileID: 0}
-  myAnimator: {fileID: 0}
+  weaponName: 
   weaponObject: {fileID: 0}
+  attacks: 0
+  charAnimator: {fileID: 0}
+  myAnimator: {fileID: 95103746862911130}
+  animationSpeed: 100
   animationTriggers: []
-  name: 
-  attack: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hitBoxes:
+  - center: {x: 0, y: 0}
+    size: {x: 2, y: 2}
+    angle: 0
+  currentHitBox: 0
+  checkForHit: 0
+  hitColliders: []

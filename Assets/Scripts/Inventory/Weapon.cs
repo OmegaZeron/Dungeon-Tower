@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : UsableItem, IInteractable, IUsableItem
+public class Weapon : Item, IUsableItem, IInteractable
 {
+	public string weaponName;
+	[SerializeField] protected GameObject weaponObject;
+	public int attacks;
+
 	[SerializeField] protected Animator charAnimator;
 	[SerializeField] protected Animator myAnimator;
+	[SerializeField] protected float animationSpeed = 100.0f;
 
-	[SerializeField] protected GameObject weaponObject;
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
 	[SerializeField] protected LayerMask enemyLayer;
@@ -16,8 +20,7 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	[SerializeField] private bool checkForHit = false;
 	[SerializeField] private List<Collider2D> hitColliders = new List<Collider2D> ();
 
-    public string weaponName;
-    public int attack;
+
 
 	public Animator animator
 	{
@@ -72,17 +75,17 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
     }
 
     //===== IUsableItem functions =====//
-	public override void StartUsingItem()
+	public virtual void StartUsingItem()
 	{
 		Debug.Log ("WeaponStartUsing");
 	}
 
-	public override void UsingItem()
+	public virtual void UsingItem()
 	{
 
 	}
 
-	public override void StopUsingItem()
+	public virtual void StopUsingItem()
 	{
 
 	}
@@ -92,7 +95,8 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	public virtual void StartHit()
 	{
 		checkForHit = true;
-		StartCoroutine ("CheckingForHit");
+		StartCoroutine ("CheckingForHit", false);
+
 	}
 
 	public virtual void CheckHitOnce()
@@ -103,8 +107,6 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 
 	IEnumerator CheckingForHit(bool checkOnce = false)
 	{
-		//List<Character> hitChars = new List<Character> ();
-			
 		while (checkForHit)
 		{
 			Collider2D[] hitObjects = Physics2D.OverlapBoxAll (hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size, hitBoxes[currentHitBox].angle, enemyLayer.value);
@@ -113,19 +115,13 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 			{
 				if ( !hitColliders.Contains (hitObject) ) 
 				{
-					hitColliders.Add(hitObject);
-
-					//Character cs = GetComponent<CharacterScript>();
+					//TODO Character cs = GetComponent<CharacterScript>();
 					//if( cs != null)
-					//	hitChars.Add(cs)
-				}
-					
-				//foreach( Character hitChar in hitChars)
-				//{
-				//	hitObject.TakeDamage
-				//}
+					//	cs.TakeDamage();
 
-				//hitChar.Clear();
+					hitColliders.Add(hitObject);
+				}
+
 			}
 
 			if (checkOnce)
@@ -146,13 +142,19 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	public void OnDrawGizmos()
 	{
 		if (checkForHit)
+		{	//points to the hit colliders
 			Gizmos.color = Color.red;
+			foreach (Collider2D hitCollider in hitColliders) 
+			{
+				Gizmos.DrawWireSphere (hitCollider.transform.position, 0.2f);
+				Gizmos.DrawLine (this.transform.position, hitCollider.transform.position);
+			}
+
+			Gizmos.color = Color.yellow;
+		}
 		else
 			Gizmos.color = Color.white;
-
+		//Draws the hitBox for the attack
 		Gizmos.DrawWireCube (hitBoxes [currentHitBox].center, hitBoxes [currentHitBox].size);
-
-
-
 	}
 }

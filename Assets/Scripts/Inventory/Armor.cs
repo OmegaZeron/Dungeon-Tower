@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : MonoBehaviour, IInteractable, IUsableItem {
+public class Armor : Item, IInteractable, IUsableItem {
 
     public string name;
     public int defense;
