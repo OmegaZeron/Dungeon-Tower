@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TestWeapon : Weapon
 {
-	public bool checkForHit = false;
 
 	//TODO may need to gate via states as to what functions are able to run.
 	public override void StartUsingItem()
@@ -26,36 +25,5 @@ public class TestWeapon : Weapon
 		myAnimator.SetTrigger ("Anim 3");
 	}
 
-	public override void StartHit()
-	{
-		checkForHit = true;
-		StartCoroutine ("CheckingForHit");
-	}
 
-	IEnumerator CheckingForHit()
-	{
-		while (checkForHit)
-		{
-			Collider2D[] hitObjects = Physics2D.OverlapBoxAll (hitBoxes[0].center, hitBoxes[0].size, hitBoxes[0].angle, enemyLayer.value);
-			//TODO
-			//HitObjects.Add( if not in hitObjects already)
-			//hitObject.TakeDamage
-			//
-			yield return null;
-		}
-
-		//hitObjects.Clear ();
-	}
-
-	public override void StopHit()
-	{
-		checkForHit = false;
-	}
-
-	public void OnDrawGizmos()
-	{
-		if (checkForHit)
-			Gizmos.DrawWireCube (hitBoxes [0].center, hitBoxes [0].size);
-		//Gizmos.DrawWireCube();
-	}
 }

@@ -12,6 +12,9 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 
 	[SerializeField] protected LayerMask enemyLayer;
 	[SerializeField] protected List<HitBox> hitBoxes = new List<HitBox> ();
+	[SerializeField] protected int currentHitBox = 0;
+	[SerializeField] private bool checkForHit = false;
+	[SerializeField] private List<Collider2D> hitColliders = new List<Collider2D> ();
 
     public string weaponName;
     public int attack;
@@ -88,12 +91,68 @@ public class Weapon : UsableItem, IInteractable, IUsableItem
 	//  Possible to have the animator check against the currently used weapon.CheckForHit() 
 	public virtual void StartHit()
 	{
+		checkForHit = true;
+		StartCoroutine ("CheckingForHit");
+	}
 
+	public virtual void CheckHitOnce()
+	{
+		checkForHit = true;
+		StartCoroutine ("CheckingForHit", true);
+	}
+
+	IEnumerator CheckingForHit(bool checkOnce = false)
+	{
+		//List<Character> hitChars = new List<Character> ();
+			
+		while (checkForHit)
+		{
+			Collider2D[] hitObjects = Physics2D.OverlapBoxAll (hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size, hitBoxes[currentHitBox].angle, enemyLayer.value);
+
+			foreach ( Collider2D hitObject in hitObjects )
+			{
+				if ( !hitColliders.Contains (hitObject) ) 
+				{
+					hitColliders.Add(hitObject);
+
+					//Character cs = GetComponent<CharacterScript>();
+					//if( cs != null)
+					//	hitChars.Add(cs)
+				}
+					
+				//foreach( Character hitChar in hitChars)
+				//{
+				//	hitObject.TakeDamage
+				//}
+
+				//hitChar.Clear();
+			}
+
+			if (checkOnce)
+				checkForHit = false;
+
+			yield return null;
+		}
+
+		hitColliders.Clear ();
 	}
 
 	public virtual void StopHit()
 	{
-
+		checkForHit = false;
 	}
 
+
+	public void OnDrawGizmos()
+	{
+		if (checkForHit)
+			Gizmos.color = Color.red;
+		else
+			Gizmos.color = Color.white;
+
+		Gizmos.DrawWireCube (hitBoxes [currentHitBox].center, hitBoxes [currentHitBox].size);
+
+
+
+	}
 }
