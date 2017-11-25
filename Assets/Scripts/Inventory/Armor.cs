@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : Item, IInteractable, IUsableItem {
-
+public class Armor : Item, IInteractable, IUsableItem 
+{
     public int defense;
 
     //===== IInteractable functions =====//
