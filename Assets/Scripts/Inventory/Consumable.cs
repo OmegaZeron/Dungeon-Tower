@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Consumable : Item, IInteractable, IUsableItem 
 {
-    public string name;
     public int amount;  // attack, defense, health points -- any stat or effect's "amount"
     // TODO: add variables to resolve / determine effects of Consumable
 

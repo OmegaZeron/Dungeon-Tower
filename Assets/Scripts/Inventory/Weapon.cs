@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Weapon : Item, IUsableItem, IInteractable
 {
-	public string weaponName;
 	[SerializeField] protected GameObject weaponObject;
 	public int attacks;
 
