@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractableCheck : MonoBehaviour {
     private List<GameObject> interactibles = new List<GameObject>();
     protected internal GameObject closest;
-    protected internal UsableItem closest_usableItem;
+    protected internal Item closest_item;
     [SerializeField] private GameObject highlighter;
     //[SerializeField] private bool isAtCamp;
     private CampHorde camp;
@@ -16,7 +16,7 @@ public class InteractableCheck : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         //if(collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
-        if(collision.GetComponent<UsableItem>()) {
+        if(collision.GetComponent<Item>()) {
             interactibles.Add(collision.gameObject);
             //Debug.Log("interactibles.Add(" + collision.gameObject.name + ");");
         }
@@ -29,7 +29,7 @@ public class InteractableCheck : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision) {
         //if (collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
-        if (collision.GetComponent<UsableItem>()) {
+        if (collision.GetComponent<Item>()) {
             interactibles.Remove(collision.gameObject);
             //Debug.Log("interactibles.Remove(" + collision.gameObject.name + ");");
         }
@@ -40,10 +40,10 @@ public class InteractableCheck : MonoBehaviour {
     }
 
     private void Update() {
-        if(camp != null && Input.GetKeyDown(KeyCode.E) && closest_usableItem != null) {
-            camp.StashItem(closest_usableItem, closest);
+        if(camp != null && Input.GetKeyDown(KeyCode.E) && closest_item != null) {
+            camp.StashItem(closest_item, closest);
             //Destroy(closest);
-            //closest_usableItem = null;
+            //closest_item = null;
         }
 
         if(interactibles.Count == 0 && closest != null) {
@@ -62,9 +62,9 @@ public class InteractableCheck : MonoBehaviour {
                 if (newDistance < distance) {
                     distance = newDistance;
                     closest = GO;
-                    closest_usableItem = closest.GetComponent<UsableItem>();
-                    if(closest_usableItem == null) {
-                        Debug.Log("closest_usableItem null");
+                    closest_item = closest.GetComponent<Item>();
+                    if(closest_item == null) {
+                        Debug.Log("closest_item null");
                     }
                     //Debug.Log("closest = " + GO.name);
                 }

@@ -19,23 +19,23 @@ public class CampHorde : MonoBehaviour {
     List<Consumable> unacquiredConsumables = new List<Consumable>();
 
     // IDENTIFY ITEM TYPE
-    public void StashItem(UsableItem usableItem, GameObject GO) {
-        if(usableItem.GetComponent<Weapon>()) {
-            DepositWeapon(usableItem as Weapon);
+	public void StashItem(Item item, GameObject GO) {
+        if(item.GetComponent<Weapon>()) {
+            DepositWeapon(item as Weapon);
             //Destroy(GO);
-            usableItem.gameObject.SetActive(false);
+            item.gameObject.SetActive(false);
         }
-        else if (usableItem.GetComponent<Armor>()) {
-            DepositArmor(usableItem as Armor);
+        else if (item.GetComponent<Armor>()) {
+            DepositArmor(item as Armor);
             //Destroy(GO);
             //GO.SetActive(false);
-            usableItem.gameObject.SetActive(false);
+            item.gameObject.SetActive(false);
         }
-        else if (usableItem.GetComponent<Consumable>()) {
-            DepositConsumable(usableItem as Consumable);
+        else if (item.GetComponent<Consumable>()) {
+            DepositConsumable(item as Consumable);
             //Destroy(GO);
             //GO.SetActive(false);
-            usableItem.gameObject.SetActive(false);
+            item.gameObject.SetActive(false);
         }
     }
 
