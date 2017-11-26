@@ -137,6 +137,12 @@ public class Weapon : Item, IUsableItem, IInteractable
 		checkForHit = false;
 	}
 
+	public void ForceInterrupt()
+	{
+		checkForHit = false;
+		//stop myAnimations
+		//stop charAnimations
+	}
 
 	public void OnDrawGizmos()
 	{
