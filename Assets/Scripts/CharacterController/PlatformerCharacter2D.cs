@@ -22,8 +22,6 @@ namespace UnityStandardAssets._2D
         [SerializeField] private bool wallJumping = false;
         private List<Collider2D> ignoredColliders = new List<Collider2D>();
 		List<Collider2D> playerColliders = new List<Collider2D>();
-        //Collider2D[] ignoreCircleColliders = new Collider2D[0];
-        //Collider2D[] ignoreBoxColliders = new Collider2D[0];
         private LayerMask checkLayerMask;
         [SerializeField] private bool isJumping = false;
         private bool colliderIsIgnored = false;
@@ -31,7 +29,12 @@ namespace UnityStandardAssets._2D
         [SerializeField] private int health;
         [SerializeField] private bool unsteady;
 
-
+        private Transform frontWeapon;
+        private Transform backWeapon;
+        private Transform bodyArmor;
+        private Weapon frontEquippedWeapon;
+        private Weapon backWeaponEquipped;
+        
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         private Transform wallCheck;
         const float wallRadius = .2f;
@@ -58,12 +61,30 @@ namespace UnityStandardAssets._2D
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			playerColliders.AddRange( gameObject.GetComponentsInChildren<Collider2D>() );
             health = 10;
+            if (frontWeapon == null)
+            {
+                frontWeapon = transform.Find("Front weapon");
+            }
+            if (backWeapon == null)
+            {
+                backWeapon = transform.Find("Back weapon");
+            }
+            if (bodyArmor == null)
+            {
+                bodyArmor = transform.Find("Body");
+            }
         }
 
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(m_GroundCheck.transform.position, k_GroundedRadius);
+        }
+
+        private void SetFrontWeapon(Weapon equip)
+        {
+            frontEquippedWeapon = equip;
+            frontEquippedWeapon.Equip(m_Anim, frontWeapon);
         }
 
         private void FixedUpdate()
@@ -81,8 +102,6 @@ namespace UnityStandardAssets._2D
 
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-            // TODO check for circle collider's collision, not overlap sphere
-
 			checkLayerMask = tryingToFall ? m_WhatIsGround.value : m_WhatIsGround.value + whatIsPlatform.value;
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, checkLayerMask); // tryingToFall ? m_WhatIsGround : m_WhatIsGround + whatIsPlatform
             for (int i = 0; i < colliders.Length; i++)
@@ -125,32 +144,6 @@ namespace UnityStandardAssets._2D
 
 
         }
-        // TODO finish OnCollisionEnter first
-        //private void OnCollisionExit2D(Collision2D other)
-        //{
-        //    if (colliderIsIgnored)
-        //    {
-        //        foreach (Collider2D playerCollider in playerColliders)
-        //        {
-        //            Physics2D.IgnoreCollision(playerCollider, other.collider, false);
-        //        }
-        //        colliderIsIgnored = false;
-        //    }
-        //}
-
-        //// TODO do actually anything with this
-        //private void OnCollisionEnter2D(Collision2D other)
-        //{
-        //    if (ignoreCircleColliders.Length == 0)
-        //    {
-        //        ignoreCircleColliders = Physics2D.OverlapCircleAll(GetComponent<CircleCollider2D>().offset, GetComponent<CircleCollider2D>().radius, whatIsPlatform);
-        //    }
-        //    if (ignoreBoxColliders.Length == 0)
-        //    {
-        //        // 99% sure magnitude won't work
-        //        ignoreBoxColliders = Physics2D.OverlapCircleAll(GetComponent<BoxCollider2D>().offset, GetComponent<BoxCollider2D>().size.magnitude, whatIsPlatform);
-        //    }
-        //}
 
 		public void Move(float move,float verticalAxis, bool crouch, bool jump, bool jumpHeld)
         {
@@ -243,16 +236,6 @@ namespace UnityStandardAssets._2D
 			else if ((verticalAxis >= 0 || !jumpHeld) && tryingToFall)
             {
 				tryingToFall = false;
-
-//                foreach (Collider2D ignoredCollider in ignoredColliders)
-//                {
-//                    foreach (Collider2D playerCollider in playerColliders)
-//                    {
-//
-//						Physics2D.IgnoreCollision(playerCollider, ignoredCollider, false);
-//                    }
-//                }
-//                ignoredColliders.Clear();
             }
 
 			if ((!tryingToFall || !isJumping) && ignoredColliders.Count != 0)
@@ -326,7 +309,7 @@ namespace UnityStandardAssets._2D
             transform.localScale = theScale;
         }
 
-        public void TakeDamage(int damageTaken)
+        public void TakeDamage(int damageTaken = 0, float knockback = 0)
         {
             if (health <= damageTaken)
             {
