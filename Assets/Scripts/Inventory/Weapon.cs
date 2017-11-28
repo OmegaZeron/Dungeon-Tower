@@ -39,7 +39,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 		[SerializeField] public float angle = 0.0f;
 	}
 
-	protected void Start () 
+	protected void Awake () 
 	{
 		myAnimator = gameObject.GetComponent<Animator> ();
 	}
@@ -57,6 +57,12 @@ public class Weapon : Item, IUsableItem, IInteractable
 		}
 
 	}
+
+    public void Unequip()
+    {
+        charAnimator = null;
+        transform.SetParent(this.transform);
+    }
 
     //Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
