@@ -5,7 +5,10 @@ using UnityEngine;
 public class Weapon : Item, IUsableItem, IInteractable
 {
 	[SerializeField] protected GameObject weaponObject;
-	public int attacks;
+    public int attacks;
+
+    [SerializeField] protected int damage = 0;
+    [SerializeField] protected float knockBack = 0;
 
 	[SerializeField] protected Animator charAnimator;
 	[SerializeField] protected Animator myAnimator;
@@ -36,16 +39,13 @@ public class Weapon : Item, IUsableItem, IInteractable
 		[SerializeField] public float angle = 0.0f;
 	}
 
-	protected void Start () 
+	protected void Awake () 
 	{
 		myAnimator = gameObject.GetComponent<Animator> ();
 	}
 
 	public void Equip(Animator equipAnimator = null, Transform attachmentPoint = null)
 	{
-		//TODO create an Equip/attachment Point class that is a set of different transforms. have it stored in the Character, and pass it to Equip.
-		//  the Item will have an EquipPoint.EquipTo.enum that will specify where it should be attached to when Equip is run.
-
 		//assign Animator
 		charAnimator = equipAnimator;
 
@@ -57,6 +57,12 @@ public class Weapon : Item, IUsableItem, IInteractable
 		}
 
 	}
+
+    public void Unequip()
+    {
+        charAnimator = null;
+        transform.SetParent(this.transform);
+    }
 
     //Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
 
@@ -112,11 +118,12 @@ public class Weapon : Item, IUsableItem, IInteractable
 
 			foreach ( Collider2D hitObject in hitObjects )
 			{
-				if ( !hitColliders.Contains (hitObject) ) 
-				{
-					//TODO Character cs = GetComponent<CharacterScript>();
-					//if( cs != null)
-					//	cs.TakeDamage();
+                if (!hitColliders.Contains(hitObject))
+                {
+                    IDamageable id = hitObject.GetComponent<IDamageable>();
+
+                    if (id != null)
+                        id.TakeDamage(damage, knockBack);
 
 					hitColliders.Add(hitObject);
 				}
