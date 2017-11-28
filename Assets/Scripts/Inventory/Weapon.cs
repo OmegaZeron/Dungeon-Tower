@@ -146,12 +146,11 @@ public class Weapon : Item, IUsableItem, IInteractable
 
 	public void OnDrawGizmos()
 	{
-		if (checkForHit)
+		if (checkForHit && hitBoxes.Count > 0)
 		{	//points to the hit colliders
 			Gizmos.color = Color.red;
 			foreach (Collider2D hitCollider in hitColliders) 
 			{
-				Gizmos.DrawWireSphere (hitCollider.transform.position, 0.2f);
 				Gizmos.DrawLine (this.transform.position, hitCollider.transform.position);
 			}
 
@@ -160,6 +159,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 		else
 			Gizmos.color = Color.white;
 		//Draws the hitBox for the attack
-		Gizmos.DrawWireCube (hitBoxes [currentHitBox].center, hitBoxes [currentHitBox].size);
+		if(hitBoxes.Count > 0)
+			Gizmos.DrawWireCube (hitBoxes [currentHitBox].center, hitBoxes [currentHitBox].size);
 	}
 }
