@@ -51,13 +51,13 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     private Animator m_Anim;                                            // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
-
+    //TODO have this in UserControl, not update
     private void Update()
     {
         bool interact = Input.GetKeyDown(KeyCode.E);
         if (interact)
         {
-            // interactCheck.closestInteractable = 
+            interactCheck.closestInteractable.StartInteracting();
         }
     }
 
