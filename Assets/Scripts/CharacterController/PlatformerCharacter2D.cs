@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlatformerCharacter2D : MonoBehaviour, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
+    InteractableCheck interactCheck;
 
     [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
     [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
@@ -50,8 +51,15 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     private Animator m_Anim;                                            // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
-
-
+    //TODO have this in UserControl, not update
+    private void Update()
+    {
+        bool interact = Input.GetKeyDown(KeyCode.E);
+        if (interact)
+        {
+            interactCheck.closestInteractable.StartInteracting();
+        }
+    }
 
     private void Awake()
     {
