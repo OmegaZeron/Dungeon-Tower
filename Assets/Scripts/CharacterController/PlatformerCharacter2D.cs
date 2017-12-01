@@ -94,7 +94,7 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     private void SetFrontWeapon(Weapon equip)
     {
         frontEquippedWeapon = equip;
-        frontEquippedWeapon.Equip(m_Anim, frontWeapon);
+		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
     }
 
     private void FixedUpdate()

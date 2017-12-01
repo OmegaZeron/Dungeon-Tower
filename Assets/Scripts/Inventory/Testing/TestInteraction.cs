@@ -83,6 +83,6 @@ public class TestInteraction : MonoBehaviour
 
 	void EquipWeapon(Weapon weapon)
 	{
-		weapon.Equip(myAnimator, gameObject.transform);
+		weapon.Equip(gameObject.transform, gameObject.transform, myAnimator);
 	}
 }
