@@ -9,6 +9,8 @@ public class TestInteraction : MonoBehaviour
 	[SerializeField] private State state;
 
 	public Animator myAnimator;
+	public Transform frontWeapon;
+	public Transform backWeapon;
 	public Weapon weaponOne;
 	public Weapon weaponTwo;
 	private IUsableItem iUseOne;
@@ -83,6 +85,6 @@ public class TestInteraction : MonoBehaviour
 
 	void EquipWeapon(Weapon weapon)
 	{
-		weapon.Equip(gameObject.transform, gameObject.transform, myAnimator);
+		weapon.Equip(frontWeapon, backWeapon, myAnimator);
 	}
 }

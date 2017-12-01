@@ -129,5 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   myAnimator: {fileID: 0}
+  frontWeapon: {fileID: 4937426129540812}
+  backWeapon: {fileID: 4596466699976550}
   weaponOne: {fileID: 0}
   weaponTwo: {fileID: 0}

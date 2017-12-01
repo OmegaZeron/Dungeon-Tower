@@ -291,6 +291,16 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: frontWeaponTransform
+      value: 
+      objectReference: {fileID: 1120639054}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: equipStance
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
   m_IsPrefabParent: 0
@@ -356,6 +366,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &1120639054 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4446747173072986, guid: 55077b83d670c0842a8a83120a783bd8,
+    type: 2}
+  m_PrefabInternal: {fileID: 205628775}
 --- !u!1 &1237213656
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,9 +486,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114726989873983176, guid: d8f9dad882eb4b041804a259f8fa7a46,
+        type: 2}
+      propertyPath: frontWeaponTransform
+      value: 
+      objectReference: {fileID: 2092560807}
+    - target: {fileID: 114726989873983176, guid: d8f9dad882eb4b041804a259f8fa7a46,
+        type: 2}
+      propertyPath: equipStance
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d8f9dad882eb4b041804a259f8fa7a46, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &2092560807 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4502926950508220, guid: d8f9dad882eb4b041804a259f8fa7a46,
+    type: 2}
+  m_PrefabInternal: {fileID: 1595777466}
 --- !u!95 &2127657701 stripped
 Animator:
   m_PrefabParentObject: {fileID: 95103746862911130, guid: 55077b83d670c0842a8a83120a783bd8,
