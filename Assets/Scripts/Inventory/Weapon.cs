@@ -133,11 +133,6 @@ public class Weapon : Item, IUsableItem, IInteractable
 		Debug.Log ("WeaponStartUsing");
 	}
 
-	public virtual void UsingItem()
-	{
-
-	}
-
 	public virtual void StopUsingItem()
 	{
 
