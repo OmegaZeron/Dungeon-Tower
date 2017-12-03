@@ -112,7 +112,7 @@ NavMeshSettings:
 Animator:
   m_PrefabParentObject: {fileID: 95564658184245870, guid: 7996fd941b2b87048bc52689652fe475,
     type: 2}
-  m_PrefabInternal: {fileID: 1990644035}
+  m_PrefabInternal: {fileID: 916731270}
 --- !u!1 &181054165
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +291,16 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: frontWeaponTransform
+      value: 
+      objectReference: {fileID: 1120639054}
+    - target: {fileID: 114304755686442536, guid: 55077b83d670c0842a8a83120a783bd8,
+        type: 2}
+      propertyPath: equipStance
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 55077b83d670c0842a8a83120a783bd8, type: 2}
   m_IsPrefabParent: 0
@@ -300,6 +310,67 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 205628775}
   m_Script: {fileID: 11500000, guid: f493b769e6afc464aab7543eb1b5df87, type: 3}
+--- !u!1001 &916731270
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114964003257519866, guid: 7996fd941b2b87048bc52689652fe475,
+        type: 2}
+      propertyPath: weaponOne
+      value: 
+      objectReference: {fileID: 380534806}
+    - target: {fileID: 114964003257519866, guid: 7996fd941b2b87048bc52689652fe475,
+        type: 2}
+      propertyPath: weaponTwo
+      value: 
+      objectReference: {fileID: 1460820640}
+    - target: {fileID: 1787451290344246, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+      propertyPath: m_Name
+      value: Weapon Testing Cube
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1120639054 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4446747173072986, guid: 55077b83d670c0842a8a83120a783bd8,
+    type: 2}
+  m_PrefabInternal: {fileID: 205628775}
 --- !u!1 &1237213656
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,65 +486,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114726989873983176, guid: d8f9dad882eb4b041804a259f8fa7a46,
+        type: 2}
+      propertyPath: frontWeaponTransform
+      value: 
+      objectReference: {fileID: 2092560807}
+    - target: {fileID: 114726989873983176, guid: d8f9dad882eb4b041804a259f8fa7a46,
+        type: 2}
+      propertyPath: equipStance
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d8f9dad882eb4b041804a259f8fa7a46, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1990644035
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4397086214631900, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114964003257519866, guid: 7996fd941b2b87048bc52689652fe475,
-        type: 2}
-      propertyPath: weaponOne
-      value: 
-      objectReference: {fileID: 380534806}
-    - target: {fileID: 114964003257519866, guid: 7996fd941b2b87048bc52689652fe475,
-        type: 2}
-      propertyPath: weaponTwo
-      value: 
-      objectReference: {fileID: 1460820640}
-    - target: {fileID: 1787451290344246, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-      propertyPath: m_Name
-      value: TestingCube
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 7996fd941b2b87048bc52689652fe475, type: 2}
-  m_IsPrefabParent: 0
+--- !u!4 &2092560807 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4502926950508220, guid: d8f9dad882eb4b041804a259f8fa7a46,
+    type: 2}
+  m_PrefabInternal: {fileID: 1595777466}
 --- !u!95 &2127657701 stripped
 Animator:
   m_PrefabParentObject: {fileID: 95103746862911130, guid: 55077b83d670c0842a8a83120a783bd8,

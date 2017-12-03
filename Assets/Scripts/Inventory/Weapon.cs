@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Weapon : Item, IUsableItem, IInteractable
 {
-	[SerializeField] protected GameObject weaponObject;
-    public int attacks;
+	public enum Stance {NONE, ONE_HAND, TWO_HAND, DUAL_WIELD, OFF_HAND, SHIELD}
+
+	[SerializeField] protected Transform frontWeaponTransform;
+	[SerializeField] protected Transform backWeaponTransform;
+	[SerializeField] protected Stance equipStance;
 
     [SerializeField] protected int damage = 0;
     [SerializeField] protected float knockBack = 0;
@@ -13,7 +16,6 @@ public class Weapon : Item, IUsableItem, IInteractable
 	[SerializeField] protected Animator charAnimator;
 	[SerializeField] protected Animator myAnimator;
 	[SerializeField] protected float animationSpeed = 100.0f;
-
 	[SerializeField] protected List<string> animationTriggers = new List<string>();
 
 	[SerializeField] protected LayerMask enemyLayer;
@@ -22,18 +24,9 @@ public class Weapon : Item, IUsableItem, IInteractable
 	[SerializeField] private bool checkForHit = false;
 	[SerializeField] private List<Collider2D> hitColliders = new List<Collider2D> ();
 
-
-
-	public Animator animator
-	{
-		get{ return charAnimator; }
-		set{ charAnimator = value; }
-	}
-
 	[System.Serializable] public class HitBox
 	{
 		//[SerializeField] protected Shape shape Shape.Shape;
-
 		[SerializeField] public Vector2 center = Vector2.zero;
 		[SerializeField] public Vector2 size = new Vector2(1,1);
 		[SerializeField] public float angle = 0.0f;
@@ -44,30 +37,85 @@ public class Weapon : Item, IUsableItem, IInteractable
 		myAnimator = gameObject.GetComponent<Animator> ();
 	}
 
-	public void Equip(Animator equipAnimator = null, Transform attachmentPoint = null)
+	public void Equip(Transform firstAttachmentPoint = null, Transform secondAttachmentPoint = null, Animator equipAnimator = null)
 	{
 		//assign Animator
 		charAnimator = equipAnimator;
 
-		// Equip the weapon to the attachPoint
-		if (attachmentPoint != null)
+		if (firstAttachmentPoint == null && secondAttachmentPoint == null)
+			return;
+		
+		// Equip the weapon to the AttachmentPoints based on the weapons stance
+		switch (equipStance) 
 		{
-			transform.position = attachmentPoint.position;
-			transform.SetParent (attachmentPoint);
-		}
+		case Stance.ONE_HAND:
+			
+			if (firstAttachmentPoint != null) 
+			{
+				transform.position = firstAttachmentPoint.position;
+				transform.SetParent (firstAttachmentPoint);
+			}
+			break;
+		case Stance.TWO_HAND:
+			
+			if (firstAttachmentPoint != null) 
+			{
+				transform.position = firstAttachmentPoint.position;
+				transform.SetParent (firstAttachmentPoint);
+			}
 
+			break;
+		case Stance.DUAL_WIELD:
+			//TODO Weapons with two objects that are to be equipped to two seperate points need to have two seperate Parent Transforms and Animators  They must still be handled by one Weapon Script.
+			if (firstAttachmentPoint != null && frontWeaponTransform != null) 
+			{
+				frontWeaponTransform.position = firstAttachmentPoint.position;
+				frontWeaponTransform.SetParent (firstAttachmentPoint);
+			}
+
+			if (secondAttachmentPoint != null && backWeaponTransform != null) 
+			{
+				backWeaponTransform.position = secondAttachmentPoint.position;
+				backWeaponTransform.SetParent (firstAttachmentPoint);
+			}
+			break;
+		case Stance.OFF_HAND:
+			
+			if (secondAttachmentPoint != null) 
+			{
+				transform.position = secondAttachmentPoint.position;
+				transform.SetParent (firstAttachmentPoint);
+			}
+			break;
+		default:
+
+			break;
+
+		}
+			
 	}
 
     public void Unequip()
     {
-        charAnimator = null;
-        transform.SetParent(this.transform);
+		charAnimator = null;
+
+		if (equipStance == Stance.DUAL_WIELD)
+		{
+			if(frontWeaponTransform != null)
+				frontWeaponTransform.SetParent (this.transform);
+			if(backWeaponTransform!= null)
+				backWeaponTransform.SetParent (this.transform);
+		} 
+		else 
+		{
+			transform.SetParent(this.transform);
+		}
+
     }
 
-    //Need to have a way call the animation and set the speed.  probably should do it in this script and just have the character give it it's AnimationController
-
     //===== IInteractable functions =====//
-    public void StartInteracting() {
+    public void StartInteracting() 
+	{
 
     }
 
@@ -85,18 +133,11 @@ public class Weapon : Item, IUsableItem, IInteractable
 		Debug.Log ("WeaponStartUsing");
 	}
 
-	public virtual void UsingItem()
-	{
-
-	}
-
 	public virtual void StopUsingItem()
 	{
 
 	}
-
-	//TODO These Functions should be called from the animator.  They specify when the weapon should check for hits in an attack animation.  (This may have to go through the player)
-	//  Possible to have the animator check against the currently used weapon.CheckForHit() 
+		
 	public virtual void StartHit()
 	{
 		checkForHit = true;
