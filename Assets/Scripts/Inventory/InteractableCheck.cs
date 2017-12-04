@@ -2,79 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableCheck : MonoBehaviour {
-    private List<GameObject> interactibles = new List<GameObject>();
-    protected internal GameObject closest;
-    protected internal Item closest_item;
-    [SerializeField] private GameObject highlighter;
-    //[SerializeField] private bool isAtCamp;
-    private CampHorde camp;
+public class InteractableCheck : MonoBehaviour
+{
+	[SerializeField] private GameObject highlighter;
 
-    private void Start() {
+	private List<GameObject> interactibles = new List<GameObject>();
+
+    protected internal GameObject closest_Object;
+    protected internal IInteractable closest_interactable;
+
+
+	public GameObject closestObject
+	{
+		get{ return closest_Object;}
+	}
+
+	public IInteractable closestInteractable 
+	{
+		get{ return closest_interactable;}
+	}
+
+
+    private void Start() 
+	{
         highlighter.SetActive(false);        
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        //if(collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
-        if(collision.GetComponent<Item>()) {
+    private void OnTriggerEnter2D(Collider2D collision) 
+	{
+		IInteractable iInt = collision.GetComponent<IInteractable> ();
+		if(iInt != null) 
+		{
             interactibles.Add(collision.gameObject);
-            //Debug.Log("interactibles.Add(" + collision.gameObject.name + ");");
-        }
-
-        if(collision.GetComponent<CampHorde>()) {
-            Debug.Log("Camp collision!");
-            camp = collision.GetComponent<CampHorde>();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        //if (collision.GetComponent<Weapon>() || collision.GetComponent<Armor>()) {
-        if (collision.GetComponent<Item>()) {
+    private void OnTriggerExit2D(Collider2D collision) 
+	{
+		if (interactibles.Contains(collision.gameObject) )
+		{
             interactibles.Remove(collision.gameObject);
-            //Debug.Log("interactibles.Remove(" + collision.gameObject.name + ");");
         }
-
-        if (collision.GetComponent<CampHorde>()) {
-            camp = null;
-        }
+			
     }
 
-    private void Update() {
-        if(camp != null && Input.GetKeyDown(KeyCode.E) && closest_item != null) {
-            camp.StashItem(closest_item, closest);
-            //Destroy(closest);
-            //closest_item = null;
-        }
-
-        if(interactibles.Count == 0 && closest != null) {
-            closest = null;
+    private void Update()
+	{
+		//Turn off the Highlighter if there are no IInteractables in the Interactable Check Range
+        if(interactibles.Count == 0 && closest_Object != null) {
+            closest_Object = null;
             highlighter.SetActive(false);
-            //Debug.Log("interactibles.Count == 0");
         }
-        else {
+        else
+		{	//find the clostest GO in interactables inside of the Interactable Check
             float distance = float.MaxValue;
-            foreach (GameObject GO in interactibles) {
+			foreach (GameObject GO in interactibles) 
+			{
                 float newDistance = 0f;
-                Vector2 objectPos = GO.transform.position;
+				Vector2 objectPos = GO.transform.position;
                 Vector2 playerPos = gameObject.transform.position;
                 newDistance = (objectPos - playerPos).magnitude;
 
-                if (newDistance < distance) {
+                if (newDistance < distance)
+				{
                     distance = newDistance;
-                    closest = GO;
-                    closest_item = closest.GetComponent<Item>();
-                    if(closest_item == null) {
-                        Debug.Log("closest_item null");
+					closest_Object = GO;
+                    closest_interactable = closest_Object.GetComponent<IInteractable>();
+                    if(closest_interactable == null) {
+                        Debug.Log("closest_interactable null");
                     }
-                    //Debug.Log("closest = " + GO.name);
                 }
             }
-            if(closest != null) {
-                highlighter.transform.position = closest.transform.position;
+            if(closest_Object != null)
+			{
+                highlighter.transform.position = closest_Object.transform.position;
                 if(highlighter.activeInHierarchy == false) {
                     highlighter.SetActive(true);
                 }
             }
         }
+			
     } // end Update()
+
 }
