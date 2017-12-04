@@ -36,11 +36,12 @@ public class GameManager : MonoBehaviour {
 
 	void Start()
 	{
-        control.State = controllerState;
-	}
-	
+        control = player.GetComponent<Platformer2DUserControl>();
+        //control.State = controllerState; // Tandy: do not use this line, it freezes Player controls
+    }
 
-	void Update ()
+
+    void Update ()
 	{
 		
 	}

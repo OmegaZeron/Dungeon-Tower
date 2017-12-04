@@ -3,13 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : MonoBehaviour, IDamageable
+public class PlatformerCharacter2D : Character, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
     InteractableCheck interactCheck;
 
-    [SerializeField] private float m_MaxSpeed = 10f;                    // The fastest the player can travel in the x axis.
-    [SerializeField] private float m_JumpForce = 400f;                  // Amount of force added when the player jumps.
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -17,7 +15,6 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     const float wallRadius = .2f;
     const float k_GroundedRadius = .15f;                                // Radius of the overlap circle to determine if grounded
     const float k_CeilingRadius = .01f;                                 // Radius of the overlap circle to determine if the player can stand up
-    [SerializeField] private int health;
     private Vector3 onWallPos = Vector3.zero;
 
     [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
@@ -33,13 +30,11 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     [SerializeField] private bool wallJumping = false;
     [SerializeField] private bool isJumping = false;
     private bool colliderIsIgnored = false;
-    [SerializeField] private bool unsteady;
-    private bool m_FacingRight = true;                                  // For determining which way the player is currently facing.
+    [SerializeField] private bool unsteady;                              
     [SerializeField] private bool onWall;
     [SerializeField] private bool m_Grounded;                           // Whether or not the player is grounded.
 
     private List<Collider2D> ignoredColliders = new List<Collider2D>();
-    List<Collider2D> playerColliders = new List<Collider2D>();
 
     private Transform frontWeapon;
     private Transform backWeapon;
@@ -47,8 +42,7 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     private Weapon frontEquippedWeapon;
     private Weapon backWeaponEquipped;
 
-    [SerializeField] private ParticleSystem doubleJumpParticles;
-    private Animator m_Anim;                                            // Reference to the player's animator component.
+    [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
     //TODO have this in UserControl, not update
@@ -64,11 +58,15 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
     private void Awake()
     {
         // Setting up references.
+        m_MaxSpeed = 10f;       // The fastest the player can travel in the x axis.
+        //m_JumpForce = 600f;     // Amount of force added when the player jumps.
+        m_FacingRight = true;
         m_GroundCheck = transform.Find("GroundCheck");
         m_CeilingCheck = transform.Find("CeilingCheck");
         wallCheck = transform.Find("WallCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        playerColliders = new List<Collider2D>();
         playerColliders.AddRange(gameObject.GetComponentsInChildren<Collider2D>());
         health = 10;
         if (frontWeapon == null)
@@ -83,12 +81,6 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
         {
             bodyArmor = transform.Find("Body");
         }
-    }
-
-    public void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(m_GroundCheck.transform.position, k_GroundedRadius);
     }
 
     private void SetFrontWeapon(Weapon equip)
@@ -308,16 +300,16 @@ public class PlatformerCharacter2D : MonoBehaviour, IDamageable
         }
     }
 
-    private void Flip()
-    {
-        // Switch the way the player is labelled as facing.
-        m_FacingRight = !m_FacingRight;
+    //private void Flip()
+    //{
+    //    // Switch the way the player is labelled as facing.
+    //    m_FacingRight = !m_FacingRight;
 
-        // Multiply the player's x local scale by -1.
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
+    //    // Multiply the player's x local scale by -1.
+    //    Vector3 theScale = transform.localScale;
+    //    theScale.x *= -1;
+    //    transform.localScale = theScale;
+    //}
 
     public void TakeDamage(int damageTaken = 0, float knockback = 0)
     {
