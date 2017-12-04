@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	private static GameManager gameManager;
 
 	[SerializeField] private GameObject player;
+    Platformer2DUserControl control;
+    Platformer2DUserControl.ControllerState controllerState;
 
 	public static GameManager instance
 	{
@@ -29,15 +31,17 @@ public class GameManager : MonoBehaviour {
 	void Awake () 
 	{
 		gameManager = this;
+        controllerState = Platformer2DUserControl.ControllerState.menuControl;
 	}
 
 	void Start()
 	{
+        control = player.GetComponent<Platformer2DUserControl>();
+        //control.State = controllerState; // Tandy: do not use this line, it freezes Player controls
+    }
 
-	}
-	
 
-	void Update ()
+    void Update ()
 	{
 		
 	}
