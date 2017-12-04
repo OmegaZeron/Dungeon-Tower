@@ -60,6 +60,7 @@ public class PlatformerCharacter2D : Character, IDamageable
         // Setting up references.
         m_MaxSpeed = 10f;       // The fastest the player can travel in the x axis.
         m_JumpForce = 400f;     // Amount of force added when the player jumps.
+        m_FacingRight = true;
         m_GroundCheck = transform.Find("GroundCheck");
         m_CeilingCheck = transform.Find("CeilingCheck");
         wallCheck = transform.Find("WallCheck");
