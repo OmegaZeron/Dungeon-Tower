@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour {
 
     protected float m_MaxSpeed;
-    protected float m_JumpForce;
+    [SerializeField] protected float m_JumpForce;
     protected int health;
     protected bool m_FacingRight;
     protected List<Collider2D> playerColliders;
