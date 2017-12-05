@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4634345537939564}
+  - component: {fileID: 114182874342505768}
   m_Layer: 0
   m_Name: Broadsword
   m_TagString: Untagged
@@ -107,7 +108,7 @@ TrailRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390899466868480}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
@@ -132,10 +133,10 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.14
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.4
+    widthMultiplier: 0.31
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -147,7 +148,7 @@ TrailRenderer:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.6905277, g: 0.87514615, b: 0.9117647, a: 0.70980394}
@@ -179,11 +180,40 @@ TrailRenderer:
       m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 0
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114182874342505768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1103769204615558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51454c7266606e349959d7a0ff7b7373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: 
+  frontWeaponTransform: {fileID: 0}
+  backWeaponTransform: {fileID: 0}
+  equipStance: 1
+  damage: 10
+  knockBack: 10
+  charAnimator: {fileID: 0}
+  myAnimator: {fileID: 0}
+  animationSpeed: 100
+  animationTriggers:
+  - 
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hitBoxes: []
+  currentHitBox: 0
+  checkForHit: 0
+  hitColliders: []
 --- !u!212 &212249147309736786
 SpriteRenderer:
   m_ObjectHideFlags: 1
