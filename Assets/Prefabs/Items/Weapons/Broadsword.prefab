@@ -206,11 +206,14 @@ MonoBehaviour:
   myAnimator: {fileID: 0}
   animationSpeed: 100
   animationTriggers:
-  - 
+  - 1hand-attack-v
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
-  hitBoxes: []
+    m_Bits: 512
+  hitBoxes:
+  - center: {x: 0, y: 0}
+    size: {x: 1, y: 1}
+    angle: 0
   currentHitBox: 0
   checkForHit: 0
   hitColliders: []
