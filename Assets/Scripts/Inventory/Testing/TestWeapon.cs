@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class TestWeapon : Weapon
 {
+
 	//TODO may need to gate via states as to what functions are able to run.
 	public override void StartUsingItem()
 	{
-		charAnimator.SetTrigger("Action 1");
-		base.StartUsingItem ();
-	}
-
-	public override void UsingItem()
-	{
-		charAnimator.SetTrigger("Action 2");
-
+		if(charAnimator != null)
+			charAnimator.SetTrigger("Action 1");
+		if(myAnimator != null)
+			myAnimator.SetTrigger ("Anim 1");
 	}
 
 	public override void StopUsingItem()
 	{
-		charAnimator.SetTrigger("Action 3");
-
+		if(charAnimator != null)
+			charAnimator.SetTrigger("Action 3");
+		if(myAnimator != null)
+			myAnimator.SetTrigger ("Anim 3");
 	}
+
 
 }

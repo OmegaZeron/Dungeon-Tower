@@ -2,29 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Consumable : UsableItem 
+public class Consumable : Item, IInteractable, IUsableItem 
 {
+    public int amount;  // attack, defense, health points -- any stat or effect's "amount"
+    // TODO: add variables to resolve / determine effects of Consumable
 
+    //===== IInteractable functions =====//
+    public void StartInteracting() {
 
-	void Start ()
-	{
-		
-	}
+    }
 
-	public override void StartUsing()
-	{
+    public void Interacting() {
 
-	}
+    }
 
-	public override void Using()
-	{
+    public void StopInteracting() {
 
-	}
+    }
 
-	public override void StopUsing()
-	{
+    //===== IUsableItem functions =====//
+    public void StartUsingItem() {
 
-	}
+    }
+
+    public void UsingItem() {
+
+    }
+
+    public void StopUsingItem() {
+
+    }
 }
 	
-

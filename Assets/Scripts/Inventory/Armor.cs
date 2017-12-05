@@ -2,15 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : MonoBehaviour {
+public class Armor : Item, IInteractable, IUsableItem 
+{
+    public int defense;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //===== IInteractable functions =====//
+    public void StartInteracting() {
+
+    }
+
+    public void Interacting() {
+
+    }
+
+    public void StopInteracting() {
+
+    }
+
+    //===== IUsableItem functions =====//
+    public void StartUsingItem() {
+
+    }
+
+    public void UsingItem() {
+
+    }
+
+    public void StopUsingItem() {
+
+    }
 }

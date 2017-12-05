@@ -1,32 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class CampHorde {
+public class CampHorde : MonoBehaviour {
     // Active Pools - Weapons, Armor, and Consumables currently equipped on Player
-    List<Weapon> activeWeapons;
-    List<Armor> activeArmor;
-    List<Consumable> activeConsumables;
+    List<Weapon> activeWeapons = new List<Weapon>();
+    List<Armor> activeArmor = new List<Armor>();
+    List<Consumable> activeConsumables = new List<Consumable>();
 
     // Inactive Pools - Weapons, Armor, and Consumables currently at Camp
-    List<Weapon> inactiveWeapons;
-    List<Armor> inactiveArmor;
-    List<Consumable> inactiveConsumables;
+    public List<Weapon> inactiveWeapons = new List<Weapon>();
+    public List<Armor> inactiveArmor = new List<Armor>();
+    public List<Consumable> inactiveConsumables = new List<Consumable>();
 
     // Unacquired Pools - Weapons, Armor, and Consumables not yet acquired by the Player
-    List<Weapon> unacquiredWeapons;
-    List<Armor> unacquiredArmor;
-    List<Consumable> unacquiredConsumables;
+    List<Weapon> unacquiredWeapons = new List<Weapon>();
+    List<Armor> unacquiredArmor = new List<Armor>();
+    List<Consumable> unacquiredConsumables = new List<Consumable>();
+
+    // IDENTIFY ITEM TYPE
+	public void StashItem(Item item, GameObject GO) {
+        if(item.GetComponent<Weapon>()) {
+            DepositWeapon(item as Weapon);
+            //Destroy(GO);
+            item.gameObject.SetActive(false);
+        }
+        else if (item.GetComponent<Armor>()) {
+            DepositArmor(item as Armor);
+            //Destroy(GO);
+            //GO.SetActive(false);
+            item.gameObject.SetActive(false);
+        }
+        else if (item.GetComponent<Consumable>()) {
+            DepositConsumable(item as Consumable);
+            //Destroy(GO);
+            //GO.SetActive(false);
+            item.gameObject.SetActive(false);
+        }
+    }
 
     // WEAPON
     // Withdraw Weapon from Camp Horde to equip onto Player
     public void WithdrawWeapon(Weapon weapon) {
-        inactiveWeapons.Remove(weapon);
+        if (inactiveWeapons.Count > 0) {
+            inactiveWeapons.Remove(weapon);
+        }
         activeWeapons.Add(weapon);
     }
 
     // Deposit equipped Weapon from Player into Camp Horde 
     public void DepositWeapon(Weapon weapon) {
-        activeWeapons.Remove(weapon);
+        if(activeWeapons.Count > 0) {
+            activeWeapons.Remove(weapon);
+        }
         inactiveWeapons.Add(weapon);
     }
 
