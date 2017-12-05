@@ -8,13 +8,21 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected float m_JumpForce;
     protected int health;
     protected bool m_FacingRight;
-    protected List<Collider2D> playerColliders;
+    [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
 
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
 
     //}
+
+    protected void Awake()
+    {
+        if (playerColliders.Count < 1)
+        {
+            playerColliders.Add(GetComponent<Collider2D>());
+        }
+    }
 
     protected void Flip()
     {
