@@ -124,11 +124,6 @@ public class Weapon : Item, IUsableItem, IInteractable {
 
     }
 
-    public void Interacting() 
-	{
-
-    }
-
     public void StopInteracting()
 	{
 
