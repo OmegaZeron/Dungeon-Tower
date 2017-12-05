@@ -119,29 +119,29 @@ public class Weapon : Item, IUsableItem, IInteractable {
     }
 
     //===== IInteractable functions =====//
-    public void StartInteracting() {
+    public void StartInteracting() 
+	{
 
     }
 
-    public void Interacting() {
+    public void Interacting() 
+	{
 
     }
 
-    public void StopInteracting() {
+    public void StopInteracting()
+	{
 
     }
 
     //===== IUsableItem functions =====//
-    public virtual void StartUsingItem() {
-        Debug.Log("WeaponStartUsing");
+    public virtual void StartUsingItem()
+	{
+
     }
 
-    public virtual void UsingItem() {
-        // Tandy: I just put this here so the pull request wouldn't have a Compiler Error
-        // TODO: actually have this do something later
-    }
-
-    public virtual void StopUsingItem() {
+    public virtual void StopUsingItem() 
+	{
 
     }
 
