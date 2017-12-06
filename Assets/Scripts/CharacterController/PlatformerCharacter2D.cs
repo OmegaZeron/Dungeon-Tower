@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlatformerCharacter2D : Character, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
-    InteractableCheck interactCheck;
 
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
@@ -46,14 +45,10 @@ public class PlatformerCharacter2D : Character, IDamageable
     [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
-    //TODO have this in UserControl, not update
+
     private void Update()
     {
-        bool interact = Input.GetKeyDown(KeyCode.E);
-        if (interact)
-        {
-            interactCheck.closestInteractable.StartInteracting();
-        }
+
     }
 
     private new void Awake()
