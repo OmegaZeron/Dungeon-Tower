@@ -36,11 +36,7 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
-    private Transform frontWeapon;
-    private Transform backWeapon;
     private Transform bodyArmor;
-    private Weapon frontEquippedWeapon;
-    private Weapon backWeaponEquipped;
 
     [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
@@ -78,11 +74,6 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
     }
 
-    private void SetFrontWeapon(Weapon equip)
-    {
-        frontEquippedWeapon = equip;
-		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-    }
 
     private void FixedUpdate()
     {

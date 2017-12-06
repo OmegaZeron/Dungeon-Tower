@@ -115,9 +115,9 @@ public class Weapon : Item, IUsableItem, IInteractable {
     }
 
     //===== IInteractable functions =====//
-    public void StartInteracting() 
+    public void StartInteracting(Character interactingCharacter = null) 
 	{
-
+        interactingCharacter.SetFrontWeapon(this);
     }
 
     public void StopInteracting()

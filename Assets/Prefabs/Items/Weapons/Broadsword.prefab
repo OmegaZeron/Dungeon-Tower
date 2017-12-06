@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51454c7266606e349959d7a0ff7b7373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Broadsword
   frontWeaponTransform: {fileID: 0}
   backWeaponTransform: {fileID: 0}
   equipStance: 1
