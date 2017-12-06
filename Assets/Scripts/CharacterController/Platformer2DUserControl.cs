@@ -9,6 +9,7 @@ public class Platformer2DUserControl : MonoBehaviour
     ControllerState controlState;
     private PlatformerCharacter2D m_Character;
     InteractableCheck interactCheck;
+    Weapon weapon;
     private bool m_Jump;
     private bool m_JumpHeld;
     private bool interact;
@@ -52,11 +53,17 @@ public class Platformer2DUserControl : MonoBehaviour
             bool crouch = Input.GetKey(KeyCode.LeftControl);
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
             float v = CrossPlatformInputManager.GetAxis("Vertical");
+            bool attack = Input.GetButtonDown("Fire1");
 
             interact = Input.GetKeyDown(KeyCode.E);
             if (interact)
             {
                 interactCheck.closestInteractable.StartInteracting();
+            }
+
+            if (attack)
+            {
+                weapon.StartUsingItem();
             }
 
             m_Character.Move(h, v, crouch, m_Jump, m_JumpHeld);
