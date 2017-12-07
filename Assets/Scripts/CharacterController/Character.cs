@@ -8,13 +8,27 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected float m_JumpForce;
     protected int health;
     protected bool m_FacingRight;
-    protected List<Collider2D> playerColliders;
+    [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
+
+    protected Transform frontWeapon;
+    protected Transform backWeapon;
+
+    protected Weapon frontEquippedWeapon;
+    protected Weapon backWeaponEquipped;
 
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
 
     //}
+
+    protected void Awake()
+    {
+        if (playerColliders.Count < 1)
+        {
+            playerColliders.Add(GetComponent<Collider2D>());
+        }
+    }
 
     protected void Flip()
     {
@@ -26,4 +40,13 @@ public abstract class Character : MonoBehaviour {
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    public void SetFrontWeapon(Weapon equip)
+    {
+        frontEquippedWeapon = equip;
+        frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
+    }
+
+    //pickupWeapon set curretn weapon to this, and drop old weapon.
+    //Then run Equip on picked up Weapon
 }

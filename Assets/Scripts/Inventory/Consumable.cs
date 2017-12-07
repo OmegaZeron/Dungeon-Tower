@@ -8,7 +8,7 @@ public class Consumable : Item, IInteractable, IUsableItem
     // TODO: add variables to resolve / determine effects of Consumable
 
     //===== IInteractable functions =====//
-    public void StartInteracting() {
+    public void StartInteracting(Character interactingCharacter = null) {
 
     }
 
