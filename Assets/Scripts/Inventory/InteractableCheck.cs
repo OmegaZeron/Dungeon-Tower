@@ -7,10 +7,11 @@ public class InteractableCheck : MonoBehaviour
 	[SerializeField] private GameObject highlighter;
 
 	private List<GameObject> interactibles = new List<GameObject>();
-
+    
     protected internal GameObject closest_Object;
     protected internal IInteractable closest_interactable;
-
+    //TODO add properties
+    public List<IInteractable> equipped = new List<IInteractable>();
 
 	public GameObject closestObject
 	{

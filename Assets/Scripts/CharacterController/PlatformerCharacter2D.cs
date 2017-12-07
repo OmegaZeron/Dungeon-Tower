@@ -7,6 +7,9 @@ public class PlatformerCharacter2D : Character, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
+    InteractableCheck interactCheck;
+    Weapon weapon;
+
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -131,6 +134,21 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
 
 
+    }
+
+    public void Interact()
+    {
+        interactCheck.closestInteractable.StartInteracting();
+    }
+
+    public void StartUsingItem()
+    {
+        weapon.StartUsingItem();
+    }
+
+    public void StopUsingItem()
+    {
+        weapon.StopUsingItem();
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
