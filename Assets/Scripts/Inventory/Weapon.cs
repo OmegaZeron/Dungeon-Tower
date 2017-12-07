@@ -12,6 +12,8 @@ public class Weapon : Item, IUsableItem, IInteractable {
     [SerializeField] protected int damage = 0;
     [SerializeField] protected float knockBack = 0;
 
+	private bool equipped = false;
+
     [SerializeField] protected Animator charAnimator;
     [SerializeField] protected Animator myAnimator;
     [SerializeField] protected float animationSpeed = 100.0f;
@@ -88,12 +90,12 @@ public class Weapon : Item, IUsableItem, IInteractable {
                     transform.SetParent(firstAttachmentPoint);
                 }
                 break;
-            default:
-
+			default:
+				return;
                 break;
-
         }
 
+		equipped = true;
     }
 
     public void Unequip() 
@@ -111,7 +113,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
             transform.SetParent(this.transform);
         }
-
+		equipped = false;
     }
 
     //===== IInteractable functions =====//
