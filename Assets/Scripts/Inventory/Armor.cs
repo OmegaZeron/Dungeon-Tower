@@ -7,7 +7,7 @@ public class Armor : Item, IInteractable, IUsableItem
     public int defense;
 
     //===== IInteractable functions =====//
-    public void StartInteracting() {
+    public void StartInteracting(Character interactingCharacter = null) {
 
     }
 

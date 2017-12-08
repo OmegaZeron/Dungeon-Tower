@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlatformerCharacter2D : Character, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
+
     InteractableCheck interactCheck;
+    Weapon weapon;
 
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
@@ -37,23 +39,15 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
-    private Transform frontWeapon;
-    private Transform backWeapon;
     private Transform bodyArmor;
-    private Weapon frontEquippedWeapon;
-    private Weapon backWeaponEquipped;
 
     [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
-    //TODO have this in UserControl, not update
+
     private void Update()
     {
-        bool interact = Input.GetKeyDown(KeyCode.E);
-        if (interact)
-        {
-            interactCheck.closestInteractable.StartInteracting();
-        }
+
     }
 
     private new void Awake()
@@ -83,11 +77,6 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
     }
 
-    private void SetFrontWeapon(Weapon equip)
-    {
-        frontEquippedWeapon = equip;
-		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-    }
 
     private void FixedUpdate()
     {
@@ -145,6 +134,21 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
 
 
+    }
+
+    public void Interact()
+    {
+        interactCheck.closestInteractable.StartInteracting();
+    }
+
+    public void StartUsingItem()
+    {
+        weapon.StartUsingItem();
+    }
+
+    public void StopUsingItem()
+    {
+        weapon.StopUsingItem();
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
