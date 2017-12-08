@@ -7,9 +7,6 @@ public class PlatformerCharacter2D : Character, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
-    InteractableCheck interactCheck;
-    Weapon weapon;
-
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -39,9 +36,10 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
+	Weapon weapon;
     private Transform bodyArmor;
 
-    [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
+    [SerializeField] private ParticleSystem doubleJumpParticles;
     private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired)
 
@@ -134,11 +132,6 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
 
 
-    }
-
-    public void Interact()
-    {
-        interactCheck.closestInteractable.StartInteracting();
     }
 
     public void StartUsingItem()

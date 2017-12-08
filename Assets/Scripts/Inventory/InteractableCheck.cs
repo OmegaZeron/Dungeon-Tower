@@ -11,7 +11,7 @@ public class InteractableCheck : MonoBehaviour
     protected internal GameObject closest_Object;
     protected internal IInteractable closest_interactable;
     //TODO add properties
-    public List<IInteractable> equipped = new List<IInteractable>();
+    protected internal List<IInteractable> equippedItems = new List<IInteractable>();
 
 	public GameObject closestObject
 	{
@@ -23,6 +23,24 @@ public class InteractableCheck : MonoBehaviour
 		get{ return closest_interactable;}
 	}
 
+	public List<IInteractable> IgnoredObjects
+	{
+		get{ return equippedItems; }
+	}
+
+	public void Ignore(IInteractable ignoreItem)
+	{
+		if( !equippedItems.Contains(ignoreItem) )
+			equippedItems.Add (ignoreItem);
+		if( interactibles.Contains(ignoreItem) )
+			interactibles.Remove(ignoreItem);
+	}
+
+	public void Unignore(IInteractable unignoreItem)
+	{
+		if (equippedItems.Contains (unignoreItem))
+			equippedItems.Remove (unignoreItem);
+	}
 
     private void Start() 
 	{
@@ -34,7 +52,8 @@ public class InteractableCheck : MonoBehaviour
 		IInteractable iInt = collision.GetComponent<IInteractable> ();
 		if(iInt != null) 
 		{
-            interactibles.Add(collision.gameObject);
+			if( !equippedItems.Contains(iInt) )
+           		interactibles.Add(collision.gameObject);
         }
     }
 
