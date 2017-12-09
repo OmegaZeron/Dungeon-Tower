@@ -15,9 +15,12 @@ public class Weapon : Item, IUsableItem, IInteractable {
 	private bool equipped = false;
 
     [SerializeField] protected Animator charAnimator;
-    [SerializeField] protected Animator myAnimator;
+    [SerializeField] protected Animator weaponAnimator;
     [SerializeField] protected float animationSpeed = 100.0f;
-    [SerializeField] protected List<string> animationTriggers = new List<string>();
+    [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
+	private int maxAttacks = 0;
+	private int currentAttack = 0;
+
 
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
@@ -39,7 +42,9 @@ public class Weapon : Item, IUsableItem, IInteractable {
 
     protected void Awake() 
 	{
-        myAnimator = gameObject.GetComponent<Animator>();
+        weaponAnimator = gameObject.GetComponent<Animator>();
+		charAnimationTriggers.TrimExcess ();
+		maxAttacks = charAnimationTriggers.Count;
     }
 
     public void Equip(Transform firstAttachmentPoint = null, Transform secondAttachmentPoint = null, Animator equipAnimator = null) 
@@ -131,7 +136,15 @@ public class Weapon : Item, IUsableItem, IInteractable {
     //===== IUsableItem functions =====//
     public virtual void StartUsingItem()
 	{
+		//Start Attack Animations
+		charAnimator.SetTrigger(charAnimationTriggers[currentAttack]);
+		weaponAnimator.SetTrigger ("Attack");
 
+		currentAttack++;
+		if(currentAttack > maxAttacks)
+			currentAttack = 0;
+
+		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point
     }
 
     public virtual void StopUsingItem() 
