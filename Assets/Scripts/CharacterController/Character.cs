@@ -11,6 +11,8 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
 
+	InteractableCheck interactCheck;
+
     protected Transform frontWeapon;
     protected Transform backWeapon;
 
@@ -43,10 +45,27 @@ public abstract class Character : MonoBehaviour {
 
     public void SetFrontWeapon(Weapon equip)
     {
+		if (frontEquippedWeapon != null)
+		{
+			frontEquippedWeapon.Unequip ();
+
+			interactCheck.Unignore(frontEquippedWeapon);
+		}
+
         frontEquippedWeapon = equip;
         frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
+
+		interactCheck.Ignore (equip);
+		//Add item to InteractableCheck ignore list.
     }
 
-    //pickupWeapon set curretn weapon to this, and drop old weapon.
-    //Then run Equip on picked up Weapon
+	public void Interact()
+	{
+		if (interactCheck == null)
+		{
+			Debug.LogError ("Interact is being called by " + transform.root.name + ", but does not have an InteractableCheck assigned");
+			return;
+		}
+		interactCheck.closestInteractable.StartInteracting();
+	}
 }

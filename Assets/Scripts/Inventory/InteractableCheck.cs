@@ -6,12 +6,13 @@ public class InteractableCheck : MonoBehaviour
 {
 	[SerializeField] private GameObject highlighter;
 
-	private List<GameObject> interactibles = new List<GameObject>();
+	private List<GameObject> interactableGameObjects = new List<GameObject>();
     
     protected internal GameObject closest_Object;
     protected internal IInteractable closest_interactable;
     //TODO add properties
-    public List<IInteractable> equipped = new List<IInteractable>();
+	protected internal List<Item> equippedItems = new List<Item>();
+	protected internal List<IInteractable> equippedInteractables = new List<IInteractable> ();
 
 	public GameObject closestObject
 	{
@@ -23,6 +24,37 @@ public class InteractableCheck : MonoBehaviour
 		get{ return closest_interactable;}
 	}
 
+	public List<Item> IgnoredObjects
+	{
+		get{ return equippedItems; }
+	}
+
+	public void Ignore(Item ignoreItem)
+	{
+		if (!equippedItems.Contains (ignoreItem)) 
+		{
+			equippedItems.Add (ignoreItem);
+
+			if(ignoreItem.GetType() == typeof(IInteractable) )
+				equippedInteractables.Add (ignoreItem as IInteractable);
+		}
+
+		if( interactableGameObjects.Contains(ignoreItem.gameObject) )
+			interactableGameObjects.Remove(ignoreItem.gameObject);
+	}
+
+	public void Unignore(Item unignoreItem)
+	{
+		if (equippedItems.Contains (unignoreItem)) 
+		{
+			equippedItems.Remove (unignoreItem);
+
+			if(unignoreItem.GetType() == typeof(IInteractable) )
+				equippedInteractables.Remove (unignoreItem as IInteractable);
+		}
+
+		
+	}
 
     private void Start() 
 	{
@@ -34,15 +66,16 @@ public class InteractableCheck : MonoBehaviour
 		IInteractable iInt = collision.GetComponent<IInteractable> ();
 		if(iInt != null) 
 		{
-            interactibles.Add(collision.gameObject);
+			if( !equippedInteractables.Contains(iInt) )
+           		interactableGameObjects.Add(collision.gameObject);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision) 
 	{
-		if (interactibles.Contains(collision.gameObject) )
+		if (interactableGameObjects.Contains(collision.gameObject) )
 		{
-            interactibles.Remove(collision.gameObject);
+            interactableGameObjects.Remove(collision.gameObject);
         }
 			
     }
@@ -50,14 +83,14 @@ public class InteractableCheck : MonoBehaviour
     private void Update()
 	{
 		//Turn off the Highlighter if there are no IInteractables in the Interactable Check Range
-        if(interactibles.Count == 0 && closest_Object != null) {
+        if(interactableGameObjects.Count == 0 && closest_Object != null) {
             closest_Object = null;
             highlighter.SetActive(false);
         }
         else
 		{	//find the clostest GO in interactables inside of the Interactable Check
             float distance = float.MaxValue;
-			foreach (GameObject GO in interactibles) 
+			foreach (GameObject GO in interactableGameObjects) 
 			{
                 float newDistance = 0f;
 				Vector2 objectPos = GO.transform.position;
