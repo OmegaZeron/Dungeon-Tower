@@ -91,7 +91,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
                 }
                 break;
 			default:
-				return;
+
                 break;
         }
 
