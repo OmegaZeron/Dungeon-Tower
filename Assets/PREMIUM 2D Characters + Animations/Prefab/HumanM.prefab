@@ -132,10 +132,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4473722579030300}
   - component: {fileID: 95250022374038974}
-  - component: {fileID: 50986500412648970}
   - component: {fileID: 61368029374302936}
   - component: {fileID: 114991073707067766}
   - component: {fileID: 114237783096184106}
+  - component: {fileID: 50478082363363704}
   m_Layer: 0
   m_Name: HumanM
   m_TagString: Untagged
@@ -702,7 +702,7 @@ Transform:
   m_Father: {fileID: 4063938674206942}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 33.2934}
---- !u!50 &50986500412648970
+--- !u!50 &50478082363363704
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
@@ -792,6 +792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 800
   playerColliders: []
+  interactCheck: {fileID: 0}
   frontWeapon: {fileID: 4448890648318534}
   backWeapon: {fileID: 4870400122569090}
   frontEquippedWeapon: {fileID: 0}
@@ -832,6 +833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highlighter: {fileID: 0}
   closest_Object: {fileID: 0}
+  equippedItems: []
 --- !u!114 &114991073707067766
 MonoBehaviour:
   m_ObjectHideFlags: 1
