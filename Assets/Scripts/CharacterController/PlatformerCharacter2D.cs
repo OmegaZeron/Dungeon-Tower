@@ -36,17 +36,11 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
-	Weapon weapon;
     private Transform bodyArmor;
 
     [SerializeField] private ParticleSystem doubleJumpParticles;
     private Rigidbody2D m_Rigidbody2D;
-                                        // TODO add functionality to check for items (use tools and check if double jump is acquired)
-
-    private void Update()
-    {
-
-    }
+                                        // TODO add functionality to check for items (use tools and check if double jump is acquired
 
     private new void Awake()
     {
@@ -63,11 +57,17 @@ public class PlatformerCharacter2D : Character, IDamageable
         health = 10;
         if (frontWeapon == null)
         {
-            frontWeapon = transform.Find("Front weapon");
+			frontWeapon = transform.Find ("Front weapon");
+
+			if (frontWeapon == null)
+				Debug.LogError ("FrontWeapon is null.  Assign it in the Inspector");
         }
         if (backWeapon == null)
         {
             backWeapon = transform.Find("Back weapon");
+
+			if (backWeapon == null)
+				Debug.LogError ("BackWeapon is null.  Assign it in the Inspector");
         }
         if (bodyArmor == null)
         {
@@ -136,12 +136,16 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     public void StartUsingItem()
     {
-        weapon.StartUsingItem();
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StartUsingItem();
+		else
+			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
     }
 
     public void StopUsingItem()
     {
-        weapon.StopUsingItem();
+		if (frontEquippedWeapon != null)
+			frontEquippedWeapon.StopUsingItem ();
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
