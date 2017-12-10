@@ -60,14 +60,16 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
             case Stance.ONE_HAND:
 
-                if (firstAttachmentPoint != null) {
+                if (firstAttachmentPoint != null) 
+				{
                     transform.position = firstAttachmentPoint.position;
                     transform.SetParent(firstAttachmentPoint);
                 }
                 break;
             case Stance.TWO_HAND:
 
-                if (firstAttachmentPoint != null) {
+                if (firstAttachmentPoint != null) 
+				{
                     transform.position = firstAttachmentPoint.position;
                     transform.SetParent(firstAttachmentPoint);
                 }
