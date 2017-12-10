@@ -9,7 +9,7 @@ public class InteractableCheck : MonoBehaviour
 	private List<GameObject> interactableGameObjects = new List<GameObject>();
     
 	[SerializeField] protected internal GameObject closest_Object;
-	[SerializeField] protected internal IInteractable closest_interactable;
+	[SerializeField] protected internal IInteractable closest_interactable = null;
     //TODO add properties
 	protected internal List<Item> equippedItems = new List<Item>();
 	protected internal List<IInteractable> equippedInteractables = new List<IInteractable> ();
