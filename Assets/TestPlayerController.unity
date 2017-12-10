@@ -3875,6 +3875,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114465756191961666, guid: 1d4b583532bc85c4fa0f15a8a9cf6454,
+        type: 2}
+      propertyPath: highlighter
+      value: 
+      objectReference: {fileID: 1516117150}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d4b583532bc85c4fa0f15a8a9cf6454, type: 2}
   m_IsPrefabParent: 0
@@ -4195,6 +4200,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!1 &1516117150 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1219446043628456, guid: d983bdf45eadf0d48b68c12dd8d63ba9,
+    type: 2}
+  m_PrefabInternal: {fileID: 251439888}
 --- !u!1001 &1559848413
 Prefab:
   m_ObjectHideFlags: 0
