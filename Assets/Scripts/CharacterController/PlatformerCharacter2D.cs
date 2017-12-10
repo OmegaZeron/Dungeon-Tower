@@ -210,8 +210,6 @@ public class PlatformerCharacter2D : Character, IDamageable
             m_Rigidbody2D.velocity = new Vector2(0f, .01f);
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
             canDoubleJump = false;
-            Vector3 particleOffset = new Vector3(0, 1, 0);
-            doubleJumpParticles.transform.position = transform.position + particleOffset;
             doubleJumpParticles.Play();
         }
 
