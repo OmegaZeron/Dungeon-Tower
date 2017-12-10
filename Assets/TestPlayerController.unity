@@ -3885,6 +3885,11 @@ Prefab:
       propertyPath: doubleJumpParticles
       value: 
       objectReference: {fileID: 334246799}
+    - target: {fileID: 114237783096184106, guid: 1d4b583532bc85c4fa0f15a8a9cf6454,
+        type: 2}
+      propertyPath: m_WhatIsGround.m_Bits
+      value: 769
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d4b583532bc85c4fa0f15a8a9cf6454, type: 2}
   m_IsPrefabParent: 0
