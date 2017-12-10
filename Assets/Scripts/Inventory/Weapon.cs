@@ -122,10 +122,16 @@ public class Weapon : Item, IUsableItem, IInteractable {
     }
 
     //===== IInteractable functions =====//
-    public void StartInteracting(CombatCharacter interactingCharacter = null) 
+	public void StartInteracting(Character interactingCharacter = null) 
 	{
-		if(!equipped && interactingCharacter != null)
-        	interactingCharacter.SetFrontWeapon(this);
+		CombatCharacter combatCharacter = interactingCharacter as CombatCharacter;
+
+		if (!equipped && interactingCharacter != null) 
+		{
+			combatCharacter.SetFrontWeapon (this);
+		}
+			
+			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()
@@ -142,7 +148,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
 			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
 
 			if (weaponAnimator != null)
-			weaponAnimator.SetTrigger ("Attack");
+				weaponAnimator.SetTrigger ("Attack");
 		} 
 		else
 		{
@@ -150,7 +156,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		}
 
 		currentAttack++;
-		if(currentAttack > maxAttacks)
+		if(currentAttack >= maxAttacks)
 			currentAttack = 0;
 
 		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point

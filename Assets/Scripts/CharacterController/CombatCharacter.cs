@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatCharacter : Character {
+public class CombatCharacter : Character 
+{
+	[SerializeField] protected Transform frontWeapon;
+	[SerializeField] protected Transform backWeapon;
 
+	[SerializeField] protected Weapon frontEquippedWeapon;
+	[SerializeField] protected Weapon backEquippedWeapon;
 	// Use this for initialization
 	void Start () {
 		

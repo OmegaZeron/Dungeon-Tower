@@ -13,12 +13,6 @@ public abstract class Character : MonoBehaviour {
 
 	[SerializeField] protected InteractableCheck interactCheck;
 
-	[SerializeField] protected Transform frontWeapon;
-	[SerializeField] protected Transform backWeapon;
-
-	[SerializeField] protected Weapon frontEquippedWeapon;
-	[SerializeField] protected Weapon backEquippedWeapon;
-
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
 
