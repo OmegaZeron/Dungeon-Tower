@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4634345537939564}
-  - component: {fileID: 114182874342505768}
   - component: {fileID: 61423595972499130}
+  - component: {fileID: 114182874342505768}
   m_Layer: 11
   m_Name: Broadsword
   m_TagString: Untagged
