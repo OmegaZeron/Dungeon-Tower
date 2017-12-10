@@ -60,20 +60,4 @@ public abstract class Character : MonoBehaviour {
 		if(interactCheck.closest_interactable != null)
 			interactCheck.closestInteractable.StartInteracting(this); 
 	}
-
-	public void SetFrontWeapon(Weapon equip)
-	{
-		if (frontEquippedWeapon != null)
-		{
-			frontEquippedWeapon.Unequip ();
-
-			interactCheck.Unignore(frontEquippedWeapon);
-		}
-
-		frontEquippedWeapon = equip;
-		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-
-		interactCheck.Ignore (equip);
-		//Add item to InteractableCheck ignore list.
-	}
 }

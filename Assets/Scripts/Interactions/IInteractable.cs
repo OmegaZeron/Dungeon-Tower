@@ -1,7 +1,7 @@
 ﻿
 public interface IInteractable
 {
-	void StartInteracting(Character interactingCharacter = null);
+	void StartInteracting(CombatCharacter interactingCharacter = null);
 
 	void StopInteracting();
 
