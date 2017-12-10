@@ -10,16 +10,16 @@ public class TestWeapon : Weapon
 	{
 		if(charAnimator != null)
 			charAnimator.SetTrigger("Action 1");
-		if(myAnimator != null)
-			myAnimator.SetTrigger ("Anim 1");
+		if(weaponAnimator != null)
+			weaponAnimator.SetTrigger ("Anim 1");
 	}
 
 	public override void StopUsingItem()
 	{
 		if(charAnimator != null)
 			charAnimator.SetTrigger("Action 3");
-		if(myAnimator != null)
-			myAnimator.SetTrigger ("Anim 3");
+		if(weaponAnimator != null)
+			weaponAnimator.SetTrigger ("Anim 3");
 	}
 
 

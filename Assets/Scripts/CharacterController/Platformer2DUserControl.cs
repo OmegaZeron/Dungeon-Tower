@@ -60,6 +60,7 @@ public class Platformer2DUserControl : MonoBehaviour
                 m_Character.Interact();
             }
 
+			//TODO move this logic in to the Character itself
             if (attack)
             {
                 m_Character.StartUsingItem();
