@@ -140,6 +140,8 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		if (charAnimationTriggers.Count > 0) 
 		{
 			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
+
+			if (weaponAnimator != null)
 			weaponAnimator.SetTrigger ("Attack");
 		} 
 		else
