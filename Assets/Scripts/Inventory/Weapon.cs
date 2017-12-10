@@ -137,8 +137,15 @@ public class Weapon : Item, IUsableItem, IInteractable {
     public virtual void StartUsingItem()
 	{
 		//Start Attack Animations
-		charAnimator.SetTrigger(charAnimationTriggers[currentAttack]);
-		weaponAnimator.SetTrigger ("Attack");
+		if (charAnimationTriggers.Count > 0) 
+		{
+			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
+			weaponAnimator.SetTrigger ("Attack");
+		} 
+		else
+		{
+			//if charAnimationTriggers is empty, than no animation will play.
+		}
 
 		currentAttack++;
 		if(currentAttack > maxAttacks)

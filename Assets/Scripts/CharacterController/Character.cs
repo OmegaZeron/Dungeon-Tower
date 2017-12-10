@@ -11,7 +11,7 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
 
-	protected InteractableCheck interactCheck;
+	[SerializeField] protected InteractableCheck interactCheck;
 
 	[SerializeField] protected Transform frontWeapon;
 	[SerializeField] protected Transform backWeapon;
@@ -55,8 +55,10 @@ public abstract class Character : MonoBehaviour {
 		{
 			Debug.LogError ("Interact is being called by " + transform.root.name + ", but does not have an InteractableCheck assigned");
 			return;
-		}
-		interactCheck.closestInteractable.StartInteracting();
+		}	//Debug.LogWarning ("Character.Interact() ");
+
+		if(interactCheck.closest_interactable != null)
+			interactCheck.closestInteractable.StartInteracting(this); 
 	}
 
 	public void SetFrontWeapon(Weapon equip)
