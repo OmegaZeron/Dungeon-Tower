@@ -55,10 +55,6 @@ public class TestInteraction : MonoBehaviour
 			{
 				iUseOne.StartUsingItem ();
 			} 
-			else if (Input.GetMouseButton (0)) 
-			{
-				iUseOne.UsingItem ();
-			} 
 			else if (Input.GetMouseButtonUp (0)) 
 			{
 				iUseOne.StopUsingItem ();
@@ -69,10 +65,6 @@ public class TestInteraction : MonoBehaviour
 			if (Input.GetMouseButtonDown (1))
 			{
 				iUseTwo.StartUsingItem ();
-			}
-			else if (Input.GetMouseButton(1))
-			{
-				iUseTwo.UsingItem ();
 			}
 			else if (Input.GetMouseButtonUp (1)) 
 			{

@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : Character, IDamageable
+public class PlatformerCharacter2D : CombatCharacter, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
-    InteractableCheck interactCheck;
 
     [SerializeField] private float wallJumpHeight = .7f;
     [SerializeField] private float wallJumpVelocity = -20f;
@@ -19,6 +18,7 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
     [SerializeField] private LayerMask whatIsPlatform;
+    [SerializeField] private LayerMask whatIsWall;
     private LayerMask checkLayerMask;
     private Transform m_GroundCheck;                                    // A position marking where to check if the player is grounded.
     private Transform wallCheck;
@@ -34,29 +34,17 @@ public class PlatformerCharacter2D : Character, IDamageable
     [SerializeField] private bool onWall;
     [SerializeField] private bool m_Grounded;                           // Whether or not the player is grounded.
 
-    private List<Collider2D> ignoredColliders = new List<Collider2D>();
+    [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
-    private Transform frontWeapon;
-    private Transform backWeapon;
     private Transform bodyArmor;
-    private Weapon frontEquippedWeapon;
-    private Weapon backWeaponEquipped;
 
-    [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
+    [SerializeField] private ParticleSystem doubleJumpParticles;
     private Rigidbody2D m_Rigidbody2D;
-                                        // TODO add functionality to check for items (use tools and check if double jump is acquired)
-    //TODO have this in UserControl, not update
-    private void Update()
-    {
-        bool interact = Input.GetKeyDown(KeyCode.E);
-        if (interact)
-        {
-            interactCheck.closestInteractable.StartInteracting();
-        }
-    }
+                                        // TODO add functionality to check for items (use tools and check if double jump is acquired
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         // Setting up references.
         m_MaxSpeed = 10f;       // The fastest the player can travel in the x axis.
         //m_JumpForce = 600f;     // Amount of force added when the player jumps.
@@ -66,16 +54,20 @@ public class PlatformerCharacter2D : Character, IDamageable
         wallCheck = transform.Find("WallCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        playerColliders = new List<Collider2D>();
-        playerColliders.AddRange(gameObject.GetComponentsInChildren<Collider2D>());
         health = 10;
         if (frontWeapon == null)
         {
-            frontWeapon = transform.Find("Front weapon");
+			frontWeapon = transform.Find ("Front weapon");
+
+			if (frontWeapon == null)
+				Debug.LogError ("FrontWeapon is null.  Assign it in the Inspector");
         }
         if (backWeapon == null)
         {
             backWeapon = transform.Find("Back weapon");
+
+			if (backWeapon == null)
+				Debug.LogError ("BackWeapon is null.  Assign it in the Inspector");
         }
         if (bodyArmor == null)
         {
@@ -83,11 +75,6 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
     }
 
-    private void SetFrontWeapon(Weapon equip)
-    {
-        frontEquippedWeapon = equip;
-		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-    }
 
     private void FixedUpdate()
     {
@@ -134,7 +121,7 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
         m_Anim.SetBool("Unsteady", unsteady);
 
-        colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallRadius, m_WhatIsGround + whatIsPlatform);
+        colliders = Physics2D.OverlapCircleAll(wallCheck.position, wallRadius, whatIsWall);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
@@ -145,6 +132,20 @@ public class PlatformerCharacter2D : Character, IDamageable
         }
 
 
+    }
+
+    public void StartUsingItem()
+    {
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StartUsingItem();
+		else
+			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
+    }
+
+    public void StopUsingItem()
+    {
+		if (frontEquippedWeapon != null)
+			frontEquippedWeapon.StopUsingItem ();
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
@@ -209,8 +210,6 @@ public class PlatformerCharacter2D : Character, IDamageable
             m_Rigidbody2D.velocity = new Vector2(0f, .01f);
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
             canDoubleJump = false;
-            Vector3 particleOffset = new Vector3(0, 1, 0);
-            doubleJumpParticles.transform.position = transform.position + particleOffset;
             doubleJumpParticles.Play();
         }
 
@@ -222,7 +221,7 @@ public class PlatformerCharacter2D : Character, IDamageable
             Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, whatIsPlatform);
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].gameObject != gameObject)
+                if (colliders[i].gameObject != gameObject && !ignoredColliders.Contains(colliders[i]))
                 {
                     ignoredColliders.Add(colliders[i]);
                     {

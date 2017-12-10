@@ -8,13 +8,29 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected float m_JumpForce;
     protected int health;
     protected bool m_FacingRight;
-    protected List<Collider2D> playerColliders;
+    [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
+
+	[SerializeField] protected InteractableCheck interactCheck;
 
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
 
     //}
+
+    protected void Awake()
+    {
+        if (playerColliders.Count < 1)
+        {
+            playerColliders.Add(GetComponent<Collider2D>());
+        }
+
+		if (interactCheck == null)
+		{
+			interactCheck = GetComponentInChildren<InteractableCheck> ();
+		}
+
+    }
 
     protected void Flip()
     {
@@ -26,4 +42,16 @@ public abstract class Character : MonoBehaviour {
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+	public void Interact()
+	{
+		if (interactCheck == null)
+		{
+			Debug.LogError ("Interact is being called by " + transform.root.name + ", but does not have an InteractableCheck assigned");
+			return;
+		}	//Debug.LogWarning ("Character.Interact() ");
+
+		if(interactCheck.closest_interactable != null)
+			interactCheck.closestInteractable.StartInteracting(this); 
+	}
 }
