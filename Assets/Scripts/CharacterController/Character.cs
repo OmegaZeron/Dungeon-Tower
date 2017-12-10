@@ -30,6 +30,11 @@ public abstract class Character : MonoBehaviour {
         {
             playerColliders.Add(GetComponent<Collider2D>());
         }
+
+		if (interactCheck == null)
+		{
+			interactCheck = GetComponentInChildren<InteractableCheck> ();
+		}
     }
 
     protected void Flip()
