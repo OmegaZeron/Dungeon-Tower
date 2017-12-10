@@ -751,7 +751,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &58850368502405298
 CircleCollider2D:
@@ -847,12 +847,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 800
+  health: 0
   playerColliders: []
   interactCheck: {fileID: 0}
   frontWeapon: {fileID: 4258576702803036}
   backWeapon: {fileID: 4198120965658794}
   frontEquippedWeapon: {fileID: 0}
   backEquippedWeapon: {fileID: 0}
+  character: {fileID: 0}
   wallJumpHeight: 0.7
   wallJumpVelocity: 10
   m_CrouchSpeed: 0.36

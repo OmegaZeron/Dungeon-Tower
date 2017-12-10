@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : CombatCharacter, IDamageable
+public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: IDamageable realization moved to CombatCharacter.cs
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
@@ -39,7 +39,6 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
     private Transform bodyArmor;
 
     [SerializeField] private ParticleSystem doubleJumpParticles;
-    private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired
 
     private new void Awake()
@@ -310,21 +309,24 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
     //    transform.localScale = theScale;
     //}
 
-    public void TakeDamage(int damageTaken = 0, float knockback = 0)
-    {
-        if (health <= damageTaken)
+    /* // Tandy: Greg and I talked about moving TakeDamage() and Die() into the CombatCharacter.cs base class,
+     * // so that Enemy can inherit them
+        public void TakeDamage(int damageTaken = 0, float knockback = 0)
         {
-            health = 0;
-            Die();
+            if (health <= damageTaken)
+            {
+                health = 0;
+                Die();
+            }
+            else
+            {
+                health -= damageTaken;
+            }
         }
-        else
-        {
-            health -= damageTaken;
-        }
-    }
 
-    public void Die()
-    {
-        throw new NotImplementedException();
-    }
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
+    */
 }

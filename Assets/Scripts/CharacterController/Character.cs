@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System; // Tandy: need this for Die() NotImplementedException()
 
-public abstract class Character : MonoBehaviour {
+public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatCharacter now realizes IDamageable,
+                                                               // which both Enemy and PlatformerCharacter2D can inherit
+    [SerializeField] protected Transform character;
+    [SerializeField] protected Rigidbody2D m_Rigidbody2D; // Tandy: moved up to base class for Enemy and Player
 
     protected float m_MaxSpeed;
     [SerializeField] protected float m_JumpForce;
-    protected int health;
+    [SerializeField] protected int health;
     protected bool m_FacingRight;
     [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
 
-	[SerializeField] protected InteractableCheck interactCheck;
+    [SerializeField] protected InteractableCheck interactCheck;
 
     public virtual void Move(float move, float verticalAxis, bool jump)
     {
@@ -54,4 +58,43 @@ public abstract class Character : MonoBehaviour {
 		if(interactCheck.closest_interactable != null)
 			interactCheck.closestInteractable.StartInteracting(this); 
 	}
+
+    // Tandy: TakeDamage moved from Platformer2DUserControl
+    public void TakeDamage(int damageTaken = 0, float knockback = 0) {
+        if (health <= damageTaken) {
+            health = 0;
+            Die();
+        }
+        else {
+            health -= damageTaken;
+            TakeKnockback(knockback);
+            Debug.Log("Knockback called");
+        }
+    }
+
+    // Tandy: Die moved from Platformer2DUserControl
+    public void Die() {
+        throw new NotImplementedException(); // Tandy: "using System;" makes this work
+    }
+
+    public void TakeKnockback(float knockback) {
+        Debug.Log("TakeKnockback: " + knockback);
+        if (m_FacingRight) {
+            m_Rigidbody2D.AddForce(Vector2.left * knockback);
+        }
+        else {
+            m_Rigidbody2D.AddForce(Vector2.right * knockback);
+        }
+    }
+/* // Tandy: for debugging Knockback only while taking damage
+    public void OnTriggerEnter2D(Collider2D collider) {
+        //Debug.Log("Trigger!");
+        //if(collider.gameObject.GetType() == typeof(Weapon)) {
+        if (collider.gameObject.GetComponent<Weapon>()) {
+            Weapon weapon = collider.gameObject.GetComponent<Weapon>();
+            Debug.Log(name + ": felt a Weapon trigger!");
+            TakeDamage(weapon.damage, weapon.knockBack);
+        }
+    }
+*/
 }
