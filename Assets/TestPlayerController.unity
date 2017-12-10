@@ -4312,6 +4312,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.47, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1516117150 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1219446043628456, guid: d983bdf45eadf0d48b68c12dd8d63ba9,
+    type: 2}
+  m_PrefabInternal: {fileID: 251439888}
 --- !u!1001 &1559848413
 Prefab:
   m_ObjectHideFlags: 0
@@ -4519,26 +4524,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.65}
   m_EdgeRadius: 0
---- !u!50 &1731232653
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1731232649}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1821647010
 GameObject:
   m_ObjectHideFlags: 0
@@ -4734,8 +4719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1dddb9c6b18474dafa1b33f033664a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlighter: {fileID: 1219446043628456, guid: d983bdf45eadf0d48b68c12dd8d63ba9,
-    type: 2}
+  highlighter: {fileID: 1516117150}
 --- !u!58 &2014916597
 CircleCollider2D:
   m_ObjectHideFlags: 0
