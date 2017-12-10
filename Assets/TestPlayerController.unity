@@ -416,7 +416,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1148020226
+  randomSeed: -1530188387
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3880,6 +3880,11 @@ Prefab:
       propertyPath: highlighter
       value: 
       objectReference: {fileID: 1516117150}
+    - target: {fileID: 114237783096184106, guid: 1d4b583532bc85c4fa0f15a8a9cf6454,
+        type: 2}
+      propertyPath: doubleJumpParticles
+      value: 
+      objectReference: {fileID: 334246799}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d4b583532bc85c4fa0f15a8a9cf6454, type: 2}
   m_IsPrefabParent: 0
