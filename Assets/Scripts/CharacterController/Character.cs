@@ -11,13 +11,13 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
 
-	InteractableCheck interactCheck;
+	protected InteractableCheck interactCheck;
 
-    protected Transform frontWeapon;
-    protected Transform backWeapon;
+	[SerializeField] protected Transform frontWeapon;
+	[SerializeField] protected Transform backWeapon;
 
-    protected Weapon frontEquippedWeapon;
-    protected Weapon backWeaponEquipped;
+	[SerializeField] protected Weapon frontEquippedWeapon;
+	[SerializeField] protected Weapon backEquippedWeapon;
 
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
@@ -35,6 +35,7 @@ public abstract class Character : MonoBehaviour {
 		{
 			interactCheck = GetComponentInChildren<InteractableCheck> ();
 		}
+
     }
 
     protected void Flip()
@@ -48,22 +49,6 @@ public abstract class Character : MonoBehaviour {
         transform.localScale = theScale;
     }
 
-    public void SetFrontWeapon(Weapon equip)
-    {
-		if (frontEquippedWeapon != null)
-		{
-			frontEquippedWeapon.Unequip ();
-
-			interactCheck.Unignore(frontEquippedWeapon);
-		}
-
-        frontEquippedWeapon = equip;
-        frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-
-		interactCheck.Ignore (equip);
-		//Add item to InteractableCheck ignore list.
-    }
-
 	public void Interact()
 	{
 		if (interactCheck == null)
@@ -72,5 +57,21 @@ public abstract class Character : MonoBehaviour {
 			return;
 		}
 		interactCheck.closestInteractable.StartInteracting();
+	}
+
+	public void SetFrontWeapon(Weapon equip)
+	{
+		if (frontEquippedWeapon != null)
+		{
+			frontEquippedWeapon.Unequip ();
+
+			interactCheck.Unignore(frontEquippedWeapon);
+		}
+
+		frontEquippedWeapon = equip;
+		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
+
+		interactCheck.Ignore (equip);
+		//Add item to InteractableCheck ignore list.
 	}
 }
