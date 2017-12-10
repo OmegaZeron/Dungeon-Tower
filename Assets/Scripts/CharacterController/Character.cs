@@ -13,10 +13,10 @@ public abstract class Character : MonoBehaviour {
 
 	[SerializeField] protected InteractableCheck interactCheck;
 
-    //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
-    //{
+    public virtual void Move(float move, float verticalAxis, bool jump)
+    {
 
-    //}
+    }
 
     protected void Awake()
     {
