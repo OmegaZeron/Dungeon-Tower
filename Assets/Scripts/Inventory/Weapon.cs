@@ -142,7 +142,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
 			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
 
 			if (weaponAnimator != null)
-			weaponAnimator.SetTrigger ("Attack");
+				weaponAnimator.SetTrigger ("Attack");
 		} 
 		else
 		{
@@ -150,7 +150,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		}
 
 		currentAttack++;
-		if(currentAttack > maxAttacks)
+		if(currentAttack >= maxAttacks)
 			currentAttack = 0;
 
 		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point
