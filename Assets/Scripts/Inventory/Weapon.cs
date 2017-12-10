@@ -122,10 +122,16 @@ public class Weapon : Item, IUsableItem, IInteractable {
     }
 
     //===== IInteractable functions =====//
-    public void StartInteracting(Character interactingCharacter = null) 
+	public void StartInteracting(Character interactingCharacter = null) 
 	{
-		if(!equipped && interactingCharacter != null)
-        	interactingCharacter.SetFrontWeapon(this);
+		CombatCharacter combatCharacter = interactingCharacter as CombatCharacter;
+
+		if (!equipped && interactingCharacter != null) 
+		{
+			combatCharacter.SetFrontWeapon (this);
+		}
+			
+			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()

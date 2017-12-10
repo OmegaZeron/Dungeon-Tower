@@ -13,12 +13,6 @@ public abstract class Character : MonoBehaviour {
 
 	[SerializeField] protected InteractableCheck interactCheck;
 
-	[SerializeField] protected Transform frontWeapon;
-	[SerializeField] protected Transform backWeapon;
-
-	[SerializeField] protected Weapon frontEquippedWeapon;
-	[SerializeField] protected Weapon backEquippedWeapon;
-
     //public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     //{
 
@@ -59,21 +53,5 @@ public abstract class Character : MonoBehaviour {
 
 		if(interactCheck.closest_interactable != null)
 			interactCheck.closestInteractable.StartInteracting(this); 
-	}
-
-	public void SetFrontWeapon(Weapon equip)
-	{
-		if (frontEquippedWeapon != null)
-		{
-			frontEquippedWeapon.Unequip ();
-
-			interactCheck.Unignore(frontEquippedWeapon);
-		}
-
-		frontEquippedWeapon = equip;
-		frontEquippedWeapon.Equip(frontWeapon, backWeapon, m_Anim);
-
-		interactCheck.Ignore (equip);
-		//Add item to InteractableCheck ignore list.
 	}
 }

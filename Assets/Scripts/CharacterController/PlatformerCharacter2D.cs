@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : Character, IDamageable
+public class PlatformerCharacter2D : CombatCharacter, IDamageable
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
