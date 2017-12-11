@@ -24,6 +24,7 @@ public class Weapon : Item, IUsableItem, IInteractable
     [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
 	private int maxAttacks = 0;
 	private int currentAttack = 0;
+	private bool blockAttackInput = false;
 
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
@@ -155,24 +156,26 @@ public class Weapon : Item, IUsableItem, IInteractable
     //===== IUsableItem functions =====//
     public virtual void StartUsingItem()
 	{
-		//Start Attack Animations
-		if (charAnimationTriggers.Count > 0) 
+		if(!blockAttackInput)
 		{
-			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
+			blockAttackInput = true;
+			//Start Attack Animations
+			if (charAnimationTriggers.Count > 0) 
+			{
+				charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
 
-			if (weaponAnimator != null)
-				weaponAnimator.SetTrigger ("Attack");
-		} 
-		else
-		{
-			//if charAnimationTriggers is empty, than no animation will play.
+				if (weaponAnimator != null)
+					weaponAnimator.SetTrigger ("Attack");
+			} 
+			else
+			{
+				//if charAnimationTriggers is empty, than no animation will play.
+			}
+
+			currentAttack++;
+			if(currentAttack >= maxAttacks)
+				currentAttack = 0;
 		}
-
-		currentAttack++;
-		if(currentAttack >= maxAttacks)
-			currentAttack = 0;
-
-		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point
     }
 
     public virtual void StopUsingItem() 
@@ -182,6 +185,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 
     public virtual void StartHit() 
 	{
+		blockAttackInput = false;
+
         checkForHit = true;
         StartCoroutine("CheckingForHit", false);
 
@@ -230,6 +235,7 @@ public class Weapon : Item, IUsableItem, IInteractable
     public void ForceInterrupt() 
 	{
         checkForHit = false;
+		blockAttackInput = false;
         //stop myAnimations
         //stop charAnimations
     }
