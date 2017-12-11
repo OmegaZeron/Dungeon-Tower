@@ -52,4 +52,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalPoolSize: 100
-  pools: []
+  pools:
+  - poolName: Muns
+    poolObject: {fileID: 1093229613594742, guid: f8ffdb6399a8acf48aa4bd6d15975133,
+      type: 2}
+    poolSize: 50
+    poolTransform: {fileID: 0}
+    objectsInPool: []
+    activePool: []
+    inactivePool: []
+  muns: {fileID: 1093229613594742, guid: f8ffdb6399a8acf48aa4bd6d15975133, type: 2}

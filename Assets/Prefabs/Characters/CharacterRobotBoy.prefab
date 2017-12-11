@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1962483511343582}
   m_IsPrefabParent: 1
+--- !u!1 &1513328867086684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4025246330951520}
+  - component: {fileID: 58298121347728318}
+  m_Layer: 0
+  m_Name: PlayerCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1665626274350828
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,6 +126,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4025246330951520
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513328867086684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4841867427040752}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4260140126701948
 Transform:
   m_ObjectHideFlags: 1
@@ -160,7 +189,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4841867427040752}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4841867427040752
 Transform:
@@ -169,13 +198,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962483511343582}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -1.5, z: 0}
+  m_LocalPosition: {x: 2, y: -1.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4260140126701948}
   - {fileID: 4616017102304478}
   - {fileID: 4893806137751316}
   - {fileID: 4750381406249406}
+  - {fileID: 4025246330951520}
   - {fileID: 4833663456192132}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -213,6 +243,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &58298121347728318
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513328867086684}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
 --- !u!58 &58839540987666346
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -328,6 +373,10 @@ MonoBehaviour:
   maxHealth: 0
   playerColliders: []
   interactCheck: {fileID: 0}
+  inventory:
+    equippedItems: []
+    currency: 1
+  poolManager: {fileID: 0}
   frontWeapon: {fileID: 0}
   backWeapon: {fileID: 0}
   frontEquippedWeapon: {fileID: 0}
@@ -337,6 +386,7 @@ MonoBehaviour:
     m_Bits: 512
   damageDealt: 10
   knockback: 500
+  selfKnockback: 3000
   playerCheck: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &114928483860153138
@@ -353,6 +403,9 @@ MonoBehaviour:
   highlighter: {fileID: 0}
   useHighlighter: 0
   closest_Object: {fileID: 0}
+  inventory:
+    equippedItems: []
+    currency: 1
 --- !u!212 &212393879085747748
 SpriteRenderer:
   m_ObjectHideFlags: 1

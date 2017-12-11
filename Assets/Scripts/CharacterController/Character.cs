@@ -85,7 +85,10 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
         {
             GameObject drop = poolManager.GetObject(poolManager.muns);
             drop.transform.position = transform.position;
-
+        }
+        foreach(Item item in inventory.equippedItems) {
+            inventory.equippedItems.Remove(item);
+            item.transform.position = transform.position;
         }
         //throw new NotImplementedException(); // Tandy: "using System;" makes this work
     }
