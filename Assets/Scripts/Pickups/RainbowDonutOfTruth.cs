@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class RainbowDonutOfTruth : PickupItem {
 
-    private void Awake()
-    {
-        if (player == null)
-        {
-            player = FindObjectOfType<PlatformerCharacter2D>();
-        }
-    }
-
     public override void Pickup()
     {
-        
+        GameManager.instance.Player.GetComponent<PlatformerCharacter2D>().inventory.equippedItems.Add(this);
+        //TODO put this in the pool manager
+        gameObject.SetActive(false);
     }
 }
