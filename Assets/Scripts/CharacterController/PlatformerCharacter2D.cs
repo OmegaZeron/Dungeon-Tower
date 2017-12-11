@@ -265,7 +265,7 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
         }
     }
 
-    public void TakeDamage(uint damageTaken = 0, float knockback = 0)
+    public new void TakeDamage(uint damageTaken = 0, float knockback = 0)
     {
         if (health <= damageTaken)
         {

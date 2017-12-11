@@ -9,6 +9,8 @@ public class E_Robot : CombatCharacter {
     private float runSpeed = 1;
     [SerializeField] private uint damageDealt;
     [SerializeField] private float knockback;
+    [SerializeField] private CircleCollider2D playerCheck;
+    private Collider2D[] check;
 
     // Use this for initialization
     void Start () {
@@ -18,6 +20,14 @@ public class E_Robot : CombatCharacter {
         m_Anim.SetBool("Ground", m_Grounded);
         m_FacingRight = true;
         m_Anim.SetFloat("Speed", walkSpeed);
+        check = GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D collider in check)
+        {
+            if (collider.name.Equals("PlayerCheck"))
+            {
+                playerCheck = (CircleCollider2D)collider;
+            }
+        }
 	}
 	
 	// Update is called once per frame
@@ -33,6 +43,19 @@ public class E_Robot : CombatCharacter {
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == GameManager.instance.Player.gameObject)
+        {
+            StartCoroutine("AttackPlayer");
+        }
+    }
+
+    IEnumerator AttackPlayer()
+    {
+        yield return null;
+    }
+
     private void Patrol() 
     {
         Debug.Log("m_FacingRight: " + m_FacingRight);
@@ -41,18 +64,14 @@ public class E_Robot : CombatCharacter {
             m_Rigidbody2D.MovePosition(transform.position + new Vector3(.1f, 0, 0));
             Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(.7f, 0, 0), new Vector2(.5f, 2), 0f, LM);
             if(c != null) {
-                //transform.rotation = Quaternion.Euler(0, 0, 0);
                 Flip();
-                //m_FacingRight = !m_FacingRight;
             }
         }
         else {
             m_Rigidbody2D.MovePosition(transform.position + new Vector3(-.1f, 0, 0));
             Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(-.7f, 0, 0), new Vector2(.5f, 2), 0f, LM);
             if (c != null) {
-                //transform.rotation = Quaternion.Euler(0, 0, 0);
                 Flip();
-                //m_FacingRight = !m_FacingRight;
             }
         }
     }
