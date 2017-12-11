@@ -81,10 +81,10 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     public void TakeKnockback(float knockback) {
         Debug.Log("TakeKnockback: " + knockback);
         if (m_FacingRight) {
-            m_Rigidbody2D.AddForce(Vector2.left * knockback);
+            m_Rigidbody2D.AddForce(Vector2.left * knockback + Vector2.up * (knockback / 2.1f));
         }
         else {
-            m_Rigidbody2D.AddForce(Vector2.right * knockback);
+            m_Rigidbody2D.AddForce(Vector2.right * knockback + Vector2.up * (knockback / 2.1f));
         }
     }
     //// Tandy: for debugging Knockback only while taking damage
