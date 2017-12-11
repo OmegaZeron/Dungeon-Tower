@@ -680,7 +680,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1661066481553010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.85, y: -3.33, z: 0}
+  m_LocalPosition: {x: -5.254179, y: 0.099218726, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4278261468145730}
@@ -751,7 +751,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &58850368502405298
 CircleCollider2D:
@@ -832,9 +832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1dddb9c6b18474dafa1b33f033664a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlighter: {fileID: 0}
+  highlighter: {fileID: 1219446043628456, guid: d983bdf45eadf0d48b68c12dd8d63ba9,
+    type: 2}
+  useHighlighter: 1
   closest_Object: {fileID: 0}
-  equippedItems: []
 --- !u!114 &114547118322521242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -846,7 +847,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08f91df3bd212f429df17f53ce2f364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  m_Rigidbody2D: {fileID: 0}
   m_JumpForce: 800
+  health: 0
+  maxHealth: 0
   playerColliders: []
   interactCheck: {fileID: 0}
   frontWeapon: {fileID: 4258576702803036}
@@ -875,6 +880,9 @@ MonoBehaviour:
   onWall: 0
   m_Grounded: 0
   ignoredColliders: []
+  inventory:
+    equippedItems: []
+    currency: 1
   doubleJumpParticles: {fileID: 198594892681190046}
 --- !u!198 &198594892681190046
 ParticleSystem:
@@ -4563,7 +4571,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300008, guid: bf7c424f7822a49b4ae57753598e87f2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4571,7 +4579,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212498849022032350
 SpriteRenderer:
@@ -4899,7 +4907,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf7c424f7822a49b4ae57753598e87f2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4907,7 +4915,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212978443205084716
 SpriteRenderer:

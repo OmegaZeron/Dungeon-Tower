@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class PickupItem : Item
 {
+    protected static PlatformerCharacter2D player;
 
-
-	void Start () 
+    protected void Awake() 
 	{
-		
-	}
+        if (player == null)
+        {
+            player = FindObjectOfType<PlatformerCharacter2D>();
+        }
+    }
 
-	public void Pickup()
-	{
+    public virtual void Pickup()
+    {
 
-	}
+    }
 
 }

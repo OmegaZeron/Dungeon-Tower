@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : CombatCharacter, IDamageable
+public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: IDamageable realization moved to CombatCharacter.cs
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
@@ -37,9 +37,9 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
     private Transform bodyArmor;
+    public Inventory inventory = new Inventory();
 
     [SerializeField] private ParticleSystem doubleJumpParticles;
-    private Rigidbody2D m_Rigidbody2D;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired
 
     private new void Awake()
@@ -54,7 +54,8 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
         wallCheck = transform.Find("WallCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        health = 10;
+        health = 1000;
+        maxHealth = 1000;
         if (frontWeapon == null)
         {
 			frontWeapon = transform.Find ("Front weapon");
@@ -134,18 +135,30 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
 
     }
 
-    public void StartUsingItem()
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-		if(frontEquippedWeapon != null)
-			frontEquippedWeapon.StartUsingItem();
-		else
-			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
+        PickupItem item = collision.GetComponent<PickupItem>();
+        if (item != null)
+        {
+            item.Pickup();
+        }
     }
 
-    public void StopUsingItem()
+    public void HealPlayer(uint healAmount)
     {
-		if (frontEquippedWeapon != null)
-			frontEquippedWeapon.StopUsingItem ();
+        if (healAmount >= maxHealth - health)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += (int)healAmount;
+        }
+    }
+
+    public void AddMuns(uint munAmount)
+    {
+        inventory.currency += munAmount;
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
@@ -252,6 +265,25 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
         }
     }
 
+    public new void TakeDamage(uint damageTaken = 0, float knockback = 0)
+    {
+        if (health <= damageTaken)
+        {
+            health = 0;
+            Die();
+        }
+        else
+        {
+            health -= (int)damageTaken;
+            TakeKnockback(knockback);
+            Debug.Log("Knockback called");
+            if (knockback > 0)
+            {
+                StartCoroutine("WallJumpControl");
+            }
+        }
+    }
+
     IEnumerator WallJumpControl()
     {
         m_AirControl = false;
@@ -310,21 +342,24 @@ public class PlatformerCharacter2D : CombatCharacter, IDamageable
     //    transform.localScale = theScale;
     //}
 
-    public void TakeDamage(int damageTaken = 0, float knockback = 0)
-    {
-        if (health <= damageTaken)
+    /* // Tandy: Greg and I talked about moving TakeDamage() and Die() into the CombatCharacter.cs base class,
+     * // so that Enemy can inherit them
+        public void TakeDamage(int damageTaken = 0, float knockback = 0)
         {
-            health = 0;
-            Die();
+            if (health <= damageTaken)
+            {
+                health = 0;
+                Die();
+            }
+            else
+            {
+                health -= damageTaken;
+            }
         }
-        else
-        {
-            health -= damageTaken;
-        }
-    }
 
-    public void Die()
-    {
-        throw new NotImplementedException();
-    }
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
+    */
 }
