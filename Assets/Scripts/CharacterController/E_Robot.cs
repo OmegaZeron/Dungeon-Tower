@@ -92,7 +92,7 @@ public class E_Robot : CombatCharacter {
         }
         if (c != null) {
             m_Rigidbody2D.velocity = Vector2.zero;
-            TakeKnockback(selfKnockback);
+            //TakeKnockback(selfKnockback);
             Flip();
         }
     }
