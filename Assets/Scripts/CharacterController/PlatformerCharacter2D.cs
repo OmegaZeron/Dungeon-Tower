@@ -150,13 +150,10 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        foreach (BoxCollider2D collider in playerColliders)
+        PickupItem item = collision.GetComponent<PickupItem>();
+        if (item != null)
         {
-            PickupItem item = collision.GetComponent<PickupItem>();
-            if (item != null)
-            {
-                item.Pickup();
-            }
+            item.Pickup();
         }
     }
 
