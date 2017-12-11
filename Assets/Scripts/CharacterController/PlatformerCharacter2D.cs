@@ -170,6 +170,11 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
         }
     }
 
+    public void AddMuns(uint munAmount)
+    {
+        inventory.currency += munAmount;
+    }
+
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     {
         // If crouching, check to see if the character can stand up
