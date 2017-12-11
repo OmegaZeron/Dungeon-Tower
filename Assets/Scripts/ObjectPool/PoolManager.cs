@@ -9,6 +9,7 @@ public class PoolManager : MonoBehaviour
 	[SerializeField] private int totalPoolSize = 100;
 	[SerializeField] List<ObjectPool> pools = new List<ObjectPool>();
 
+    [SerializeField] public GameObject muns;
 	//TODO ?? Handle the dynamic creation of ObjectPools, when a PoolableObject Return or is requested, but does not already exist.
 
 	public static PoolManager instance

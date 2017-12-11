@@ -17,6 +17,8 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     protected Animator m_Anim;
 
     [SerializeField] protected InteractableCheck interactCheck;
+    [SerializeField] public Inventory inventory = new Inventory();
+    [SerializeField] private PoolManager poolManager;
 
     public virtual void Move(float move, float verticalAxis, bool jump)
     {
@@ -34,6 +36,7 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
 		{
 			interactCheck = GetComponentInChildren<InteractableCheck> ();
 		}
+        poolManager = FindObjectOfType<PoolManager>();
 
     }
 
@@ -76,7 +79,18 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     // Tandy: Die moved from Platformer2DUserControl
     public void Die() 
 	{
-        throw new NotImplementedException(); // Tandy: "using System;" makes this work
+        m_Rigidbody2D.velocity = Vector2.zero;
+        gameObject.SetActive(false);
+        for(int i = 0; i < inventory.currency; i++)
+        {
+            GameObject drop = poolManager.GetObject(poolManager.muns);
+            drop.transform.position = transform.position;
+        }
+        foreach(Item item in inventory.equippedItems) {
+            inventory.equippedItems.Remove(item);
+            item.transform.position = transform.position;
+        }
+        //throw new NotImplementedException(); // Tandy: "using System;" makes this work
     }
 
     public void TakeKnockback(float knockback) 

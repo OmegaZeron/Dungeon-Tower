@@ -37,7 +37,7 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
     private Transform bodyArmor;
-    public Inventory inventory = new Inventory();
+    //public Inventory inventory = new Inventory();
 
     [SerializeField] private ParticleSystem doubleJumpParticles;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired

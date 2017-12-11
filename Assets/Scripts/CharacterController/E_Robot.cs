@@ -31,6 +31,8 @@ public class E_Robot : CombatCharacter {
 				playerCheck = collider as BoxCollider2D;
             }
         }
+        health = maxHealth = 50;
+        inventory.currency = 7;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +54,9 @@ public class E_Robot : CombatCharacter {
         {
             player = GameManager.instance.Player.gameObject;
             StartCoroutine("AttackPlayer");
+        }
+        if (collision.gameObject.GetComponent<Weapon>()) {
+            TakeDamage(collision.gameObject.GetComponent<Weapon>().damage);
         }
     }
 
