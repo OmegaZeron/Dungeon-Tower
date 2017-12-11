@@ -9,6 +9,7 @@ public class E_Robot : CombatCharacter {
     private float runSpeed = 1;
     [SerializeField] private uint damageDealt;
     [SerializeField] private float knockback;
+    [SerializeField] private float selfKnockback = 3000;
     [SerializeField] private BoxCollider2D playerCheck;
     private Collider2D[] check;
 
@@ -90,7 +91,9 @@ public class E_Robot : CombatCharacter {
             c = Physics2D.OverlapBox(transform.position + new Vector3(-.75f, 0, 0), new Vector2(.75f, 2), 0f, LM);
         }
         if (c != null) {
-            TakeKnockback(knockback / 2);
+            m_Rigidbody2D.velocity = Vector2.zero;
+            TakeKnockback(selfKnockback);
+            Flip();
         }
     }
 
