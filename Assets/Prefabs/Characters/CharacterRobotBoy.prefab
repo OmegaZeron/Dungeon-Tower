@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 58839540987666346}
   - component: {fileID: 50508813936672200}
   - component: {fileID: 61127086813023472}
+  - component: {fileID: 114275806147004522}
   m_Layer: 0
   m_Name: CharacterRobotBoy
   m_TagString: Player
@@ -139,7 +140,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962483511343582}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.84, y: -1.73, z: 0}
+  m_LocalPosition: {x: 1, y: -1.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4260140126701948}
@@ -254,6 +255,33 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114275806147004522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962483511343582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd79a844ec77abc4390593e37b927143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  m_Rigidbody2D: {fileID: 0}
+  m_JumpForce: 0
+  health: 0
+  maxHealth: 0
+  playerColliders: []
+  interactCheck: {fileID: 0}
+  frontWeapon: {fileID: 0}
+  backWeapon: {fileID: 0}
+  frontEquippedWeapon: {fileID: 0}
+  backEquippedWeapon: {fileID: 0}
+  LM:
+    serializedVersion: 2
+    m_Bits: 512
+  damageDealt: 10
+  knockback: 300
 --- !u!114 &114928483860153138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -266,8 +294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlighter: {fileID: 0}
+  useHighlighter: 0
   closest_Object: {fileID: 0}
-  equippedItems: []
 --- !u!212 &212393879085747748
 SpriteRenderer:
   m_ObjectHideFlags: 1

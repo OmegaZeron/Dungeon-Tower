@@ -265,6 +265,25 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
         }
     }
 
+    public void TakeDamage(uint damageTaken = 0, float knockback = 0)
+    {
+        if (health <= damageTaken)
+        {
+            health = 0;
+            Die();
+        }
+        else
+        {
+            health -= (int)damageTaken;
+            TakeKnockback(knockback);
+            Debug.Log("Knockback called");
+            if (knockback > 0)
+            {
+                StartCoroutine("WallJumpControl");
+            }
+        }
+    }
+
     IEnumerator WallJumpControl()
     {
         m_AirControl = false;

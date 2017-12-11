@@ -7,6 +7,8 @@ public class E_Robot : CombatCharacter {
     private bool m_Grounded;
     private float walkSpeed = .05f;
     private float runSpeed = 1;
+    [SerializeField] private uint damageDealt;
+    [SerializeField] private float knockback;
 
     // Use this for initialization
     void Start () {
@@ -23,13 +25,21 @@ public class E_Robot : CombatCharacter {
         Patrol();
 	}
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject == GameManager.instance.Player.gameObject)
+        {
+            GameManager.instance.Player.GetComponent<PlatformerCharacter2D>().TakeDamage(damageDealt, knockback);
+        }
+    }
+
     private void Patrol() 
     {
         Debug.Log("m_FacingRight: " + m_FacingRight);
         if (m_FacingRight)
         {
             m_Rigidbody2D.MovePosition(transform.position + new Vector3(.1f, 0, 0));
-            Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(1, 0, 0), new Vector2(1, 2), 0f, LM);
+            Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(.7f, 0, 0), new Vector2(.5f, 2), 0f, LM);
             if(c != null) {
                 //transform.rotation = Quaternion.Euler(0, 0, 0);
                 Flip();
@@ -38,7 +48,7 @@ public class E_Robot : CombatCharacter {
         }
         else {
             m_Rigidbody2D.MovePosition(transform.position + new Vector3(-.1f, 0, 0));
-            Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(-1, 0, 0), new Vector2(1, 2), 0f, LM);
+            Collider2D c = Physics2D.OverlapBox(transform.position + new Vector3(-.7f, 0, 0), new Vector2(.5f, 2), 0f, LM);
             if (c != null) {
                 //transform.rotation = Quaternion.Euler(0, 0, 0);
                 Flip();
@@ -49,10 +59,10 @@ public class E_Robot : CombatCharacter {
 
     void OnDrawGizmos() {
         if (m_FacingRight) {
-            Gizmos.DrawWireCube(transform.position + new Vector3(1, 0, 0), new Vector3(1, 2, 0));
+            Gizmos.DrawWireCube(transform.position + new Vector3(.7f, 0, 0), new Vector3(.5f, 2, 0));
         }
         else {
-            Gizmos.DrawWireCube(transform.position + new Vector3(-1, 0, 0), new Vector3(1, 2, 0));
+            Gizmos.DrawWireCube(transform.position + new Vector3(-.7f, 0, 0), new Vector3(.5f, 2, 0));
         }
     }
 }
