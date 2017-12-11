@@ -27,7 +27,7 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     {
         if (playerColliders.Count < 1)
         {
-            playerColliders.Add(GetComponent<Collider2D>());
+            playerColliders.AddRange(GetComponents<Collider2D>());
         }
 
 		if (interactCheck == null)
@@ -74,17 +74,24 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     }
 
     // Tandy: Die moved from Platformer2DUserControl
-    public void Die() {
+    public void Die() 
+	{
         throw new NotImplementedException(); // Tandy: "using System;" makes this work
     }
 
-    public void TakeKnockback(float knockback) {
-        Debug.Log("TakeKnockback: " + knockback);
-        if (m_FacingRight) {
-            m_Rigidbody2D.AddForce(Vector2.left * knockback);
+    public void TakeKnockback(float knockback) 
+	{
+        if(m_Rigidbody2D != null) {
+            Debug.Log("TakeKnockback: " + knockback);
+            if (m_FacingRight) {
+                m_Rigidbody2D.AddForce(Vector2.left * knockback + Vector2.up * (knockback / 2.1f));
+            }
+            else {
+                m_Rigidbody2D.AddForce(Vector2.right * knockback + Vector2.up * (knockback / 2.1f));
+            }
         }
         else {
-            m_Rigidbody2D.AddForce(Vector2.right * knockback);
+            Debug.LogWarning(name + "does not have a Rigidbody2D for Knockback!");
         }
     }
     //// Tandy: for debugging Knockback only while taking damage

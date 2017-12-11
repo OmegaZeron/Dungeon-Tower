@@ -2,28 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item, IUsableItem, IInteractable {
+public class Weapon : Item, IUsableItem, IInteractable 
+{
     public enum Stance { NONE, ONE_HAND, TWO_HAND, DUAL_WIELD, OFF_HAND, SHIELD }
 
-    [SerializeField] protected Transform frontWeaponTransform;
-    [SerializeField] protected Transform backWeaponTransform;
-    [SerializeField] protected Stance equipStance;
+    protected Transform frontWeaponTransform;
+    protected Transform backWeaponTransform;
+	protected Collider2D weaponCollider;
 
-    [SerializeField] protected uint damage = 0;
-    [SerializeField] protected float knockBack = 0;
+	[SerializeField] protected uint damage = 0;
+	[SerializeField] protected float knockBack = 0;
+
+    [SerializeField] protected Stance equipStance;
+	[SerializeField] protected float weaponRotation = 0.0f;
 
 	private bool equipped = false;
 
-    [SerializeField] protected Animator charAnimator;
+	protected Animator charAnimator;
     [SerializeField] protected Animator weaponAnimator;
     [SerializeField] protected float animationSpeed = 100.0f;
     [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
 	private int maxAttacks = 0;
 	private int currentAttack = 0;
-
+	public bool blockAttackInput = false;
 
     [SerializeField] protected LayerMask enemyLayer;
-    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
+//    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
+	[SerializeField] protected List<Collider2D> hitBoxes =  new List<Collider2D>();
     [SerializeField] protected int currentHitBox = 0;
     [SerializeField] private bool checkForHit = false;
     [SerializeField] private List<Collider2D> hitColliders = new List<Collider2D>();
@@ -32,16 +37,24 @@ public class Weapon : Item, IUsableItem, IInteractable {
     public class HitBox 
 	{
         //TODO create a Shape type for the hitBoxes [SerializeField] protected Shape shape Shape.Shape;
-        [SerializeField]
-        public Vector2 center = Vector2.zero;
-        [SerializeField]
-        public Vector2 size = new Vector2(1, 1);
-        [SerializeField]
-        public float angle = 0.0f;
+        [SerializeField] public Vector2 center = Vector2.zero;
+        [SerializeField] public Vector2 size = new Vector2(1, 1);
+        [SerializeField] public float angle = 0.0f;
+
     }
 
     protected void Awake() 
 	{
+		weaponCollider = GetComponent<Collider2D> ();
+
+		Collider2D[] colliders = GetComponentsInChildren<Collider2D> (true);
+
+		foreach (Collider2D collider in colliders) 
+		{
+			if (collider.name == "Visual")
+				hitBoxes.Add (collider);
+		}
+
         weaponAnimator = gameObject.GetComponent<Animator>();
 		charAnimationTriggers.TrimExcess ();
 		maxAttacks = charAnimationTriggers.Count;
@@ -60,44 +73,56 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
             case Stance.ONE_HAND:
 
-                if (firstAttachmentPoint != null) {
-                    transform.position = firstAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (firstAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
+
+                transform.position = firstAttachmentPoint.position;
+                transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+
+            }
+            break;
             case Stance.TWO_HAND:
 
-                if (firstAttachmentPoint != null) {
-                    transform.position = firstAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
+            if (firstAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
 
-                break;
+                transform.position = firstAttachmentPoint.position;
+				transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+            }
+
+            break;
             case Stance.DUAL_WIELD:
-                //TODO Weapons with two objects that are to be equipped to two seperate points need to have two seperate Parent Transforms and Animators  They must still be handled by one Weapon Script.
-                if (firstAttachmentPoint != null && frontWeaponTransform != null) 
-				{
-                    frontWeaponTransform.position = firstAttachmentPoint.position;
-                    frontWeaponTransform.SetParent(firstAttachmentPoint);
-                }
+            //TODO Weapons with two objects that are to be equipped to two seperate points need to have two seperate Parent Transforms and Animators  They must still be handled by one Weapon Script.
+            if (firstAttachmentPoint != null && frontWeaponTransform != null) 
+			{
+                frontWeaponTransform.position = firstAttachmentPoint.position;
+                frontWeaponTransform.SetParent(firstAttachmentPoint);
+            }
 
-                if (secondAttachmentPoint != null && backWeaponTransform != null) 
-				{
-                    backWeaponTransform.position = secondAttachmentPoint.position;
-                    backWeaponTransform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (secondAttachmentPoint != null && backWeaponTransform != null) 
+			{
+                backWeaponTransform.position = secondAttachmentPoint.position;
+                backWeaponTransform.SetParent(firstAttachmentPoint);
+            }
+            break;
             case Stance.OFF_HAND:
 
-                if (secondAttachmentPoint != null) 
-				{
-                    transform.position = secondAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (secondAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
+				
+                transform.position = secondAttachmentPoint.position;
+                transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+            }
+            break;
 			default:
 
-                break;
+            break;
         }
 
 		equipped = true;
@@ -116,7 +141,8 @@ public class Weapon : Item, IUsableItem, IInteractable {
         }
         else 
 		{
-            transform.SetParent(this.transform);
+            transform.SetParent(null);
+			weaponCollider.enabled = true;
         }
 		equipped = false;
     }
@@ -130,8 +156,6 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
 			combatCharacter.SetFrontWeapon (this);
 		}
-			
-			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()
@@ -142,24 +166,28 @@ public class Weapon : Item, IUsableItem, IInteractable {
     //===== IUsableItem functions =====//
     public virtual void StartUsingItem()
 	{
-		//Start Attack Animations
-		if (charAnimationTriggers.Count > 0) 
+		if(!blockAttackInput)
 		{
-			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
+			blockAttackInput = true;
+			charAnimator.SetBool ("Attacking", true);
 
-			if (weaponAnimator != null)
-				weaponAnimator.SetTrigger ("Attack");
-		} 
-		else
-		{
-			//if charAnimationTriggers is empty, than no animation will play.
+			//Start Attack Animations
+			if (charAnimationTriggers.Count > 0) 
+			{
+				charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
+
+				if (weaponAnimator != null)
+					weaponAnimator.SetTrigger ("Attack");
+			} 
+			else
+			{
+				//if charAnimationTriggers is empty, than no animation will play.
+			}
+
+			currentAttack++;
+			if(currentAttack >= maxAttacks)
+				currentAttack = 0;
 		}
-
-		currentAttack++;
-		if(currentAttack >= maxAttacks)
-			currentAttack = 0;
-
-		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point
     }
 
     public virtual void StopUsingItem() 
@@ -169,6 +197,8 @@ public class Weapon : Item, IUsableItem, IInteractable {
 
     public virtual void StartHit() 
 	{
+		blockAttackInput = false;
+
         checkForHit = true;
         StartCoroutine("CheckingForHit", false);
 
@@ -182,13 +212,21 @@ public class Weapon : Item, IUsableItem, IInteractable {
 
     IEnumerator CheckingForHit(bool checkOnce = false) 
 	{
+		weaponCollider.isTrigger = true;
+		weaponCollider.enabled = true;
+
+		ContactFilter2D filter = new ContactFilter2D();
+		filter.SetLayerMask(enemyLayer);
+
         while (checkForHit) 
 		{
-            Collider2D[] hitObjects = Physics2D.OverlapBoxAll(hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size, hitBoxes[currentHitBox].angle, enemyLayer.value);
+			Collider2D[] hitObjects = new Collider2D[2];
+
+			Physics2D.OverlapCollider(hitBoxes[currentHitBox], filter, hitObjects);
 
             foreach (Collider2D hitObject in hitObjects) 
 			{
-                if (!hitColliders.Contains(hitObject)) 
+				if (hitObject != null && !hitColliders.Contains(hitObject) && hitObject.transform.root != this.transform.root) 
 				{
                     IDamageable id = hitObject.GetComponent<IDamageable>();
 
@@ -196,28 +234,39 @@ public class Weapon : Item, IUsableItem, IInteractable {
                         id.TakeDamage(damage, knockBack);
 
                     hitColliders.Add(hitObject);
+					Debug.Log ("Hit" + hitObject.name);
                 }
 
             }
 
-            if (checkOnce)
-                checkForHit = false;
+			if (checkOnce) 
+			{
+				checkForHit = false;
+				charAnimator.SetBool ("Attacking", false);
+			}
+
 
             yield return null;
         }
+			
+		hitColliders.Clear();
 
-        hitColliders.Clear();
+		weaponCollider.isTrigger = false;
+		weaponCollider.enabled = false;
     }
 
     public virtual void StopHit() 
 	{
         checkForHit = false;
+		charAnimator.SetBool ("Attacking", false);
     }
 
     public void ForceInterrupt() 
 	{
         checkForHit = false;
-        //stop myAnimations
+		blockAttackInput = false;
+		charAnimator.SetBool ("Attacking", false);
+        //stop weaponAnimations
         //stop charAnimations
     }
 
@@ -227,7 +276,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
             Gizmos.color = Color.red;
             foreach (Collider2D hitCollider in hitColliders) 
 			{
-                Gizmos.DrawLine(this.transform.position, hitCollider.transform.position);
+				Gizmos.DrawLine(hitBoxes[currentHitBox].bounds.center, hitCollider.transform.position);
             }
 
             Gizmos.color = Color.yellow;
@@ -236,6 +285,6 @@ public class Weapon : Item, IUsableItem, IInteractable {
             Gizmos.color = Color.white;
         //Draws the hitBox for the attack
         if (hitBoxes.Count > 0)
-            Gizmos.DrawWireCube(hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size);
+			Gizmos.DrawWireCube(hitBoxes[currentHitBox].bounds.center, hitBoxes[currentHitBox].bounds.size);
     }
 }
