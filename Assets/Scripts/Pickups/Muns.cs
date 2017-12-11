@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class Muns : PickupItem {
 
-    [SerializeField] private uint value;
-
-    private void Awake()
-    {
-        if (player == null)
-        {
-            player = FindObjectOfType<PlatformerCharacter2D>();
-        }
-    }
+    [SerializeField] private uint value = 1;
 
     public override void Pickup()
     {
@@ -26,6 +18,7 @@ public class Muns : PickupItem {
 
     private void GetDolla()
     {
-        //inventory.addmuns(value);
+        GameManager.instance.Player.GetComponent<PlatformerCharacter2D>().AddMuns(value);
+        Destroy(this.gameObject);
     }
 }
