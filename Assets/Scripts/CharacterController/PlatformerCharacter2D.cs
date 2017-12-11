@@ -135,20 +135,6 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
 
     }
 
-    public void StartUsingItem()
-    {
-		if(frontEquippedWeapon != null)
-			frontEquippedWeapon.StartUsingItem();
-		else
-			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
-    }
-
-    public void StopUsingItem()
-    {
-		if (frontEquippedWeapon != null)
-			frontEquippedWeapon.StopUsingItem ();
-    }
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         PickupItem item = collision.GetComponent<PickupItem>();

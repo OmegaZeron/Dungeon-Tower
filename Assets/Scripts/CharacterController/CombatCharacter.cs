@@ -35,4 +35,18 @@ public class CombatCharacter : Character
         interactCheck.Ignore(equip);
         //Add item to InteractableCheck ignore list.
     }
+
+	public void StartAttacking()
+	{
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StartUsingItem();
+		else
+			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
+	}
+
+	public void StopAttacking()
+	{
+		if (frontEquippedWeapon != null)
+			frontEquippedWeapon.StopUsingItem ();
+	}
 }

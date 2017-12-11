@@ -43,7 +43,6 @@ public class Platformer2DUserControl : MonoBehaviour
         }
     }
 
-
     private void FixedUpdate()
     {
         if (controlState == ControllerState.playerControl)
@@ -63,11 +62,11 @@ public class Platformer2DUserControl : MonoBehaviour
 			//TODO move this logic in to the Character itself
             if (attack)
             {
-                m_Character.StartUsingItem();
+				m_Character.StartAttacking();
             }
             if (Input.GetButtonUp("Fire1"))
             {
-                m_Character.StopUsingItem();
+                m_Character.StopAttacking();
             }
 
             m_Character.Move(h, v, crouch, m_Jump, m_JumpHeld);
