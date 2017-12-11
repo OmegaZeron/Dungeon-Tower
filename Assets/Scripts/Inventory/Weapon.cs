@@ -145,8 +145,6 @@ public class Weapon : Item, IUsableItem, IInteractable
 		{
 			combatCharacter.SetFrontWeapon (this);
 		}
-			
-			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()

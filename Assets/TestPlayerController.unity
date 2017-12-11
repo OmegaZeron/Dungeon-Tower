@@ -930,6 +930,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114182874342505768, guid: 8551a1968a87cf64c8d864f544d9cc85,
+        type: 2}
+      propertyPath: enemyLayer.m_Bits
+      value: 4096
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8551a1968a87cf64c8d864f544d9cc85, type: 2}
   m_IsPrefabParent: 0
