@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 495253644}
   - component: {fileID: 495253643}
   - component: {fileID: 495253642}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: rockblock-2-big (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1089,11 +1089,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4841867427040752, guid: ef31ff647acd0cf40a87ee6a2516490c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 6.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4841867427040752, guid: ef31ff647acd0cf40a87ee6a2516490c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.71
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4841867427040752, guid: ef31ff647acd0cf40a87ee6a2516490c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1234,7 +1234,7 @@ GameObject:
   - component: {fileID: 1037502622}
   - component: {fileID: 1037502621}
   - component: {fileID: 1037502620}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: rockblock-2-big (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1557,6 +1557,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1327732162 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1962483511343582, guid: ef31ff647acd0cf40a87ee6a2516490c,
+    type: 2}
+  m_PrefabInternal: {fileID: 930531975}
+--- !u!114 &1327732169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1327732162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd79a844ec77abc4390593e37b927143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  m_Rigidbody2D: {fileID: 0}
+  m_JumpForce: 0
+  health: 0
+  maxHealth: 0
+  playerColliders: []
+  interactCheck: {fileID: 0}
+  frontWeapon: {fileID: 0}
+  backWeapon: {fileID: 0}
+  frontEquippedWeapon: {fileID: 0}
+  backEquippedWeapon: {fileID: 0}
+  LM:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1001 &1363097466
 Prefab:
   m_ObjectHideFlags: 0
@@ -1656,7 +1686,7 @@ GameObject:
   - component: {fileID: 1407721539}
   - component: {fileID: 1407721538}
   - component: {fileID: 1407721537}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: rockblock-2-big (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1887,11 +1917,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000013743113536, guid: c0c2b068ca0206143b851a364a49a50f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.5035288
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4000013743113536, guid: c0c2b068ca0206143b851a364a49a50f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.785632
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4000013743113536, guid: c0c2b068ca0206143b851a364a49a50f, type: 2}
       propertyPath: m_LocalPosition.z
