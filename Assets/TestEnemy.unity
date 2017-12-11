@@ -118,7 +118,8 @@ GameObject:
   - component: {fileID: 434825491}
   - component: {fileID: 434825490}
   - component: {fileID: 434825489}
-  m_Layer: 0
+  - component: {fileID: 434825492}
+  m_Layer: 9
   m_Name: rockblock-2-big (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +136,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 1, y: -1}
   m_SpriteTilingProperty:
@@ -205,6 +206,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &434825492
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 434825488}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &442188338
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,7 +858,8 @@ GameObject:
   - component: {fileID: 873159512}
   - component: {fileID: 873159511}
   - component: {fileID: 873159510}
-  m_Layer: 0
+  - component: {fileID: 873159513}
+  m_Layer: 9
   m_Name: rockblock-2-big (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,7 +876,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 1, y: -1}
   m_SpriteTilingProperty:
@@ -926,6 +946,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &873159513
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 873159509}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &900242849
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +974,8 @@ GameObject:
   - component: {fileID: 900242852}
   - component: {fileID: 900242851}
   - component: {fileID: 900242850}
-  m_Layer: 0
+  - component: {fileID: 900242853}
+  m_Layer: 9
   m_Name: rockblock-2-big (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -953,7 +992,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 1, y: -1}
   m_SpriteTilingProperty:
@@ -1023,6 +1062,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &900242853
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 900242849}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1001 &930531975
 Prefab:
   m_ObjectHideFlags: 0
@@ -1538,6 +1595,11 @@ Prefab:
     - target: {fileID: 4634345537939564, guid: 8551a1968a87cf64c8d864f544d9cc85, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 61423595972499130, guid: 8551a1968a87cf64c8d864f544d9cc85,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8551a1968a87cf64c8d864f544d9cc85, type: 2}

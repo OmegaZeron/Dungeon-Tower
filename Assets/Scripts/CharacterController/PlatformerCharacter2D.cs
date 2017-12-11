@@ -53,7 +53,8 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
         wallCheck = transform.Find("WallCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        health = 10;
+        health = 1000;
+        maxHealth = 1000;
         if (frontWeapon == null)
         {
 			frontWeapon = transform.Find ("Front weapon");
@@ -145,6 +146,30 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
     {
 		if (frontEquippedWeapon != null)
 			frontEquippedWeapon.StopUsingItem ();
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        foreach (BoxCollider2D collider in playerColliders)
+        {
+            PickupItem item = collision.GetComponent<PickupItem>();
+            if (item != null)
+            {
+                item.Pickup();
+            }
+        }
+    }
+
+    public void HealPlayer(uint healAmount)
+    {
+        if (healAmount >= maxHealth - health)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += (int)healAmount;
+        }
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)

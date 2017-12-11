@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class PickupItem : Item
 {
-
-
 	void Start () 
 	{
 		
 	}
 
-	public void Pickup()
-	{
+    public virtual void Pickup()
+    {
 
-	}
+    }
 
 }
