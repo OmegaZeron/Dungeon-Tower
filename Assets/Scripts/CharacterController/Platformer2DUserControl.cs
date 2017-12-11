@@ -8,8 +8,7 @@ public class Platformer2DUserControl : MonoBehaviour
     public enum ControllerState { playerControl, menuControl, noControl };
     ControllerState controlState;
     private PlatformerCharacter2D m_Character;
-    InteractableCheck interactCheck;
-    Weapon weapon;
+    
     private bool m_Jump;
     private bool m_JumpHeld;
     private bool interact;
@@ -58,12 +57,17 @@ public class Platformer2DUserControl : MonoBehaviour
             interact = Input.GetKeyDown(KeyCode.E);
             if (interact)
             {
-                interactCheck.closestInteractable.StartInteracting();
+                m_Character.Interact();
             }
 
+			//TODO move this logic in to the Character itself
             if (attack)
             {
-                weapon.StartUsingItem();
+                m_Character.StartUsingItem();
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                m_Character.StopUsingItem();
             }
 
             m_Character.Move(h, v, crouch, m_Jump, m_JumpHeld);

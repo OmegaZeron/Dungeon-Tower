@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformerCharacter2D : Character, IDamageable
+public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: IDamageable realization moved to CombatCharacter.cs
 {
     private enum PlayerState { idle, jumping, attacking, etc };
 
@@ -38,14 +38,8 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     private Transform bodyArmor;
 
-    [SerializeField] private ParticleSystem doubleJumpParticles;                                         // Reference to the player's animator component.
-    private Rigidbody2D m_Rigidbody2D;
-                                        // TODO add functionality to check for items (use tools and check if double jump is acquired)
-
-    private void Update()
-    {
-
-    }
+    [SerializeField] private ParticleSystem doubleJumpParticles;
+                                        // TODO add functionality to check for items (use tools and check if double jump is acquired
 
     private new void Awake()
     {
@@ -59,14 +53,21 @@ public class PlatformerCharacter2D : Character, IDamageable
         wallCheck = transform.Find("WallCheck");
         m_Anim = GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        health = 10;
+        health = 1000;
+        maxHealth = 1000;
         if (frontWeapon == null)
         {
-            frontWeapon = transform.Find("Front weapon");
+			frontWeapon = transform.Find ("Front weapon");
+
+			if (frontWeapon == null)
+				Debug.LogError ("FrontWeapon is null.  Assign it in the Inspector");
         }
         if (backWeapon == null)
         {
             backWeapon = transform.Find("Back weapon");
+
+			if (backWeapon == null)
+				Debug.LogError ("BackWeapon is null.  Assign it in the Inspector");
         }
         if (bodyArmor == null)
         {
@@ -133,6 +134,44 @@ public class PlatformerCharacter2D : Character, IDamageable
 
     }
 
+    public void StartUsingItem()
+    {
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StartUsingItem();
+		else
+			Debug.LogWarning ("Cannot Use frontEquippedWeapon as there is none");
+    }
+
+    public void StopUsingItem()
+    {
+		if (frontEquippedWeapon != null)
+			frontEquippedWeapon.StopUsingItem ();
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        foreach (BoxCollider2D collider in playerColliders)
+        {
+            PickupItem item = collision.GetComponent<PickupItem>();
+            if (item != null)
+            {
+                item.Pickup();
+            }
+        }
+    }
+
+    public void HealPlayer(uint healAmount)
+    {
+        if (healAmount >= maxHealth - health)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += (int)healAmount;
+        }
+    }
+
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
     {
         // If crouching, check to see if the character can stand up
@@ -195,8 +234,6 @@ public class PlatformerCharacter2D : Character, IDamageable
             m_Rigidbody2D.velocity = new Vector2(0f, .01f);
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * doubleJumpHeight));
             canDoubleJump = false;
-            Vector3 particleOffset = new Vector3(0, 1, 0);
-            doubleJumpParticles.transform.position = transform.position + particleOffset;
             doubleJumpParticles.Play();
         }
 
@@ -297,21 +334,24 @@ public class PlatformerCharacter2D : Character, IDamageable
     //    transform.localScale = theScale;
     //}
 
-    public void TakeDamage(int damageTaken = 0, float knockback = 0)
-    {
-        if (health <= damageTaken)
+    /* // Tandy: Greg and I talked about moving TakeDamage() and Die() into the CombatCharacter.cs base class,
+     * // so that Enemy can inherit them
+        public void TakeDamage(int damageTaken = 0, float knockback = 0)
         {
-            health = 0;
-            Die();
+            if (health <= damageTaken)
+            {
+                health = 0;
+                Die();
+            }
+            else
+            {
+                health -= damageTaken;
+            }
         }
-        else
-        {
-            health -= damageTaken;
-        }
-    }
 
-    public void Die()
-    {
-        throw new NotImplementedException();
-    }
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
+    */
 }

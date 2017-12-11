@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickupItem
+public class PickupItem : Item
 {
-
-
 	void Start () 
 	{
 		
 	}
 
-	public void Pickup()
-	{
+    public virtual void Pickup()
+    {
 
-	}
+    }
 
 }

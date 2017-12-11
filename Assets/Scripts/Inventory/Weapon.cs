@@ -9,15 +9,18 @@ public class Weapon : Item, IUsableItem, IInteractable {
     [SerializeField] protected Transform backWeaponTransform;
     [SerializeField] protected Stance equipStance;
 
-    [SerializeField] protected int damage = 0;
+    [SerializeField] protected uint damage = 0;
     [SerializeField] protected float knockBack = 0;
 
 	private bool equipped = false;
 
     [SerializeField] protected Animator charAnimator;
-    [SerializeField] protected Animator myAnimator;
+    [SerializeField] protected Animator weaponAnimator;
     [SerializeField] protected float animationSpeed = 100.0f;
-    [SerializeField] protected List<string> animationTriggers = new List<string>();
+    [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
+	private int maxAttacks = 0;
+	private int currentAttack = 0;
+
 
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
@@ -39,7 +42,9 @@ public class Weapon : Item, IUsableItem, IInteractable {
 
     protected void Awake() 
 	{
-        myAnimator = gameObject.GetComponent<Animator>();
+        weaponAnimator = gameObject.GetComponent<Animator>();
+		charAnimationTriggers.TrimExcess ();
+		maxAttacks = charAnimationTriggers.Count;
     }
 
     public void Equip(Transform firstAttachmentPoint = null, Transform secondAttachmentPoint = null, Animator equipAnimator = null) 
@@ -91,7 +96,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
                 }
                 break;
 			default:
-				return;
+
                 break;
         }
 
@@ -117,10 +122,16 @@ public class Weapon : Item, IUsableItem, IInteractable {
     }
 
     //===== IInteractable functions =====//
-    public void StartInteracting(Character interactingCharacter = null) 
+	public void StartInteracting(Character interactingCharacter = null) 
 	{
-		if(!equipped && interactingCharacter != null)
-        	interactingCharacter.SetFrontWeapon(this);
+		CombatCharacter combatCharacter = interactingCharacter as CombatCharacter;
+
+		if (!equipped && interactingCharacter != null) 
+		{
+			combatCharacter.SetFrontWeapon (this);
+		}
+			
+			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()
@@ -131,7 +142,24 @@ public class Weapon : Item, IUsableItem, IInteractable {
     //===== IUsableItem functions =====//
     public virtual void StartUsingItem()
 	{
+		//Start Attack Animations
+		if (charAnimationTriggers.Count > 0) 
+		{
+			charAnimator.SetTrigger (charAnimationTriggers [currentAttack]);
 
+			if (weaponAnimator != null)
+				weaponAnimator.SetTrigger ("Attack");
+		} 
+		else
+		{
+			//if charAnimationTriggers is empty, than no animation will play.
+		}
+
+		currentAttack++;
+		if(currentAttack >= maxAttacks)
+			currentAttack = 0;
+
+		//TODO need an attacking state that stops new triggers while the current attack is going, then allows new input after a certain point
     }
 
     public virtual void StopUsingItem() 
