@@ -28,7 +28,7 @@ public class E_Robot : CombatCharacter {
         {
             if (collider.name.Equals("PlayerCheck"))
             {
-                playerCheck = (BoxCollider2D)collider;
+				playerCheck = collider as BoxCollider2D;
             }
         }
 	}

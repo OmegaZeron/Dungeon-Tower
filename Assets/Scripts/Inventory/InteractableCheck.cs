@@ -14,7 +14,7 @@ public class InteractableCheck : MonoBehaviour
     protected internal IInteractable closest_interactable = null;
     //TODO add properties
 
-    private Inventory inventory;
+    [SerializeField] private Inventory inventory;
 
     public GameObject closestObject
     {

@@ -24,7 +24,7 @@ public class Weapon : Item, IUsableItem, IInteractable
     [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
 	private int maxAttacks = 0;
 	private int currentAttack = 0;
-	private bool blockAttackInput = false;
+	public bool blockAttackInput = false;
 
     [SerializeField] protected LayerMask enemyLayer;
 //    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
@@ -169,6 +169,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 		if(!blockAttackInput)
 		{
 			blockAttackInput = true;
+			charAnimator.SetBool ("Attacking", true);
+
 			//Start Attack Animations
 			if (charAnimationTriggers.Count > 0) 
 			{
@@ -237,13 +239,17 @@ public class Weapon : Item, IUsableItem, IInteractable
 
             }
 
-            if (checkOnce)
-                checkForHit = false;
+			if (checkOnce) 
+			{
+				checkForHit = false;
+				charAnimator.SetBool ("Attacking", false);
+			}
+
 
             yield return null;
         }
-
-       hitColliders.Clear();
+			
+		hitColliders.Clear();
 
 		weaponCollider.isTrigger = false;
 		weaponCollider.enabled = false;
@@ -252,13 +258,15 @@ public class Weapon : Item, IUsableItem, IInteractable
     public virtual void StopHit() 
 	{
         checkForHit = false;
+		charAnimator.SetBool ("Attacking", false);
     }
 
     public void ForceInterrupt() 
 	{
         checkForHit = false;
 		blockAttackInput = false;
-        //stop myAnimations
+		charAnimator.SetBool ("Attacking", false);
+        //stop weaponAnimations
         //stop charAnimations
     }
 
