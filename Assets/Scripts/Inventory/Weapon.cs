@@ -27,7 +27,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 	private bool blockAttackInput = false;
 
     [SerializeField] protected LayerMask enemyLayer;
-    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
+//    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
+	[SerializeField] protected List<Collider2D> hitBoxes =  new List<Collider2D>();
     [SerializeField] protected int currentHitBox = 0;
     [SerializeField] private bool checkForHit = false;
     [SerializeField] private List<Collider2D> hitColliders = new List<Collider2D>();
@@ -39,11 +40,20 @@ public class Weapon : Item, IUsableItem, IInteractable
         [SerializeField] public Vector2 center = Vector2.zero;
         [SerializeField] public Vector2 size = new Vector2(1, 1);
         [SerializeField] public float angle = 0.0f;
+
     }
 
     protected void Awake() 
 	{
 		weaponCollider = GetComponent<Collider2D> ();
+
+		Collider2D[] colliders = GetComponentsInChildren<Collider2D> (true);
+
+		foreach (Collider2D collider in colliders) 
+		{
+			if (collider.name == "Visual")
+				hitBoxes.Add (collider);
+		}
 
         weaponAnimator = gameObject.GetComponent<Animator>();
 		charAnimationTriggers.TrimExcess ();
@@ -200,13 +210,21 @@ public class Weapon : Item, IUsableItem, IInteractable
 
     IEnumerator CheckingForHit(bool checkOnce = false) 
 	{
+		weaponCollider.isTrigger = true;
+		weaponCollider.enabled = true;
+
+		ContactFilter2D filter = new ContactFilter2D();
+		filter.SetLayerMask(enemyLayer);
+
         while (checkForHit) 
 		{
-            Collider2D[] hitObjects = Physics2D.OverlapBoxAll(hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size, hitBoxes[currentHitBox].angle, enemyLayer.value);
+			Collider2D[] hitObjects = new Collider2D[2];
+
+			Physics2D.OverlapCollider(hitBoxes[currentHitBox], filter, hitObjects);
 
             foreach (Collider2D hitObject in hitObjects) 
 			{
-                if (!hitColliders.Contains(hitObject)) 
+				if (hitObject != null && !hitColliders.Contains(hitObject) && hitObject.transform.root != this.transform.root) 
 				{
                     IDamageable id = hitObject.GetComponent<IDamageable>();
 
@@ -214,6 +232,7 @@ public class Weapon : Item, IUsableItem, IInteractable
                         id.TakeDamage(damage, knockBack);
 
                     hitColliders.Add(hitObject);
+					Debug.Log ("Hit" + hitObject.name);
                 }
 
             }
@@ -224,7 +243,10 @@ public class Weapon : Item, IUsableItem, IInteractable
             yield return null;
         }
 
-        hitColliders.Clear();
+       // hitColliders.Clear();
+
+		weaponCollider.isTrigger = false;
+		weaponCollider.enabled = false;
     }
 
     public virtual void StopHit() 
@@ -246,7 +268,7 @@ public class Weapon : Item, IUsableItem, IInteractable
             Gizmos.color = Color.red;
             foreach (Collider2D hitCollider in hitColliders) 
 			{
-                Gizmos.DrawLine(this.transform.position, hitCollider.transform.position);
+				Gizmos.DrawLine(hitBoxes[currentHitBox].bounds.center, hitCollider.transform.position);
             }
 
             Gizmos.color = Color.yellow;
@@ -255,6 +277,6 @@ public class Weapon : Item, IUsableItem, IInteractable
             Gizmos.color = Color.white;
         //Draws the hitBox for the attack
         if (hitBoxes.Count > 0)
-            Gizmos.DrawWireCube(hitBoxes[currentHitBox].center, hitBoxes[currentHitBox].size);
+			Gizmos.DrawWireCube(hitBoxes[currentHitBox].bounds.center, hitBoxes[currentHitBox].bounds.size);
     }
 }
