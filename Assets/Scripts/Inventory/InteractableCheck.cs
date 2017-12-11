@@ -12,9 +12,9 @@ public class InteractableCheck : MonoBehaviour
     
 	[SerializeField] protected internal GameObject closest_Object;
 	protected internal IInteractable closest_interactable = null;
+
+    private Inventory inventory;
     //TODO add properties
-	[SerializeField] protected internal List<Item> equippedItems = new List<Item>();
-	protected internal List<IInteractable> equippedInteractables = new List<IInteractable> ();
 
 	public GameObject closestObject
 	{
@@ -28,17 +28,17 @@ public class InteractableCheck : MonoBehaviour
 
 	public List<Item> IgnoredObjects
 	{
-		get{ return equippedItems; }
+		get{ return inventory.equippedItems; }
 	}
 
 	public void Ignore(Item ignoreItem)
 	{
-		if (!equippedItems.Contains (ignoreItem)) 
+		if (!inventory.equippedItems.Contains (ignoreItem)) 
 		{
-			equippedItems.Add (ignoreItem);
+            inventory.equippedItems.Add (ignoreItem);
 
 			if(ignoreItem.GetType() == typeof(IInteractable) )
-				equippedInteractables.Add (ignoreItem as IInteractable);
+                inventory.equippedInteractables.Add (ignoreItem as IInteractable);
 		}
 
 		if( interactableGameObjects.Contains(ignoreItem.gameObject) )
@@ -47,12 +47,12 @@ public class InteractableCheck : MonoBehaviour
 
 	public void Unignore(Item unignoreItem)
 	{
-		if (equippedItems.Contains (unignoreItem)) 
+		if (inventory.equippedItems.Contains (unignoreItem)) 
 		{
-			equippedItems.Remove (unignoreItem);
+            inventory.equippedItems.Remove (unignoreItem);
 
 			if(unignoreItem.GetType() == typeof(IInteractable) )
-				equippedInteractables.Remove (unignoreItem as IInteractable);
+                inventory.equippedInteractables.Remove (unignoreItem as IInteractable);
 		}
 
 		
@@ -60,16 +60,7 @@ public class InteractableCheck : MonoBehaviour
 
     private void Awake() 
 	{
-        if (highlighter != null && useHighlighter)
-        {
-            highlighterInstance = Instantiate(highlighter);
-            highlighterInstance.SetActive(false);
-        }
-        else if(useHighlighter)
-        {
-            Debug.LogError("Trying to use highlighter, but no highlighter prefab is set");
-        }
-                
+        highlighter.SetActive(false);        
     }
 
     private void OnTriggerEnter2D(Collider2D collision) 
@@ -77,7 +68,7 @@ public class InteractableCheck : MonoBehaviour
 		IInteractable iInt = collision.GetComponent<IInteractable> ();
 		if(iInt != null) 
 		{
-			if( !equippedInteractables.Contains(iInt) )
+			if( !inventory.equippedInteractables.Contains(iInt) )
            		interactableGameObjects.Add(collision.gameObject);
         }
     }
@@ -137,3 +128,14 @@ public class InteractableCheck : MonoBehaviour
     } // end Update()
 
 }
+
+        if (highlighter != null && useHighlighter)
+        {
+            highlighterInstance = Instantiate(highlighter);
+            highlighterInstance.SetActive(false);
+        }
+        else if(useHighlighter)
+        {
+            Debug.LogError("Trying to use highlighter, but no highlighter prefab is set");
+        }
+                
