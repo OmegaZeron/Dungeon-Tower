@@ -74,11 +74,13 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     }
 
     // Tandy: Die moved from Platformer2DUserControl
-    public void Die() {
+    public void Die() 
+	{
         throw new NotImplementedException(); // Tandy: "using System;" makes this work
     }
 
-    public void TakeKnockback(float knockback) {
+    public void TakeKnockback(float knockback) 
+	{
         if(m_Rigidbody2D != null) {
             Debug.Log("TakeKnockback: " + knockback);
             if (m_FacingRight) {

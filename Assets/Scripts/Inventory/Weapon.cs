@@ -243,7 +243,7 @@ public class Weapon : Item, IUsableItem, IInteractable
             yield return null;
         }
 
-       // hitColliders.Clear();
+       hitColliders.Clear();
 
 		weaponCollider.isTrigger = false;
 		weaponCollider.enabled = false;
