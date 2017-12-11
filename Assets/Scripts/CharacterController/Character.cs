@@ -11,6 +11,7 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     protected float m_MaxSpeed;
     [SerializeField] protected float m_JumpForce;
     [SerializeField] protected int health;
+    [SerializeField] protected int maxHealth;
     protected bool m_FacingRight;
     [SerializeField] protected List<Collider2D> playerColliders = new List<Collider2D>();
     protected Animator m_Anim;
@@ -60,13 +61,13 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
 	}
 
     // Tandy: TakeDamage moved from Platformer2DUserControl
-    public void TakeDamage(int damageTaken = 0, float knockback = 0) {
+    public void TakeDamage(uint damageTaken = 0, float knockback = 0) {
         if (health <= damageTaken) {
             health = 0;
             Die();
         }
         else {
-            health -= damageTaken;
+            health -= (int)damageTaken;
             TakeKnockback(knockback);
             Debug.Log("Knockback called");
         }
@@ -86,15 +87,17 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
             m_Rigidbody2D.AddForce(Vector2.right * knockback);
         }
     }
-/* // Tandy: for debugging Knockback only while taking damage
-    public void OnTriggerEnter2D(Collider2D collider) {
-        //Debug.Log("Trigger!");
-        //if(collider.gameObject.GetType() == typeof(Weapon)) {
-        if (collider.gameObject.GetComponent<Weapon>()) {
-            Weapon weapon = collider.gameObject.GetComponent<Weapon>();
-            Debug.Log(name + ": felt a Weapon trigger!");
-            TakeDamage(weapon.damage, weapon.knockBack);
-        }
-    }
-*/
+    //// Tandy: for debugging Knockback only while taking damage
+    //public void OnTriggerEnter2D(Collider2D collider)
+    //{
+    //    //Debug.Log("Trigger!");
+    //    //if(collider.gameObject.GetType() == typeof(Weapon)) {
+    //    if (collider.gameObject.GetComponent<Weapon>())
+    //    {
+    //        Weapon weapon = collider.gameObject.GetComponent<Weapon>();
+    //        Debug.Log(name + ": felt a Weapon trigger!");
+    //        TakeDamage(weapon.damage, weapon.knockBack);
+    //    }
+    //}
+
 }
