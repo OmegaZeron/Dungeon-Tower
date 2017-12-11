@@ -8,12 +8,13 @@ public class Weapon : Item, IUsableItem, IInteractable
 
     protected Transform frontWeaponTransform;
     protected Transform backWeaponTransform;
+	protected Collider2D weaponCollider;
+
+	[SerializeField] protected uint damage = 0;
+	[SerializeField] protected float knockBack = 0;
 
     [SerializeField] protected Stance equipStance;
 	[SerializeField] protected float weaponRotation = 0.0f;
-
-    [SerializeField] protected uint damage = 0;
-    [SerializeField] protected float knockBack = 0;
 
 	private bool equipped = false;
 
@@ -41,6 +42,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 
     protected void Awake() 
 	{
+		weaponCollider = GetComponent<Collider2D> ();
+
         weaponAnimator = gameObject.GetComponent<Animator>();
 		charAnimationTriggers.TrimExcess ();
 		maxAttacks = charAnimationTriggers.Count;
@@ -61,6 +64,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 
             if (firstAttachmentPoint != null) 
 			{
+				weaponCollider.enabled = false;
+
                 transform.position = firstAttachmentPoint.position;
                 transform.SetParent(firstAttachmentPoint);
 				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
@@ -71,6 +76,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 
             if (firstAttachmentPoint != null) 
 			{
+				weaponCollider.enabled = false;
+
                 transform.position = firstAttachmentPoint.position;
 				transform.SetParent(firstAttachmentPoint);
 				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
@@ -95,6 +102,8 @@ public class Weapon : Item, IUsableItem, IInteractable
 
             if (secondAttachmentPoint != null) 
 			{
+				weaponCollider.enabled = false;
+				
                 transform.position = secondAttachmentPoint.position;
                 transform.SetParent(firstAttachmentPoint);
 				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
