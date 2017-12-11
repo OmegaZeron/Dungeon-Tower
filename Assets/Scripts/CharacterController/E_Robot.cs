@@ -5,13 +5,17 @@ using UnityEngine;
 public class E_Robot : CombatCharacter {
     [SerializeField] private LayerMask LM;
     private bool m_Grounded;
+    private float walkSpeed = .05f;
+    private float runSpeed = 1;
 
     // Use this for initialization
     void Start () {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        //m_Grounded = true;
-        //m_Anim.SetBool("Ground", m_Grounded);
+        m_Anim = GetComponent<Animator>();
+        m_Grounded = true;
+        m_Anim.SetBool("Ground", m_Grounded);
         m_FacingRight = true;
+        m_Anim.SetFloat("Speed", walkSpeed);
 	}
 	
 	// Update is called once per frame
