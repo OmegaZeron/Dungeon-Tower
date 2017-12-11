@@ -49,4 +49,14 @@ public class CombatCharacter : Character
 		if (frontEquippedWeapon != null)
 			frontEquippedWeapon.StopUsingItem ();
 	}
+
+	public void StartHitCheck()
+	{
+
+	}
+
+	public void StopHitCheck()
+	{
+
+	}
 }
