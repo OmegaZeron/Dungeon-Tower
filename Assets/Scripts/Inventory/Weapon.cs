@@ -10,7 +10,7 @@ public class Weapon : Item, IUsableItem, IInteractable
     protected Transform backWeaponTransform;
 	protected Collider2D weaponCollider;
 
-	[SerializeField] protected uint damage = 0;
+	[SerializeField] public uint damage = 0;
 	[SerializeField] protected float knockBack = 0;
 
     [SerializeField] protected Stance equipStance;
