@@ -27,7 +27,7 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     {
         if (playerColliders.Count < 1)
         {
-            playerColliders.Add(GetComponent<Collider2D>());
+            playerColliders.AddRange(GetComponents<Collider2D>());
         }
 
 		if (interactCheck == null)
