@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item, IUsableItem, IInteractable {
+public class Weapon : Item, IUsableItem, IInteractable 
+{
     public enum Stance { NONE, ONE_HAND, TWO_HAND, DUAL_WIELD, OFF_HAND, SHIELD }
 
-    [SerializeField] protected Transform frontWeaponTransform;
-    [SerializeField] protected Transform backWeaponTransform;
-    [SerializeField] protected Stance equipStance;
+    protected Transform frontWeaponTransform;
+    protected Transform backWeaponTransform;
+	protected Collider2D weaponCollider;
 
-    [SerializeField] protected uint damage = 0;
-    [SerializeField] protected float knockBack = 0;
+	[SerializeField] protected uint damage = 0;
+	[SerializeField] protected float knockBack = 0;
+
+    [SerializeField] protected Stance equipStance;
+	[SerializeField] protected float weaponRotation = 0.0f;
 
 	private bool equipped = false;
 
-    [SerializeField] protected Animator charAnimator;
+	protected Animator charAnimator;
     [SerializeField] protected Animator weaponAnimator;
     [SerializeField] protected float animationSpeed = 100.0f;
     [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
 	private int maxAttacks = 0;
 	private int currentAttack = 0;
-
 
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
@@ -32,16 +35,15 @@ public class Weapon : Item, IUsableItem, IInteractable {
     public class HitBox 
 	{
         //TODO create a Shape type for the hitBoxes [SerializeField] protected Shape shape Shape.Shape;
-        [SerializeField]
-        public Vector2 center = Vector2.zero;
-        [SerializeField]
-        public Vector2 size = new Vector2(1, 1);
-        [SerializeField]
-        public float angle = 0.0f;
+        [SerializeField] public Vector2 center = Vector2.zero;
+        [SerializeField] public Vector2 size = new Vector2(1, 1);
+        [SerializeField] public float angle = 0.0f;
     }
 
     protected void Awake() 
 	{
+		weaponCollider = GetComponent<Collider2D> ();
+
         weaponAnimator = gameObject.GetComponent<Animator>();
 		charAnimationTriggers.TrimExcess ();
 		maxAttacks = charAnimationTriggers.Count;
@@ -60,44 +62,56 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
             case Stance.ONE_HAND:
 
-                if (firstAttachmentPoint != null) {
-                    transform.position = firstAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (firstAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
+
+                transform.position = firstAttachmentPoint.position;
+                transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+
+            }
+            break;
             case Stance.TWO_HAND:
 
-                if (firstAttachmentPoint != null) {
-                    transform.position = firstAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
+            if (firstAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
 
-                break;
+                transform.position = firstAttachmentPoint.position;
+				transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+            }
+
+            break;
             case Stance.DUAL_WIELD:
-                //TODO Weapons with two objects that are to be equipped to two seperate points need to have two seperate Parent Transforms and Animators  They must still be handled by one Weapon Script.
-                if (firstAttachmentPoint != null && frontWeaponTransform != null) 
-				{
-                    frontWeaponTransform.position = firstAttachmentPoint.position;
-                    frontWeaponTransform.SetParent(firstAttachmentPoint);
-                }
+            //TODO Weapons with two objects that are to be equipped to two seperate points need to have two seperate Parent Transforms and Animators  They must still be handled by one Weapon Script.
+            if (firstAttachmentPoint != null && frontWeaponTransform != null) 
+			{
+                frontWeaponTransform.position = firstAttachmentPoint.position;
+                frontWeaponTransform.SetParent(firstAttachmentPoint);
+            }
 
-                if (secondAttachmentPoint != null && backWeaponTransform != null) 
-				{
-                    backWeaponTransform.position = secondAttachmentPoint.position;
-                    backWeaponTransform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (secondAttachmentPoint != null && backWeaponTransform != null) 
+			{
+                backWeaponTransform.position = secondAttachmentPoint.position;
+                backWeaponTransform.SetParent(firstAttachmentPoint);
+            }
+            break;
             case Stance.OFF_HAND:
 
-                if (secondAttachmentPoint != null) 
-				{
-                    transform.position = secondAttachmentPoint.position;
-                    transform.SetParent(firstAttachmentPoint);
-                }
-                break;
+            if (secondAttachmentPoint != null) 
+			{
+				weaponCollider.enabled = false;
+				
+                transform.position = secondAttachmentPoint.position;
+                transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+            }
+            break;
 			default:
 
-                break;
+            break;
         }
 
 		equipped = true;
@@ -116,7 +130,8 @@ public class Weapon : Item, IUsableItem, IInteractable {
         }
         else 
 		{
-            transform.SetParent(this.transform);
+            transform.SetParent(null);
+			weaponCollider.enabled = true;
         }
 		equipped = false;
     }
@@ -130,8 +145,6 @@ public class Weapon : Item, IUsableItem, IInteractable {
 		{
 			combatCharacter.SetFrontWeapon (this);
 		}
-			
-			//interactingCharacter.SetFrontWeapon();
     }
 
     public void StopInteracting()
