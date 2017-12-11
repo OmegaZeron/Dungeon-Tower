@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickupItem : Item
-{
-    protected static PlatformerCharacter2D player;
+public class RainbowDonutOfTruth : PickupItem {
 
-    protected void Awake() 
-	{
+    private void Awake()
+    {
         if (player == null)
         {
             player = FindObjectOfType<PlatformerCharacter2D>();
         }
     }
 
-    public virtual void Pickup()
+    public override void Pickup()
     {
-
+        
     }
-
 }

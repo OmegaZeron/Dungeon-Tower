@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	private static GameManager gameManager;
 
 	[SerializeField] private GameObject player;
+    private GameObject playerInstance;
+    [SerializeField] private Transform spawnPoint;
     Platformer2DUserControl control;
     Platformer2DUserControl.ControllerState controllerState;
 
@@ -25,13 +27,14 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject Player
 	{
-		get{ return player; }
+		get{ return playerInstance; }
 	}
 
 	void Awake () 
 	{
 		gameManager = this;
         controllerState = Platformer2DUserControl.ControllerState.menuControl;
+        playerInstance = Instantiate(player, spawnPoint.position, Quaternion.Euler(Vector3.zero));
 	}
 
 	void Start()

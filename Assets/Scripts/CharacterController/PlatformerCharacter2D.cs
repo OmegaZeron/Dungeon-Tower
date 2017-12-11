@@ -37,6 +37,7 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
     [SerializeField] private List<Collider2D> ignoredColliders = new List<Collider2D>();
 
     private Transform bodyArmor;
+    public Inventory inventory = new Inventory();
 
     [SerializeField] private ParticleSystem doubleJumpParticles;
                                         // TODO add functionality to check for items (use tools and check if double jump is acquired
@@ -150,13 +151,10 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        foreach (BoxCollider2D collider in playerColliders)
+        PickupItem item = collision.GetComponent<PickupItem>();
+        if (item != null)
         {
-            PickupItem item = collision.GetComponent<PickupItem>();
-            if (item != null)
-            {
-                item.Pickup();
-            }
+            item.Pickup();
         }
     }
 
@@ -170,6 +168,11 @@ public class PlatformerCharacter2D : CombatCharacter//, IDamageable // Tandy: ID
         {
             health += (int)healAmount;
         }
+    }
+
+    public void AddMuns(uint munAmount)
+    {
+        inventory.currency += munAmount;
     }
 
     public void Move(float move, float verticalAxis, bool crouch, bool jump, bool jumpHeld)
