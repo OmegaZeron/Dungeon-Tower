@@ -5,6 +5,8 @@ using UnityEngine;
 public class InteractableCheck : MonoBehaviour
 {
 	[SerializeField] private GameObject highlighter;
+    private GameObject highlighterInstance;
+    [SerializeField] private bool useHighlighter = false;
 
 	private List<GameObject> interactableGameObjects = new List<GameObject>();
     
@@ -56,9 +58,18 @@ public class InteractableCheck : MonoBehaviour
 		
 	}
 
-    private void Start() 
+    private void Awake() 
 	{
-        highlighter.SetActive(false);        
+        if (highlighter != null && useHighlighter)
+        {
+            highlighterInstance = Instantiate(highlighter);
+            highlighterInstance.SetActive(false);
+        }
+        else if(useHighlighter)
+        {
+            Debug.LogError("Trying to use highlighter, but no highlighter prefab is set");
+        }
+                
     }
 
     private void OnTriggerEnter2D(Collider2D collision) 
@@ -85,7 +96,10 @@ public class InteractableCheck : MonoBehaviour
 		//Turn off the Highlighter if there are no IInteractables in the Interactable Check Range
         if(interactableGameObjects.Count == 0 && closest_Object != null) {
             closest_Object = null;
-            highlighter.SetActive(false);
+            if (highlighterInstance != null && useHighlighter)
+            {
+                highlighterInstance.SetActive(false);
+            }
         }
         else
 		{	//find the clostest GO in interactables inside of the Interactable Check
@@ -107,11 +121,15 @@ public class InteractableCheck : MonoBehaviour
                     }
                 }
             }
-            if(closest_Object != null)
+            if(closest_Object != null && useHighlighter)
 			{
-                highlighter.transform.position = closest_Object.transform.position;
-                if(highlighter.activeInHierarchy == false) {
-                    highlighter.SetActive(true);
+                if (highlighterInstance != null)
+                {
+                    highlighterInstance.transform.position = closest_Object.transform.position;
+                    if (highlighterInstance.activeInHierarchy == false)
+                    {
+                        highlighterInstance.SetActive(true);
+                    }
                 }
             }
         }
