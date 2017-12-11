@@ -52,11 +52,13 @@ public class CombatCharacter : Character
 
 	public void StartHitCheck()
 	{
-		frontEquippedWeapon.StartHit ();
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StartHit ();
 	}
 
 	public void StopHitCheck()
 	{
-		frontEquippedWeapon.StopHit ();
+		if(frontEquippedWeapon != null)
+			frontEquippedWeapon.StopHit ();
 	}
 }
