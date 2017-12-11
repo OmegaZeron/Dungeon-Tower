@@ -79,12 +79,17 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     }
 
     public void TakeKnockback(float knockback) {
-        Debug.Log("TakeKnockback: " + knockback);
-        if (m_FacingRight) {
-            m_Rigidbody2D.AddForce(Vector2.left * knockback + Vector2.up * (knockback / 2.1f));
+        if(m_Rigidbody2D != null) {
+            Debug.Log("TakeKnockback: " + knockback);
+            if (m_FacingRight) {
+                m_Rigidbody2D.AddForce(Vector2.left * knockback + Vector2.up * (knockback / 2.1f));
+            }
+            else {
+                m_Rigidbody2D.AddForce(Vector2.right * knockback + Vector2.up * (knockback / 2.1f));
+            }
         }
         else {
-            m_Rigidbody2D.AddForce(Vector2.right * knockback + Vector2.up * (knockback / 2.1f));
+            Debug.LogWarning(name + "does not have a Rigidbody2D for Knockback!");
         }
     }
     //// Tandy: for debugging Knockback only while taking damage
