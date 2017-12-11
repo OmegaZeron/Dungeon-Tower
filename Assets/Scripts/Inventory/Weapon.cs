@@ -131,6 +131,7 @@ public class Weapon : Item, IUsableItem, IInteractable
         else 
 		{
             transform.SetParent(null);
+			weaponCollider.enabled = true;
         }
 		equipped = false;
     }
