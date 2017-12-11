@@ -62,8 +62,8 @@ public class Weapon : Item, IUsableItem, IInteractable
             if (firstAttachmentPoint != null) 
 			{
                 transform.position = firstAttachmentPoint.position;
-				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
                 transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
 
             }
             break;
@@ -72,8 +72,8 @@ public class Weapon : Item, IUsableItem, IInteractable
             if (firstAttachmentPoint != null) 
 			{
                 transform.position = firstAttachmentPoint.position;
-				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
 				transform.SetParent(firstAttachmentPoint);
+				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
             }
 
             break;

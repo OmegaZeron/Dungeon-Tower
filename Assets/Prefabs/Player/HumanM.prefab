@@ -836,7 +836,6 @@ MonoBehaviour:
     type: 2}
   useHighlighter: 1
   closest_Object: {fileID: 0}
-  equippedItems: []
 --- !u!114 &114547118322521242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -881,6 +880,9 @@ MonoBehaviour:
   onWall: 0
   m_Grounded: 0
   ignoredColliders: []
+  inventory:
+    equippedItems: []
+    currency: 1
   doubleJumpParticles: {fileID: 198594892681190046}
 --- !u!198 &198594892681190046
 ParticleSystem:
@@ -4569,7 +4571,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300008, guid: bf7c424f7822a49b4ae57753598e87f2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4577,7 +4579,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212498849022032350
 SpriteRenderer:
@@ -4905,7 +4907,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bf7c424f7822a49b4ae57753598e87f2, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4913,7 +4915,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212978443205084716
 SpriteRenderer:
