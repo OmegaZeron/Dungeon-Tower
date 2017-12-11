@@ -9,7 +9,7 @@ public class Weapon : Item, IUsableItem, IInteractable {
     [SerializeField] protected Transform backWeaponTransform;
     [SerializeField] protected Stance equipStance;
 
-    [SerializeField] protected int damage = 0;
+    [SerializeField] protected uint damage = 0;
     [SerializeField] protected float knockBack = 0;
 
 	private bool equipped = false;
