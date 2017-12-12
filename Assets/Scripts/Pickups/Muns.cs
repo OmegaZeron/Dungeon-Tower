@@ -5,6 +5,7 @@ using UnityEngine;
 public class Muns : PickupItem {
 
     [SerializeField] private uint value = 1;
+    [SerializeField] private Rigidbody2D rb;
 
     public override void Pickup()
     {
