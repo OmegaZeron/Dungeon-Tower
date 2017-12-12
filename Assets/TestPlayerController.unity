@@ -288,6 +288,10 @@ MonoBehaviour:
   maxHealth: 100
   playerColliders: []
   interactCheck: {fileID: 0}
+  inventory:
+    equippedItems: []
+    currency: 1
+  poolManager: {fileID: 0}
   frontWeapon: {fileID: 0}
   backWeapon: {fileID: 0}
   frontEquippedWeapon: {fileID: 0}
@@ -1067,6 +1071,10 @@ Prefab:
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1661066481553010, guid: 0038084656712e34bb8d664c68580496, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0038084656712e34bb8d664c68580496, type: 2}
   m_IsPrefabParent: 0
@@ -1130,7 +1138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1821647011
 AudioListener:
   m_ObjectHideFlags: 0
