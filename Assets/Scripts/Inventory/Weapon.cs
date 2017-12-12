@@ -24,24 +24,23 @@ public class Weapon : Item, IUsableItem, IInteractable
     [SerializeField] protected List<string> charAnimationTriggers = new List<string>();
 	private int maxAttacks = 0;
 	private int currentAttack = 0;
-	public bool blockAttackInput = false;
+	private bool blockAttackInput = false;
 
     [SerializeField] protected LayerMask enemyLayer;
-//    [SerializeField] protected List<HitBox> hitBoxes = new List<HitBox>();
 	[SerializeField] protected List<Collider2D> hitBoxes =  new List<Collider2D>();
     [SerializeField] protected int currentHitBox = 0;
     [SerializeField] private bool checkForHit = false;
     [SerializeField] private List<Collider2D> hitColliders = new List<Collider2D>();
 
-    [System.Serializable]
-    public class HitBox 
-	{
-        //TODO create a Shape type for the hitBoxes [SerializeField] protected Shape shape Shape.Shape;
-        [SerializeField] public Vector2 center = Vector2.zero;
-        [SerializeField] public Vector2 size = new Vector2(1, 1);
-        [SerializeField] public float angle = 0.0f;
-
-    }
+//    [System.Serializable]
+//    public class HitBox 
+//	{
+//        //TODO create a Shape type for the hitBoxes [SerializeField] protected Shape shape Shape.Shape;
+//        [SerializeField] public Vector2 center = Vector2.zero;
+//        [SerializeField] public Vector2 size = new Vector2(1, 1);
+//        [SerializeField] public float angle = 0.0f;
+//
+//    }
 
     protected void Awake() 
 	{
