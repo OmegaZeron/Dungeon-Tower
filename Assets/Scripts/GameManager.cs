@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour {
 
 	private static GameManager gameManager;
 
+	[SerializeField] private GameObject mainCamera;
+	private GameObject mainCameraInstance;
+
 	[SerializeField] private GameObject player;
     private GameObject playerInstance;
     [SerializeField] private Transform spawnPoint;
@@ -30,11 +33,18 @@ public class GameManager : MonoBehaviour {
 		get{ return playerInstance; }
 	}
 
+	public GameObject MainCamera
+	{
+		get{ return mainCamera; }
+	}
+
 	void Awake () 
 	{
 		gameManager = this;
         controllerState = Platformer2DUserControl.ControllerState.menuControl;
         playerInstance = Instantiate(player, spawnPoint.position, Quaternion.Euler(Vector3.zero));
+		mainCameraInstance = Instantiate (mainCamera);
+		mainCameraInstance.GetComponent<Camera2DFollow> ().target = playerInstance.transform;
 	}
 
 	void Start()

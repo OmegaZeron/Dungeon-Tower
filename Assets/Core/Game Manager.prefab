@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d83a17ad9aec42ae4d33915ad07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 1979594254162590, guid: 7da55751f870c9a4dbaec69293059473, type: 2}
   player: {fileID: 1661066481553010, guid: 0038084656712e34bb8d664c68580496, type: 2}
-  spawnPoint: {fileID: 4358147592349280, guid: 0d8ca4042f38946439f9c50e3df04e1b, type: 2}
+  spawnPoint: {fileID: 0}

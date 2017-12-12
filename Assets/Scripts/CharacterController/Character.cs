@@ -79,12 +79,17 @@ public abstract class Character : MonoBehaviour, IDamageable { // Tandy: CombatC
     // Tandy: Die moved from Platformer2DUserControl
     public void Die() 
 	{
-        m_Rigidbody2D.velocity = Vector2.zero;
+		if(m_Rigidbody2D != null)
+			m_Rigidbody2D.velocity = Vector2.zero;
         gameObject.SetActive(false);
         for(int i = 0; i < inventory.currency; i++)
         {
-            GameObject drop = poolManager.GetObject(poolManager.muns);
-            drop.transform.position = transform.position;
+			if (poolManager != null) 
+			{
+				GameObject drop = poolManager.GetObject(poolManager.muns);
+				drop.transform.position = transform.position;
+			}
+
         }
         foreach(Item item in inventory.equippedItems) {
             inventory.equippedItems.Remove(item);
