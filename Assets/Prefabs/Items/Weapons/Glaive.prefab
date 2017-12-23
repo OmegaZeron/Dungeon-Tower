@@ -95,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103769204615558}
   m_LocalRotation: {x: -0, y: -0, z: -0.8622757, w: 0.50643927}
-  m_LocalPosition: {x: -2.422, y: -2.811, z: -0.09}
+  m_LocalPosition: {x: -4.07, y: -2.77, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4139544196048802}
@@ -266,7 +266,6 @@ MonoBehaviour:
   charAnimationTriggers:
   - 2hand-attack-v
   - 2hand-attack-h
-  blockAttackInput: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096

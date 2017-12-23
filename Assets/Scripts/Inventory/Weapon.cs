@@ -14,7 +14,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 	[SerializeField] protected float knockBack = 0;
 
     [SerializeField] protected Stance equipStance;
-	[SerializeField] protected float weaponRotation = 0.0f;
+	[SerializeField] protected float equipRotationOffset = 0.0f;
 
 	private bool equipped = false;
 
@@ -78,7 +78,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 
                 transform.position = firstAttachmentPoint.position;
                 transform.SetParent(firstAttachmentPoint);
-				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+				transform.localRotation = Quaternion.Euler(0,0, equipRotationOffset);
 
             }
             break;
@@ -90,7 +90,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 
                 transform.position = firstAttachmentPoint.position;
 				transform.SetParent(firstAttachmentPoint);
-				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+				transform.localRotation = Quaternion.Euler(0,0, equipRotationOffset);
             }
 
             break;
@@ -116,7 +116,7 @@ public class Weapon : Item, IUsableItem, IInteractable
 				
                 transform.position = secondAttachmentPoint.position;
                 transform.SetParent(firstAttachmentPoint);
-				transform.localRotation = Quaternion.Euler(0,0, weaponRotation);
+				transform.localRotation = Quaternion.Euler(0,0, equipRotationOffset);
             }
             break;
 			default:

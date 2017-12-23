@@ -248,6 +248,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51454c7266606e349959d7a0ff7b7373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myObjectPool:
+    poolName: 
+    poolObject: {fileID: 0}
+    poolSize: 1
+    poolTransform: {fileID: 0}
+    objectsInPool: []
+    activePool: []
+    inactivePool: []
   itemName: Axe
   damage: 150
   knockBack: 300
@@ -258,7 +266,6 @@ MonoBehaviour:
   charAnimationTriggers:
   - 1hand-attack-v
   - 1hand-attack-h
-  blockAttackInput: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
